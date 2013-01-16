@@ -1,5 +1,4 @@
-{% set page = 'index' %}
-{% extends "layout.html" %}
+{% extends "fragment.html" %}
 
 {% block styles %}
   <link rel="stylesheet" type="text/css" href="/elements/flipbox/flipbox.css"/>
@@ -8,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/elements/map/map.css"/>
 {% endblock %}
   
-{% block index %}
+{% block fragment %}
     <div class="limit">
             
       <h1 class="tagline">X-Tag - The Custom Elements Polylib</h1>
@@ -212,10 +211,8 @@
 <script type="text/javascript" src="/elements/tabbox/tabbox.js"></script>
 <script type="text/javascript" src="/elements/modal/modal.js"></script>
 <script type="text/javascript" src="/elements/map/map.js"></script>
+
 <script type="text/javascript">
-
-console.log("pizza");
-
   xtag.addEvents(document, {
     'click:touch:delegate(#intro_demos dt button)': function(e){
       xtag.query(this.parentNode, 'button').forEach(function(el){

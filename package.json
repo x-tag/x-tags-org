@@ -1,13 +1,15 @@
 {
   "name": "x-tags-org",
   "version": "0.0.2",
-  "engines":{
-  	"node": "0.6.7"
+  "engines": {
+    "node": "0.6.7"
   },
   "dependencies": {
     "settings": "0.1.0",
     "express": "3.0.3",
     "async": "0.1.22",
-    "nunjucks": "git://github.com/jlongster/nunjucks.git#049cf8"
+    "nunjucks": "git://github.com/jlongster/nunjucks.git#049cf8",
+    "github-flavored-markdown": "1.0.1",
+    "moment": "~1.7.2"
   }
 }

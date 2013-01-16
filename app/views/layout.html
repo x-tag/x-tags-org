@@ -39,13 +39,12 @@
 	
 		<div id="global_nav">
 			<x-slidebox>
-				<x-slides>
-				
-					{# 
+				<x-slides>				
+					
 					<x-slide {% if page == "blog" %}selected{% endif %}>
 						<a>Blog</a>
 					</x-slide> 
-					#}
+					
 					
 					<x-slide {% if page == "docs" %}selected{% endif %}>
 						<a>Docs</a>
@@ -62,11 +61,11 @@
 						<a>Registry</a>
 					</x-slide>
 					
-					{#
+					
 					<x-slide {% if page == "about" %}selected{% endif %}>
 						<a>About</a>
 					</x-slide>
-					#}
+					
 					
 				</x-slides>
 			</x-slidebox>
@@ -75,15 +74,14 @@
 	</header>
 
 	<x-slidebox id="content_slidebox">
-		<x-slides>
-		
-			{# 
+		<x-slides>		
+			
 			<x-slide name="blog" {% if page == "blog" %}selected{% endif %}>
 				<x-panel>
 					{% block blog %}{% endblock %}
 				</x-panel>
 			</x-slide>
-			#}
+			
 
 			<x-slide name="docs" {% if page == "docs" %}selected{% endif %}>
 				<x-panel>
@@ -91,7 +89,7 @@
 				</x-panel>
 			</x-slide>
 			
-			<x-slide name="" {% if page == "index" %}selected{% endif %}>
+			<x-slide name="index" {% if page == "index" %}selected{% endif %}>
 				<x-panel>
 					{% block index %}{% endblock %}
 				</x-panel>
@@ -104,13 +102,12 @@
 				</x-panel>
 			</x-slide>
 
-			{#
+			
 			<x-slide name="about" {% if page == "about" %}selected{% endif %}>				
 				<x-panel>
 					{% block about %}{% endblock %}
 				</x-panel>
 			</x-slide>
-			#}
 
 		</x-slides>
 	</x-slidebox>
@@ -120,7 +117,11 @@
 
 
 <script type="text/javascript">
-	
+	window.onpopstate = function(e){
+		if(e.state){
+			slidePage(e.state.index,true);
+		}
+	}
 	introImageLoads = 0;
 	introAnimation = function(){
 		introImageLoads++;
@@ -135,10 +136,14 @@
 		}
 	}
 	
-	slidePage = function(index){
-		var slide = document.querySelectorAll('#content_slidebox x-slide')[index];		
+	slidePage = function(index,pop){
+		var slide = document.querySelectorAll('#content_slidebox x-slide')[index];
+		var url = "/" + slide.getAttribute('name');
 		if (slide.firstElementChild.children.length == 0){
-			slide.firstElementChild.src = "/" + slide.getAttribute('name');
+			slide.firstElementChild.src = url + "?frag";
+		}
+		if(!pop && location.pathname != url){
+			history.pushState({page:slide.getAttribute('name'), index:index}, slide.getAttribute('name'), slide.getAttribute('name'));
 		}
 		document.querySelector('#global_nav x-slidebox').slideTo(index);
 		document.getElementById('content_slidebox').slideTo(index);

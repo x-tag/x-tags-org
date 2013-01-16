@@ -1,3 +1,5 @@
 module.exports = {
-	common: { }
+	common: { 
+		blogpath: 'app/blog'
+	}
 }

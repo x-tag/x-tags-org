@@ -5,7 +5,7 @@ body
 {
 	font-family: Segoe UI, Trebuchet MS, Helvetica, Arial;
 	font-size: 14px;
-	background: url(../images/chruch.png);
+	background: url(/images/chruch.png);
 }
 
 h1, h2, h3 {
@@ -51,11 +51,11 @@ h4 {
 		font-style: italic;
 		margin: 0 0 20px -20px;
 		box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
-		background: -webkit-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(../images/chruch.png);
-		background: -moz-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(../images/chruch.png);
-		background: -ms-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(../images/chruch.png);
-		background: -o-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(../images/chruch.png);
-		background: linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(../images/chruch.png);
+		background: -webkit-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
+		background: -moz-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
+		background: -ms-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
+		background: -o-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
+		background: linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
 	}
 	
 	.block > x-ribbon + * {
@@ -358,14 +358,14 @@ h4 {
 	width: 24px;
 	height: 24px;
 	margin-right: 10px;
-	background: transparent url(../images/eye.png) no-repeat center center;
+	background: transparent url(/images/eye.png) no-repeat center center;
 	border: none;
 	opacity: 0.4;
 	cursor: pointer;
 }
 
 	#intro_demos dt button[title="markup"] {
-		background-image: url(../images/brackets.png);
+		background-image: url(/images/brackets.png);
 	}
 	
 	#intro_demos dt button:hover {
