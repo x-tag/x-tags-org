@@ -45,7 +45,7 @@
         <x-ribbon>Get the code</x-ribbon>
         <div id="code_options" class="unlink">
           <div>
-            <a id="download" href="https://github.com/mozilla/x-tag/archive/master.zip">
+            <a id="download" href="https://github.com/x-tag/core/archive/master.zip">
               <img src="images/archive.png">
               <div>
                 Download it
@@ -55,7 +55,7 @@
           </div>
           
           <div>
-            <a id="fork" href="https://github.com/mozilla/x-tag">
+            <a id="fork" href="https://github.com/x-tag/core">
               <img src="images/github-logo.png">
               <div>
                 Fork it
@@ -214,24 +214,22 @@
 <script type="text/javascript" src="/elements/map/map.js"></script>
 <script type="text/javascript">
 
-console.log("pizza");
-
   xtag.addEvents(document, {
-    'click:touch:delegate(#intro_demos dt button)': function(e){
+    'tap:delegate(#intro_demos dt button)': function(e){
       xtag.query(this.parentNode, 'button').forEach(function(el){
         el.removeAttribute('selected');
       });
       this.setAttribute('selected', null);
       this.parentNode.nextElementSibling.className = this.getAttribute('title');
     },
-    'click:touch:delegate(#panel_demo_element)': function(e){      
+    'tap:delegate(#panel_demo_element)': function(e){      
       if (!this.src){
         this.src = 'elements/panel/demo/panel-content.html';
       } else {
         this.src = 'elements/panel/demo/panel-content' + (this.src.indexOf('2') > -1 ? '.html' : '2.html');
       }      
     },
-    'click:touch:delegate(#modal_demo table button)': function(){
+    'tap:delegate(#modal_demo table button)': function(){
       if (this.className == '') {
         this.className = 'showing';
         this.innerHTML = 'Hide Modal';
@@ -243,7 +241,7 @@ console.log("pizza");
         document.querySelector('#modal_demo_element').setAttribute('hide', null);
       }
     },
-    'click:touch:delegate(#modal_demo_element button)': function(){
+    'tap:delegate(#modal_demo_element button)': function(){
       var button = document.querySelector('#modal_demo table button');
       button.className = '';
       button.innerHTML = 'Show Modal';

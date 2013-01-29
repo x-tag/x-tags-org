@@ -1,3 +1,3 @@
-# Welcome to the Offical X-Tag Blog
+# It's Alive
 
-We will be blogging about the progress of X-Tag and related components, as well as the general state of Web Components on the Web.
+Welcome to the X-Tag Blog.  The purpose of this blog is to keep you up to date on the status of X-Tag and the state of Web Components on the web.

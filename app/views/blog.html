@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 
 {% block blog %}
-  <div class="limit">
+  <div id="blog" class="limit">
     {% for post in posts %}
     <div class="block">
       <x-ribbon>{{ post.date }}</x-ribbon>

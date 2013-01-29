@@ -3,19 +3,24 @@
 
 {% block registry %}
 
+  <div id="registry" class="limit">
+      <div class="block">
+        <x-ribbon>Registry</x-ribbon>
+        
+        <div id="search_box">
+          <input id="search_query" type="text" /><button id="search_btn">Search</button>
+        </div>
+        <div id="search_results">
+        </div>
+    </div>
+  </div>
 
-<div class="limit">
-  	<div class="block registry">
-    	<x-ribbon>Registry</x-ribbon>
-    	
-    	<div id="search_box">
-    		<input id="search_query" type="text" /><button id="search_btn">Search</button>
-    	</div>
-    	<div id="search_results">
-    	</div>
-	</div>
-</div>
+{% endblock %}
 
-
-
+{% block scripts %}
+<script type="text/javascript">
+  window.onload = function(){
+    xtag.fireEvent(document.getElementById('search_btn'), 'click');
+  }
+</script>
 {% endblock %}
