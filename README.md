@@ -11,12 +11,3 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 
   [1]: https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html       "W3 Web Components Spec (Draft)"
 
-Developers
-==========
-
-To get started hacking on X-Tag, first check out the code and be sure you also
-clone the elements submodule:
-
-    git clone --recursive https://github.com/mozilla/x-tag
-
-Open up demo.html in your browser to see how things work.
