@@ -36,19 +36,16 @@ app.get('/blog', function(req, res){
         posts.splice(0,0,createBlogItem(file));
       }
     });
-
     render(req,res,'blog.html', { posts: posts });
-
   });
+
 });
-
-
 
 app.get('/blog/:permalink', function(req, res){
 
-  var filePath = path.join(config.blogpath, req.params.permalink + ".md");
-  if (fs.exists(filePath)){
-    render(req,res,'blog.html', { posts: [ createBlogItem(filePath) ]});
+  var fileName = req.params.permalink + ".md";
+  if (fs.existsSync(path.join(config.blogpath,fileName))){
+    render(req,res,'blog.html', { posts: [ createBlogItem(fileName) ]});
   }
   else {
     render(req,res,'index.html', {});
@@ -95,10 +92,9 @@ function createBlogItem(filePath){
   Decide between rendering template with layout
 */
 function render(req, res, page, data){
-  if(typeof req.query.frag != 'undefined'){
+  if (typeof req.query.frag != 'undefined'){
     page = "_" + page;
   }
-  console.log("rendering:", page, data);
   res.render(page, data);
 }
 
