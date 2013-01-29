@@ -11,5 +11,8 @@
     "nunjucks": "git://github.com/jlongster/nunjucks.git#049cf8",
     "github-flavored-markdown": "1.0.1",
     "moment": "~1.7.2"
+  },
+  "devDependencies": {
+    "bower": "~0.6.8"
   }
 }
