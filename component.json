@@ -1,0 +1,7 @@
+{
+  "name": "x-tags-org",
+  "version": "0.0.3",
+  "dependencies": {
+    "x-tag-core": "*"
+  }
+}
