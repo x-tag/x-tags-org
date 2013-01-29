@@ -1,10 +1,6 @@
 
 (function(){
 
-	xtag.register('x-ribbon', {
-		onCreate: function(){
-			
-		}
-	});
+	xtag.register('x-ribbon', {	});	
 	
 })();
