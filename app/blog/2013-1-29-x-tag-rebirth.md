@@ -1,0 +1,74 @@
+# X-Tag Rebirth
+
+[X-Tag](https://github.com/x-tag/core) has undergone a complete rewrite of the library the currently lives at [Mozilla/X-Tag](https://github.com/mozilla/x-tag).  Originally, X-Tag was a proof of concept that allowed us to do one thing, create cool custom tags.  We didn't attempt to polyfill the W3C spec and essentially created our own syntax and lifecycle events.  This was great for experimenting, but now that Chrome and Firefox are beginning to implement the spec, we need to get on board and ensure that we're compatible!
+
+
+## What has changed? Just about everything!
+
+
+*First*, we created a real polyfill for `document.register` that adheres to the spec.  This includes lifecycle events and prototypical element inheritance.  It's still a work in progress, so contributions are welcome.
+
+[Mozilla/WebComponents](https://github.com/mozilla/web-components)
+
+*Second*, we re-designed X-Tag to work on top of the polyfill and to only include the essentials.  Meet X-Tag/Core.
+
+[X-Tag/Core](https://github.com/x-tag/core)
+
+Unfortunately, X-Tag 1.0 will not be compatible with the previous version.  The main reason is because we chose to ditch our way of declaring custom elements that looked like this.
+
+
+```
+<x-code-prism language="javascript">
+xtag.register('accordion', {
+  onUpgrade: function(){},
+  onInsert: function(){},
+  events: {
+    'click:delegate(x-toggler)': function(){}
+  },
+  getters: {
+    'togglers': function(){}
+  },
+  setters: {
+    'togglers': function(val){}
+  },
+  methods: {
+    nextToggler: function(){},
+  }
+});
+</x-code-prism>
+```
+
+And went with the spec version.
+
+```
+<x-code-prism language="javascript">
+xtag.register('x-growbox', {
+    lifecycle: { // NEW
+      created: function(){},
+      inserted: function(){},
+      removed: function(){},
+      attributeChanged: function(){}
+    },
+    prototype: { // You can pass prototypes now },
+    accessors: { // New way of declaring getters/setters
+      orientation: {
+        get: function(){},
+        set: function(value){}
+      }
+    },
+    methods: {  // SAME
+      matchDimensions: function(){}
+    },
+    events: { // SAME 
+      overflow: function(){}, 
+    }
+  });
+</x-code-prism>
+```
+
+It's more powerful and substantially faster. WIN WIN!
+
+## What about the old elements?
+
+All the old elements that live at [Mozilla/X-Tag-Elements](https://github.com/mozilla/x-tag-elements) are deprecated as well.  We will be rewriting them and moving them to individual repositories under the [X-Tag Organization](https://github.com/x-tag) on Github.
+
