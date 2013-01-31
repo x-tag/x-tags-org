@@ -38,7 +38,7 @@ xtag.register('accordion', {
 </x-code-prism>
 ```
 
-And went with the spec version.
+And went something that is closer to the spec version.  We are doing a little magic here to make your life easier.  We also provide cool things like pseudos.
 
 ```
 <x-code-prism language="javascript">
@@ -49,7 +49,7 @@ xtag.register('x-growbox', {
       removed: function(){},
       attributeChanged: function(){}
     },
-    prototype: { // You can pass prototypes now },
+    prototype: { // You can pass prototypes and we will create a new obj for you },
     accessors: { // New way of declaring getters/setters
       orientation: {
         get: function(){},
@@ -60,10 +60,33 @@ xtag.register('x-growbox', {
       matchDimensions: function(){}
     },
     events: { // SAME 
-      overflow: function(){}, 
+      'click:delegate(x-toggler)': function(){}, 
     }
   });
 </x-code-prism>
+```
+
+Here's the raw spec polyfill.  
+
+```
+<x-code-prism language="javascript">
+document.register('x-foo',{
+    lifecycle: { // NEW
+      created: function(){},
+      inserted: function(){},
+      removed: function(){},
+      attributeChanged: function(){}
+    },
+    prototype: Object.create(window.HTMLSpanElement.prototype, {
+      foo:{
+        value: function(){
+          console.log("foo log");
+        }
+      }
+    })
+});
+</x-code-prism>
+
 ```
 
 It's more powerful and substantially faster. WIN WIN!
