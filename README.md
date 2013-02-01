@@ -1,5 +1,5 @@
-X-Tag - Custom Elements for Modern Browsers
-=====
+# X-Tag - Custom Elements for Modern Browsers
+
 
 Based on the current W3 Web Components [draft][1], X-Tag enables the custom element portion of the proposal.
 Custom elements let you register new tags/elements with the parser so they are recognized and inflated with
@@ -11,3 +11,37 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 
   [1]: https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html       "W3 Web Components Spec (Draft)"
 
+
+
+# Setup
+
+Requires NodeJS and Bower
+
+
+```
+npm install
+```
+
+Install bower (if you don't already have it)
+
+```
+npm install bower -g
+```
+
+Install components
+
+```
+bower install 
+```
+
+Combine js/css assets,  see Gruntfile.js for details
+
+```
+grunt build
+```
+
+Run
+
+```
+node app
+```
