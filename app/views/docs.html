@@ -7,7 +7,7 @@
     <x-ribbon>How it Works</x-ribbon>
     <p>
       In order to allow for the recognition and parsing of custom HTML tags, <span class="font">X-Tag</span> relies on a variety
-	  of events to detect and upgrade elements with user-defined, extended functionality. X-Tag is works regardless of whether the element was present
+	  of events to detect and upgrade elements with user-defined, extended functionality. X-Tag works regardless of whether the element was present
       in the original source of the document, added by setting <code>innerHTML</code>, or generated dynamically using <code>document.createElement</code>. 
       Here's an example showing the registration of a custom element, with a description of each of the foundational interfaces the API offers:
     </p>
@@ -15,26 +15,37 @@
     
 <x-code-prism language="javascript">
 xtag.register('accordion', {
-  onUpgrade: function(){
-    // fired once at the time a component 
-    // is initially created or parsed
-  },
-  onInsert: function(){
-    // fired each time a component 
-    // is inserted into the DOM
-  },
+  lifecycle:{
+    created: function(){
+      // fired once at the time a component 
+      // is initially created or parsed
+    },
+    inserted: function(){
+      // fired each time a component 
+      // is inserted into the DOM
+    },
+    removed: function(){
+      // fired each time a element
+      // is removed from DOM
+    },
+    attributeChanged: function(){
+      // fired when attributes are set
+    }
+  },  
   events: {
     'click:delegate(x-toggler)': function(){
       // activate a clicked toggler
     }
   },
-  getters: {
-    'togglers': function(){
-      // return all toggler children
+  accessors: {
+    'togglers': {
+      get: function(){
+        // return all toggler children
+      },
+      set: function(value){
+        // do something. 
+      }
     }
-  },
-  setters: {
-    // Add DOM object setters
   },
   methods: {
     nextToggler: function(){
@@ -52,38 +63,22 @@ xtag.register('accordion', {
   <div class="block">
     <x-ribbon>Custom Tag Registration</x-ribbon>
     <dl>
-      <dd>
-      <h4><code>content</code><span>string</span></h4>
-      <p>
-        The content property on the tag registration object allows you to declare 
-        default innerHTML for your component, similar to Shadow DOM elements in highlighted 
-        in the W3 Web Components draft.
-      </p>
-      
-
-<x-code-prism language="javascript">
-xtag.register('superinput', {
-  content: '&amp;lt;input type=&quot;text&quot; /&amp;gt;'
-});
-</x-code-prism>
-</pre>
-
-    </dd>
-    
     <dd>
-      <h4><code>onUpgrade</code><span>function</span></h4>
+      <h4><code>created</code><span>function</span></h4>
       <p>
         Whenever a tag is recognized and parsed on load or generated using 
-        <code>document.createElement</code>, an onUpgrade function is called 
+        <code>document.createElement</code>, a created function is called 
         allowing you to modify the element before any other code is applied to it.
       </p>
 
 <x-code-prism language="javascript">
-xtag.register('superinput', {
-  onUpgrade: function(){
-    // superinputs begin life knowing they're super.
-    this.value = 'super';
-  }
+xtag.register('x-superinput', {
+  lifecycle: {
+    created: function(){
+      // superinputs begin life knowing they're super.
+      this.value = 'super';
+    }
+  }  
 });
 </x-code-prism>
 
@@ -91,9 +86,9 @@ xtag.register('superinput', {
     </dd> 
     
     <dd>
-      <h4><code>onInsert</code><span>function</span></h4>
+      <h4><code>inserted</code><span>function</span></h4>
       <p>
-        The onInsert method is called everytime a given component's DOM element
+        The ```inserted``` method is called everytime a given component's DOM element
         is added to the DOM. This allows you to do things like check the state or 
         structure of the surrounding DOM tree or window scope and modify your 
         component accordingly.
@@ -101,33 +96,11 @@ xtag.register('superinput', {
       
 
 <x-code-prism language="javascript">
-xtag.register('superinput', {
-  onInsert: function(){
-    // superinputs announce their arrival in the DOM like a boss!
-    alert("Yeah, that's right, superinput comin' thro'!");
-  }
-});
-</x-code-prism>
-
-
-    </dd>
-    
-    <dd>
-      <h4><code>getters</code><span>object</span></h4>
-      <p>
-        The getter object provides native value retrieval handlers 
-        to your component. For example: if a user caches a component's value, 
-        <code>var value = element.value;</code> your 
-        getter would have the oppertunity to fetch that value from anywhere 
-        you'd like and even modify it before returning.
-      </p>
-
-<x-code-prism language="javascript">
-xtag.register('superinput', {
-  getters: {
-    value: function(){
-      // everything superinputs do has a little super mixed in ;)
-      return this.dataset.value + '  is super';
+xtag.register('x-superinput', {
+  lifecycle: {
+    inserted: function(){
+      // superinputs announce their arrival in the DOM like a boss!
+      alert("Yeah, that's right, superinput comin' thro'!");
     }
   }
 });
@@ -137,21 +110,25 @@ xtag.register('superinput', {
     </dd>
     
     <dd>
-      <h4><code>setters</code><span>object</span></h4>
+      <h4><code>accessors</code><span>object</span></h4>
       <p>
-        The setters object is a shortcut for easy attachements of JavaSript accessors to the DOM element of
-        your component. For instance, when an user writes the code <code>element.src = "http://somesrc.com"</code>
-        your setter would be called with the provided string value giving you a chance to
-        manipulate the string or change properties on the element.
+        The ```accessors``` object provides native value retrieval handlers 
+        to your component. For example: if a user caches a component's value, 
+        <code>var value = element.value;</code> your 
+        getter would have the oppertunity to fetch that value from anywhere 
+        you'd like and even modify it before returning.
       </p>
 
 <x-code-prism language="javascript">
-xtag.register('superinput', {
-  setters: {
-    value: function(value){
-      // boy, these superinputs sure are loud little buggers.
-      alert(value);
-      this.dataset.value = value;
+xtag.register('x-superinput', {
+  accessors: {    
+    value: {
+      get: {
+        function(){
+          // everything superinputs do has a little super mixed in ;)
+          return this.dataset.value + '  is super';
+        }
+      }
     }
   }
 });
@@ -169,7 +146,7 @@ xtag.register('superinput', {
       </p>
 
 <x-code-prism language="javascript">
-xtag.register('superinput', {
+xtag.register('x-superinput', {
   events: {
     focus: function(){
       // what should superinputs do when they are in the spotlight?
@@ -192,7 +169,7 @@ xtag.register('superinput', {
 
 
 <x-code-prism language="javascript">
-xtag.register('superinput', {
+xtag.register('x-superinput', {
   mixins: ['superdefaults']
 });
 </x-code-prism>
