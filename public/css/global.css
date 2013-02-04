@@ -573,6 +573,17 @@ x-search-result .tag-description{
 	margin: 10px 0;
 }
 
+dd h4 {
+	margin: 6px 0;
+}
+dd h4 code {
+	margin-right: 10px;
+	background-color: #F4F6F9;
+	padding: 1px 6px;
+	border-radius: 4px;
+	border: solid 1px #fef;
+}
+
 /* MEDIA QUERIES */
 
 @media all and (max-width: 450px) {
