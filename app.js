@@ -14,7 +14,10 @@ app.use(express.logger());
 app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
 
-var env = new nunjucks.Environment(new nunjucks.FileSystemLoader('app/views'));
+var env = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(
+    path.join('app','views')));
+
 env.express(app);
 
 app.get('^(/|/index)$', function(req, res){
