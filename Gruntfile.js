@@ -11,9 +11,11 @@ module.exports = function(grunt) {
         src: [
           'components/document.register/src/document.register.js', 
           'components/x-tag-core/src/core.js',
+          'components/x-tag-mixin-request/src/request.js',
           'components/x-tag-growbox/src/growbox.js',
           'components/x-tag-slidebox/src/slidebox.js',
-          'components/x-tag-code-prism/src/code-prism.js'
+          'components/x-tag-code-prism/src/code-prism.js',
+          'components/x-tag-panel/src/panel.js'
         ],
         dest: 'public/js/x-tag-components.js'
       },
@@ -33,10 +35,11 @@ module.exports = function(grunt) {
         }
       }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify');  
   grunt.registerTask('build', ['concat:x-tag-js', 'concat:x-tag-css', 'uglify:x-tag-js']);
 
 

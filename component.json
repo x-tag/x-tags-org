@@ -6,6 +6,7 @@
     "x-tag-growbox": "*",
     "x-tag-slidebox": "*",
     "x-tag-code-prism": "*",
+    "x-tag-panel": "*",
     "leaflet": "*"
   }
 }
