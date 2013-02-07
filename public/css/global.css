@@ -471,19 +471,19 @@ a:hover {
   border: 1px solid #aaa;
 }
 
-x-panel[src="/docs"] dd {
+#docs dd {
   margin: 0 0 32px;
 }
 
-x-panel[src="/docs"] dd:last-child {
+#docs dd:last-child {
   margin: 0;
 }   
 
-x-panel[src="/docs"] h4 {
+#docs h4 {
   margin: 0 0 8px;
 }
 
-x-panel[src="/docs"] h4  code {
+#docs h4  code {
   font-size: 110%;
   background: #eee;
   padding: 2px 4px;
@@ -494,9 +494,13 @@ x-panel[src="/docs"] h4  code {
   border-radius: 3px;
 }
 
-x-panel[src="/docs"] h4  span {
+#docs h4  span {
   color: #666;
   font-style: italic;
+}
+
+#docs dd {
+  margin-top: 14px;
 }
 
 #browser_logos a {
