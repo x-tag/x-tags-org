@@ -37,8 +37,8 @@
       var index = Array.prototype.indexOf.call(this.parentNode.children, this);
       slidePage(index);
     },
-    'tap:delegate(#registry_elements)': function(){
-      slidePage(2);
+    'tap:delegate(#registry_elements)': function(){      
+      slidePage(3);
     }, 
     'tap:delegate(#search_btn)': function(){
       var elem = document.getElementById('search_result_json_p');
