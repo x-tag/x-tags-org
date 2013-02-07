@@ -53,7 +53,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');  
   grunt.registerTask('build', ['concat:x-tag-js', 'concat:x-tag-css', 'uglify:x-tag-js']);
-  grunt.registerTask('build-dist',['concat:x-tag-dist','uglify:x-tag-dist']);
+  grunt.registerTask('build-dist', ['concat:x-tag-dist','uglify:x-tag-dist']);
+  grunt.registerTask('build-all', ['build','build-dist']);
 
 
 };
