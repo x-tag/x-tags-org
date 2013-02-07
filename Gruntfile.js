@@ -26,12 +26,24 @@ module.exports = function(grunt) {
           'components/x-tag-code-prism/src/code-prism.css'
         ],
         dest: 'public/css/x-tag-components.css'
+      },
+      'x-tag-dist': {
+        src: [
+          'components/document.register/src/document.register.js', 
+          'components/x-tag-core/src/core.js'
+        ],
+        dest: 'public/lib/x-tag-core.js'
       }
     },
     uglify: {
       'x-tag-js': {
         files: {
           'public/js/x-tag-components.min.js' : ['public/js/x-tag-components.js']
+        }
+      },
+      'x-tag-dist': {
+        files: {
+          'public/lib/x-tag-core.min.js': ['public/lib/x-tag-core.js']
         }
       }
     }
@@ -41,6 +53,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');  
   grunt.registerTask('build', ['concat:x-tag-js', 'concat:x-tag-css', 'uglify:x-tag-js']);
+  grunt.registerTask('build-dist',['concat:x-tag-dist','uglify:x-tag-dist']);
 
 
 };
