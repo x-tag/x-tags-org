@@ -1,8 +1,8 @@
 {
   "name": "x-tags-org",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "engines": {
-    "node": "0.6.7"
+    "node": "0.8.14"
   },
   "dependencies": {
     "settings": "0.1.0",
