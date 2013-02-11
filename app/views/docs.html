@@ -29,7 +29,7 @@ xtag.register('accordion', {
       // is inserted into the DOM
     },
     removed: function(){
-      // fired each time a element
+      // fired each time an element
       // is removed from DOM
     },
     attributeChanged: function(){
@@ -47,13 +47,13 @@ xtag.register('accordion', {
         // return all toggler children
       },
       set: function(value){
-        // do something. 
+        // set the toggler children
       }
     }
   },
   methods: {
     nextToggler: function(){
-      // activate next toggler
+      // activate the next toggler
     },
     previousToggler: function(){
       // activate the previous toggler
@@ -130,7 +130,7 @@ xtag.register('x-superinput', {
       get: {
         function(){
           // everything superinputs do has a little super mixed in ;)
-          return this.dataset.value + '  is super';
+          return this.dataset.value + ' is super';
         }
       }
     }
@@ -239,7 +239,6 @@ xtag.register('x-superinput', {
 </x-code-prism>
         </dd>
 
-        
       </dl>
   </div>
 
