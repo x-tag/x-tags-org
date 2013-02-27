@@ -614,6 +614,9 @@ if (!(document.register || {}).__polyfill__){
         while (--i) {
           split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function (match, name, value) {
             var pseudo = xtag.pseudos[name];
+                pseudo.key = key;
+                pseudo.name = name;
+                pseudo.value = value;
             if (!pseudo) throw "pseudo not found: " + name;
             var last = listener;
             listener = function(){
