@@ -36,9 +36,7 @@
     'tap:delegate(#global_nav x-slide)': function(e){
       var index = Array.prototype.indexOf.call(this.parentNode.children, this);      
       if (index == 4){ // registry
-        var addr = "http://localhost:3001";  // "http://registry.x-tags.org/"
-        console.log("debug", addr);
-        window.open(addr);
+        window.open("http://registry.x-tags.org/");
       }
       else {
         slidePage(index);
