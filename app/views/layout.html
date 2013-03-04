@@ -91,20 +91,18 @@
         </x-panel>
       </x-slide>
 
+      <x-slide name="about" {% if page == "about" %}selected{% endif %}>        
+        <x-panel>
+          {% block about %}{% endblock %}
+        </x-panel>
+      </x-slide>
       
       <x-slide name="registry" {% if page == "registry" %}selected{% endif %}>
         <x-panel>
           {% block registry %}{% endblock %}
         </x-panel>
       </x-slide>
-
       
-      <x-slide name="about" {% if page == "about" %}selected{% endif %}>        
-        <x-panel>
-          {% block about %}{% endblock %}
-        </x-panel>
-      </x-slide>
-
     </x-slides>
   </x-slidebox>
 
