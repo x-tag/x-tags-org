@@ -25,7 +25,7 @@
     }
     if(!pop && location.pathname != url){
       history.pushState({
-        page:slide.getAttribute('name'), 
+        page:slide.getAttribute('name'),
         index:index }, slide.getAttribute('name'), slide.getAttribute('name'));
     }
     document.querySelector('#global_nav x-slidebox').slideTo(index);
@@ -34,10 +34,17 @@
   
   xtag.addEvents(document, {
     'tap:delegate(#global_nav x-slide)': function(e){
-      var index = Array.prototype.indexOf.call(this.parentNode.children, this);
-      slidePage(index);
+      var index = Array.prototype.indexOf.call(this.parentNode.children, this);      
+      if (index == 4){ // registry
+        var addr = "http://localhost:3001";  // "http://registry.x-tags.org/"
+        console.log("debug", addr);
+        window.open(addr);
+      }
+      else {
+        slidePage(index);
+      }
     },
-    'tap:delegate(#registry_elements)': function(){      
+    'tap:delegate(#registry_elements)': function(){
       slidePage(3);
     }, 
     'tap:delegate(#search_btn)': function(){
@@ -54,7 +61,8 @@
       elem.src = "http://registry.x-tags.org/search?callback=search_results&query=" + 
         query + "&category=" + category.join(',');
     },
-    'keydown:keypass(13):delegate(#search_query)': function(e){      
+    'keydown:keypass(13):delegate(#search_query)': function(e){
+      console.log("keydown", e);
       xtag.fireEvent(document.getElementById('search_btn'), 'click');
     }
   });
