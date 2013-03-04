@@ -58,7 +58,7 @@ app.get('/blog/:permalink', function(req, res){
 
 app.get('/registry', function(req, res){
 
-  render(req,res,'registry.html', { });
+  res.redirect('http://registry.x-tags.org/');
 
 });
 
@@ -74,7 +74,11 @@ app.get('/about', function(req, res){
 
 });
 
-app.listen(process.env.PORT || process.env.VCAP_APP_PORT || 3000);
+var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+console.log("x-tags.org listening on port:", port)
+app.listen(port);
+
+
 
 /*
   reads and parses a blog markdown file
