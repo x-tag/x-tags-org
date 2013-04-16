@@ -3,11 +3,11 @@
 
   <head>
     <meta charset="utf-8" />
-    
+
     <title>X-Tag - Web Components Custom Element Polylib</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
-    
+
     <link rel="stylesheet" type="text/css" href="/css/reset.css" />
     <link rel="stylesheet" type="text/css" href="/css/flex.css"/>
     <link rel="stylesheet" type="text/css" href="/css/layout.css"/>
@@ -19,41 +19,41 @@
     <link rel="stylesheet" type="text/css" href="/css/x-tag-components.css"/>
 
     {% block styles %}{% endblock %}
-    
+
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous" />
-    
-    <script type="text/javascript" src="/js/x-tag-components.min.js"></script>
+
+    <script type="text/javascript" src="/js/x-tag-components.js"></script>
 
     <script type="text/javascript" src="/js/nunjucks-dev.js"></script>
     <script type="text/javascript" src="/elements/panel/panel.js"></script>
     <script type="text/javascript" src="/elements/ribbon/ribbon.js"></script>
     <script type="text/javascript" src="/elements/template/template.js"></script>
-    
+
   </head>
 
 <body>
 
   <header id="header">
-  
+
     <div id="global_nav">
       <x-slidebox>
         <x-slides>
-          
+
           <x-slide {% if page == "blog" %}selected{% endif %}>
             <a>Blog</a>
-          </x-slide> 
-          
-          
+          </x-slide>
+
+
           <x-slide {% if page == "docs" %}selected{% endif %}>
             <a>Docs</a>
           </x-slide>
-          
+
           <x-slide id="nav_logo" {% if page == "index" %}selected{% endif %}>
             <span>&lt;</span>
             <div>x</div>
             <span>&gt;</span>
           </x-slide>
-          
+
           <x-slide {% if page == "about" %}selected{% endif %}>
             <a>About</a>
           </x-slide>
@@ -61,53 +61,53 @@
            <x-slide {% if page == "registry" %}selected{% endif %}>
             <a>Registry</a>
           </x-slide>
-          
-          
+
+
         </x-slides>
       </x-slidebox>
     </div>
-    
+
   </header>
 
   <x-slidebox id="content_slidebox">
-    <x-slides>    
-      
+    <x-slides>
+
       <x-slide name="blog" {% if page == "blog" %}selected{% endif %}>
         <x-panel>
           {% block blog %}{% endblock %}
         </x-panel>
       </x-slide>
-      
+
 
       <x-slide name="docs" {% if page == "docs" %}selected{% endif %}>
         <x-panel>
           {% block docs %}{% endblock %}
         </x-panel>
       </x-slide>
-      
+
       <x-slide name="index" {% if page == "index" %}selected{% endif %}>
         <x-panel>
           {% block index %}{% endblock %}
         </x-panel>
       </x-slide>
 
-      <x-slide name="about" {% if page == "about" %}selected{% endif %}>        
+      <x-slide name="about" {% if page == "about" %}selected{% endif %}>
         <x-panel>
           {% block about %}{% endblock %}
         </x-panel>
       </x-slide>
-      
+
       <x-slide name="registry" {% if page == "registry" %}selected{% endif %}>
         <x-panel>
           {% block registry %}{% endblock %}
         </x-panel>
       </x-slide>
-      
+
     </x-slides>
   </x-slidebox>
 
 {% block bodyEnd %}{% endblock %}
-  
+
 
 
 <script type="text/javascript" src="/js/main.js"></script>

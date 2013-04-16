@@ -6,45 +6,45 @@
   <link rel="stylesheet" type="text/css" href="/elements/modal/modal.css"/>
   <link rel="stylesheet" type="text/css" href="/elements/map/map.css"/>
 {% endblock %}
-  
+
 {% block fragment %}
     <div class="limit">
-            
+
       <h1 class="tagline">X-Tag - The Custom Elements Polylib</h1>
-      
+
       <div id="intro" class="block">
-          
+
         <x-ribbon>What is X-Tag?</x-ribbon>
-        
+
         <div id="intro_graphic">
-          
+
           <div id="intro_logo" class="foo">
             <span>&lt;</span>
             <div></div>
             <span>&gt;</span>
           </div>
-          
+
           <div class="intro_details" id="intro_webcomponents">
             <img src="images/webcomponents.png" onload="introAnimation()" />
           </div>
-          
+
           <div class="intro_details" id="intro_browsers">
             <img src="images/browsers.png" onload="introAnimation()" />
           </div>
         </div>
-        
+
         <h2>
-          X-Tag is a small JavaScript library, created and supported by Mozilla, that brings 
+          X-Tag is a small JavaScript library, created and supported by Mozilla, that brings
           Web Components Custom Element capabilities to all modern browsers.
         </h2>
-        
+
       </div>
-      
+
       <div class="block">
         <x-ribbon>Get the code</x-ribbon>
         <div id="code_options" class="unlink">
           <div>
-            <a id="download" href="lib/x-tag-core.min.js">
+            <a id="download" target="_blank" href="http://packager.x-tags.org/?packages=x-tag-core">
               <img src="images/archive.png">
               <div>
                 Download it
@@ -52,7 +52,7 @@
               </div>
             </a>
           </div>
-          
+
           <div>
             <a id="fork" href="https://github.com/x-tag/core">
               <img src="images/github-logo.png">
@@ -62,7 +62,7 @@
               </div>
             </a>
           </div>
-          
+
           <div>
             <a id="registry_elements">
               <img src="images/xtr.png">
@@ -74,25 +74,25 @@
           </div>
         </div>
       </div>
-      
+
       <div id="intro_demos" class="block">
         <x-ribbon>Razzle-Dazzle</x-ribbon>
-        
+
         <dl>
           <dt text="Panel"><button title="markup"></button><button title="example" selected></button></dt>
           <dd id="panel_demo">
             <x-growbox>
                   <div class="demo-view">
                     <p>
-                      The modal element provides an simple, structural tag 
-                      that for showing modaled content that auto-centers in 
+                      The modal element provides an simple, structural tag
+                      that for showing modaled content that auto-centers in
                       response to dynamic changes to screen and content size.
                     </p>
                     <div>
                       <x-panel id="panel_demo_element" class="demo-element">Click to set this panel element's <code>src</code> attribute, it will fetch the specified content asynchronously.</x-panel>
                     </div>
                   </div>
-                  
+
                   <div class="demo-markup">
       <x-code-prism language="markup">
       &lt;x-panel src=&quot;/elements/demo/panel-content.html&quot;&gt;&lt;/x-panel&gt;
@@ -100,17 +100,17 @@
                   </div>
             </x-growbox>
           </dd>
-          
+
           <dt text="Modal"><button title="markup"></button><button title="example" selected></button></dt>
           <dd id="modal_demo">
             <x-growbox>
                   <div class="demo-view">
                     <p>
-                      The modal element provides an simple, structural tag 
-                      that for showing modaled content that auto-centers in 
+                      The modal element provides an simple, structural tag
+                      that for showing modaled content that auto-centers in
                       response to dynamic changes to screen and content size.
                     </p>
-                    
+
                     <div>
                       <table class="demo-element">
                         <tr>
@@ -121,7 +121,7 @@
                       </table>
                     </div>
                   </div>
-                  
+
                   <div class="demo-markup">
 <x-code-prism language="markup">
 &lt;x-modal&gt;
@@ -132,7 +132,7 @@
                   </div>
             </x-growbox>
           </dd>
-          
+
           <dt text="Map"><button title="markup"></button><button title="example" selected></button></dt>
           <dd id="map_demo">
             <x-growbox>
@@ -142,12 +142,12 @@
                       that has caught fire in the developer community. This custom map
                       tag  allows you to easily create live map elements declaritively.
                     </p>
-                    
+
                     <div>
                       <x-map id="map_demo_element" class="demo-element" data-key="39d2b66f0d5d49dbb52a5b7ad87aea9b"></x-map>
                     </div>
                   </div>
-                  
+
                   <div class="demo-markup">
 <x-code-prism language="markup">
 &lt;x-map data-key=&quot;39d2b66f0d5d49dbb52a5b7ad87aea9b&quot;&gt;&lt;/x-map&gt;
@@ -160,8 +160,8 @@
 
       <div class="block">
     <x-ribbon>Browser Support</x-ribbon>
-  
-  
+
+
     <p>
       X-Tag is compatible with the following browser versions:
     </p>
@@ -188,9 +188,9 @@
       </a>
     </div>
   </div>
-      
+
     </div>
-    
+
 {% endblock %}
 
 {% block bodyEnd %}
@@ -221,12 +221,12 @@
       this.setAttribute('selected', null);
       this.parentNode.nextElementSibling.className = this.getAttribute('title');
     },
-    'tap:delegate(#panel_demo_element)': function(e){      
+    'tap:delegate(#panel_demo_element)': function(e){
       if (!this.src){
         this.src = 'elements/panel/demo/panel-content.html';
       } else {
         this.src = 'elements/panel/demo/panel-content' + (this.src.indexOf('2') > -1 ? '.html' : '2.html');
-      }      
+      }
     },
     'tap:delegate(#modal_demo table button)': function(){
       if (this.className == '') {
