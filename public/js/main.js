@@ -16,7 +16,7 @@
       }, 1000);
     }
   }
-  
+
   slidePage = function(index,pop){
     var slide = document.querySelectorAll('#content_slidebox x-slide')[index];
     var url = "/" + slide.getAttribute('name');
@@ -31,10 +31,10 @@
     document.querySelector('#global_nav x-slidebox').slideTo(index);
     document.getElementById('content_slidebox').slideTo(index);
   }
-  
+
   xtag.addEvents(document, {
     'tap:delegate(#global_nav x-slide)': function(e){
-      var index = Array.prototype.indexOf.call(this.parentNode.children, this);      
+      var index = Array.prototype.indexOf.call(this.parentNode.children, this);
       if (index == 4){ // registry
         window.open("http://registry.x-tags.org/");
       }
@@ -43,8 +43,8 @@
       }
     },
     'tap:delegate(#registry_elements)': function(){
-      slidePage(3);
-    }, 
+      window.open("http://registry.x-tags.org/");
+    },
     'tap:delegate(#search_btn)': function(){
       var elem = document.getElementById('search_result_json_p');
       if (!elem){
@@ -56,7 +56,7 @@
         category.push(group1);
         return '';
       });
-      elem.src = "http://registry.x-tags.org/search?callback=search_results&query=" + 
+      elem.src = "http://registry.x-tags.org/search?callback=search_results&query=" +
         query + "&category=" + category.join(',');
     },
     'keydown:keypass(13):delegate(#search_query)': function(e){
