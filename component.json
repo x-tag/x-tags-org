@@ -7,6 +7,8 @@
     "x-tag-slidebox": "*",
     "x-tag-code-prism": "*",
     "x-tag-panel": "*",
-    "leaflet": "*"
+    "x-tag-leaflet-map": "*",
+    "x-tag-modal": "*",
+    "x-tag-flipbox": "*"
   }
 }

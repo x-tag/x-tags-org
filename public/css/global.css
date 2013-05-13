@@ -23,7 +23,7 @@ h2 {
 
 h3 {
   font-size: 115%;
-} 
+}
 
 h4 {
   font-size: 110%;
@@ -69,17 +69,17 @@ a:hover {
     background: -o-linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
     background: linear-gradient(top, rgba(0,0,0, 0.6), rgba(0,0,0, 0.6)), url(/images/chruch.png);
   }
-  
+
   .block > x-ribbon + * {
     clear: both;
   }
-  
+
   .block > dl dt {
     position: relative;
     margin: 0 0 10px;
     overflow: hidden;
   }
-  
+
   .block > dl dt:before {
     position: relative;
     display: inline-block;
@@ -89,7 +89,7 @@ a:hover {
     font-weight: bold;
     z-index: 1;
   }
-  
+
   .block > dl dt:after {
     content: " ";
     display: block;
@@ -104,7 +104,7 @@ a:hover {
   .block p {
     margin: 10px 0;
   }
-  
+
 .tagline {
   margin-bottom: 35px;
   color: #bbb;
@@ -131,7 +131,7 @@ a:hover {
   #nav_logo div, #nav_logo span {
     display: inline-block;
   }
-  
+
   #nav_logo div {
     position: relative;
     top: -3px;
@@ -178,7 +178,7 @@ a:hover {
     position: relative;
     margin: 0 8% 30px;
   }
-    
+
     #intro_logo {
       position: absolute;
       top: 50%;
@@ -191,7 +191,7 @@ a:hover {
       text-align: center;
       font-family: 'Righteous';
     }
-      
+
       #intro_logo div, #intro_logo span {
         position: relative;
         display: inline-block;
@@ -199,7 +199,7 @@ a:hover {
         line-height: 50px;
         opacity: 1;
       }
-      
+
       #intro_logo div, #intro_logo span, .intro_details, #intro_browsers img {
         -webkit-transition: top 0.6s ease 0s, left 0.6s ease 0s, right 0.6s ease 0s, opacity 0.6s ease 0s, -webkit-transform 0.6s ease 0s;
         -moz-transition: top 0.6s ease 0s, left 0.6s ease 0s, right 0.6s ease 0s, opacity 0.6s ease 0s, -moz-transform 0.6s ease 0s;
@@ -207,40 +207,40 @@ a:hover {
         -o-transition: top 0.6s ease 0s, left 0.6s ease 0s, right 0.6s ease 0s, opacity 0.6s ease 0s, -o-transform 0.6s ease 0s;
         transition: top 0.6s ease 0s, left 0.6s ease 0s, right 0.6s ease 0s, opacity 0.6s ease 0s, transform .6s ease 0s;
       }
-      
+
       #intro_logo div {
         margin: 0 -15px;
       }
-      
+
       #intro_logo div:before {
         position: relative;
         top: -10px;
         content: "x";
       }
-      
+
       #intro_logo div.switch-logo-x:before {
         content: "+";
         vertical-align: middle;
       }
-      
+
       #intro_logo span:first-child {
         left: 0%;
       }
-      
+
       #intro_logo span:last-child {
         right: 0%;
       }
-      
+
       #intro_graphic.animate-intro #intro_logo span:first-child {
         left: -50%;
         opacity: 0;
       }
-      
+
       #intro_graphic.animate-intro #intro_logo span:last-child {
         right: -50%;
         opacity: 0;
       }
-      
+
       #intro_graphic.animate-intro #intro_logo div {
         -webkit-transform: rotate(720deg);
         -moz-transform: rotate(720deg);
@@ -257,7 +257,7 @@ a:hover {
       vertical-align: middle;
       opacity: 0;
     }
-    
+
       #intro_graphic.fade-intro .intro_details {
         opacity: 1;
       }
@@ -277,30 +277,30 @@ a:hover {
         position: relative;
         right: -50px;
       }
-      
+
         #intro_browsers img {
           display: block;
           margin: 0 auto;
           width: 80%;
           max-width: 400px;
         }
-        
+
 #code_options {
   display: table;
   width: 100%;
 }
-  
+
   #code_options > div {
     display: table-cell;
     width: 33.3%;
     text-align: center;
   }
-    
+
     #download, #fork, #registry_elements {
       margin: 10px;
       background: #ddd;
     }
-    
+
       #code_options a {
         display: block;
         padding: 16px 10px;
@@ -311,7 +311,7 @@ a:hover {
         border-radius: 4px;
         cursor: pointer;
       }
-      
+
       #code_options span {
         display: block;
         font-size: 70%;
@@ -320,11 +320,11 @@ a:hover {
         line-height: 10px;
         text-align: center;
       }
-      
+
       #code_options img {
         height: 32px;
       }
-      
+
       #download {
         box-shadow: 0 0 0 1px rgba(80, 137, 180, 0.4) inset;
         background: -webkit-linear-gradient(top, #E0EDFB, #C4D8EB);
@@ -333,12 +333,12 @@ a:hover {
         background: -o-linear-gradient(top, #E0EDFB, #C4D8EB);
         background: linear-gradient(top, #E0EDFB, #C4D8EB);
       }
-      
+
         #download:hover:active {
           box-shadow: 0 1px 2px 0px rgba(80, 137, 180, 0.8) inset;
           background: #E0EDFB;
         }
-      
+
       #fork {
         box-shadow: 0 0 0 1px rgba(30, 102, 25, 0.4) inset;
         background: -webkit-linear-gradient(top, #A8DCA5, #84C881);
@@ -347,12 +347,12 @@ a:hover {
         background: -o-linear-gradient(top, #A8DCA5, #84C881);
         background: linear-gradient(top, #A8DCA5, #84C881);
       }
-      
+
         #fork:hover:active {
           box-shadow: 0 1px 2px 0px rgba(4, 76, 0, 0.8) inset;
           background: #A8DCA5;
         }
-        
+
       #registry_elements {
         box-shadow: 0 0 0 1px rgba(140, 75, 0, 0.4) inset;
         background: -webkit-linear-gradient(top, #F0CD96, #DCB680);
@@ -361,7 +361,7 @@ a:hover {
         background: -o-linear-gradient(top, #F0CD96, #DCB680);
         background: linear-gradient(top, #F0CD96, #DCB680);
       }
-      
+
         #registry_elements:hover:active {
           box-shadow: 0 1px 2px 0px rgba(140, 75, 0, 0.8) inset;
           background: #F0CD96;
@@ -381,11 +381,11 @@ a:hover {
   #intro_demos dt button[title="markup"] {
     background-image: url(/images/brackets.png);
   }
-  
+
   #intro_demos dt button:hover {
     opacity: 0.8;
   }
-  
+
   #intro_demos dt button[selected] {
     opacity: 1.0 !important;
   }
@@ -394,7 +394,7 @@ a:hover {
   margin: 10px;
   overflow: hidden;
 }
-  
+
   #intro_demos dd:after {
     content: " ";
     display: block;
@@ -451,6 +451,7 @@ a:hover {
   width: 90%;
   max-width: 350px;
   border-radius: 4px;
+  background-color: white;
 }
 
 #modal_demo_element > div {
@@ -477,7 +478,7 @@ a:hover {
 
 #docs dd:last-child {
   margin: 0;
-}   
+}
 
 #docs h4 {
   margin: 0 0 8px;
@@ -612,7 +613,7 @@ dd h4 code {
     display: block;
     width: auto;
   }
-  
+
   #intro h2 {
     font-size: 120%;
   }

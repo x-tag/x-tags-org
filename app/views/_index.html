@@ -1,10 +1,7 @@
 {% extends "fragment.html" %}
 
 {% block styles %}
-  <link rel="stylesheet" type="text/css" href="/elements/flipbox/flipbox.css"/>
   <link rel="stylesheet" type="text/css" href="/elements/tabbox/tabbox.css"/>
-  <link rel="stylesheet" type="text/css" href="/elements/modal/modal.css"/>
-  <link rel="stylesheet" type="text/css" href="/elements/map/map.css"/>
 {% endblock %}
 
 {% block fragment %}
@@ -207,10 +204,7 @@
 
 {% block scripts %}
 
-<script type="text/javascript" src="/elements/flipbox/flipbox.js"></script>
 <script type="text/javascript" src="/elements/tabbox/tabbox.js"></script>
-<script type="text/javascript" src="/elements/modal/modal.js"></script>
-<script type="text/javascript" src="/elements/map/map.js"></script>
 
 <script type="text/javascript">
   xtag.addEvents(document, {
@@ -232,19 +226,19 @@
       if (this.className == '') {
         this.className = 'showing';
         this.innerHTML = 'Hide Modal';
-        document.querySelector('#modal_demo_element').removeAttribute('hide');
+        document.querySelector('#modal_demo_element').toggle();
       }
       else {
         this.className = '';
         this.innerHTML = 'Show Modal';
-        document.querySelector('#modal_demo_element').setAttribute('hide', null);
+        document.querySelector('#modal_demo_element').toggle();
       }
     },
     'tap:delegate(#modal_demo_element button)': function(){
       var button = document.querySelector('#modal_demo table button');
       button.className = '';
       button.innerHTML = 'Show Modal';
-      document.querySelector('#modal_demo_element').setAttribute('hide', null);
+      document.querySelector('#modal_demo_element').toggle();
     }
   });
 
