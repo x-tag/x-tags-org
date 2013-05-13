@@ -6,26 +6,26 @@
   <div class="block">
     <x-ribbon>How it Works</x-ribbon>
     <p>
-      In order to allow for the recognition and parsing of custom HTML tags, 
-      <span class="font">X-Tag</span> relies on a variety of events to detect 
-      and upgrade elements with user-defined, extended functionality. X-Tag 
-      works regardless of whether the element was present in the original 
-      source of the document, added by setting <code>innerHTML</code>, or 
-      generated dynamically using <code>document.createElement</code>. Here's 
-      an example showing the registration of a custom element, with a 
+      In order to allow for the recognition and parsing of custom HTML tags,
+      <span class="font">X-Tag</span> relies on a variety of events to detect
+      and upgrade elements with user-defined, extended functionality. X-Tag
+      works regardless of whether the element was present in the original
+      source of the document, added by setting <code>innerHTML</code>, or
+      generated dynamically using <code>document.createElement</code>. Here's
+      an example showing the registration of a custom element, with a
       description of each of the foundational interfaces the API offers:
     </p>
-      
-    
+
+
 <x-code-prism language="javascript">
 xtag.register('accordion', {
   lifecycle:{
     created: function(){
-      // fired once at the time a component 
+      // fired once at the time a component
       // is initially created or parsed
     },
     inserted: function(){
-      // fired each time a component 
+      // fired each time a component
       // is inserted into the DOM
     },
     removed: function(){
@@ -35,7 +35,7 @@ xtag.register('accordion', {
     attributeChanged: function(){
       // fired when attributes are set
     }
-  },  
+  },
   events: {
     'click:delegate(x-toggler)': function(){
       // activate a clicked toggler
@@ -70,8 +70,8 @@ xtag.register('accordion', {
     <dd>
       <h4><code>created</code><span>function</span></h4>
       <p>
-        Whenever a tag is recognized and parsed on load or generated using 
-        <code>document.createElement</code>, a created function is called 
+        Whenever a tag is recognized and parsed on load or generated using
+        <code>document.createElement</code>, a created function is called
         allowing you to modify the element before any other code is applied to it.
       </p>
 
@@ -82,22 +82,22 @@ xtag.register('x-superinput', {
       // superinputs begin life knowing they're super.
       this.value = 'super';
     }
-  }  
+  }
 });
 </x-code-prism>
 
 
-    </dd> 
-    
+    </dd>
+
     <dd>
       <h4><code>inserted</code><span>function</span></h4>
       <p>
         The <b>inserted</b> method is called everytime a given component's DOM element
-        is added to the DOM. This allows you to do things like check the state or 
-        structure of the surrounding DOM tree or window scope and modify your 
+        is added to the DOM. This allows you to do things like check the state or
+        structure of the surrounding DOM tree or window scope and modify your
         component accordingly.
       </p>
-      
+
 
 <x-code-prism language="javascript">
 xtag.register('x-superinput', {
@@ -112,20 +112,20 @@ xtag.register('x-superinput', {
 
 
     </dd>
-    
+
     <dd>
       <h4><code>accessors</code><span>object</span></h4>
       <p>
-        The <b>accessors</b> object provides native value retrieval handlers 
-        to your component. For example: if a user caches a component's value, 
-        <code>var value = element.value;</code> your 
-        getter would have the oppertunity to fetch that value from anywhere 
+        The <b>accessors</b> object provides native value retrieval handlers
+        to your component. For example: if a user caches a component's value,
+        <code>var value = element.value;</code> your
+        getter would have the oppertunity to fetch that value from anywhere
         you'd like and even modify it before returning.
       </p>
 
 <x-code-prism language="javascript">
 xtag.register('x-superinput', {
-  accessors: {    
+  accessors: {
     value: {
       get: {
         function(){
@@ -140,12 +140,12 @@ xtag.register('x-superinput', {
 
 
     </dd>
-    
+
     <dd>
       <h4><code>events</code><span>object</span></h4>
       <p>
         The events object allows you to bind events to the component at the time of creation.
-        Pseudo events like delegation are supported, additional pseudos can be added to 
+        Pseudo events like delegation are supported, additional pseudos can be added to
         the <code>pseudos</code> object on the global <code>xtag</code> variable.
       </p>
 
@@ -158,16 +158,16 @@ xtag.register('x-superinput', {
   }
 });
 </x-code-prism>
-   
-      
+
+
     </dd>
-    
+
     <dd>
       <h4><code>mixins</code><span>array</span></h4>
       <p>
-        The mixins array allows you specify mixin keys that map to collections of getters, setters, 
-        events, and lifecycle functions. X-Tag merges mixins into your component definition object for you. 
-        Mixins are found on the <code>mixins</code> object of the global <code>xtag</code> variable - 
+        The mixins array allows you specify mixin keys that map to collections of getters, setters,
+        events, and lifecycle functions. X-Tag merges mixins into your component definition object for you.
+        Mixins are found on the <code>mixins</code> object of the global <code>xtag</code> variable -
         you can add your own mixins there too!
       </p>
 
@@ -178,14 +178,14 @@ xtag.register('x-superinput', {
 });
 </x-code-prism>
 
-      </dd> 
+      </dd>
     </dl>
   </div>
 
   <div class="block">
     <x-ribbon>Helpers</x-ribbon>
 
-    <p>The X-Tag library comes with just enough helper methods to make it bearable to work in Vanilla JS.</p>     
+    <p>The X-Tag library comes with just enough helper methods to make it bearable to work in Vanilla JS.</p>
       <dl>
         <dd>
           <h4><code>toArray</code><span>object</span></h4>
@@ -215,11 +215,11 @@ xtag.register('x-superinput', {
         </dd>
 
         <dd>
-          <h4><code>matchesSelector</code><span>element,selector</span></h4>
+          <h4><code>matchSelector</code><span>element,selector</span></h4>
           <p>Returns a boolean that indicates if the given selector matches the element.</p>
 
 <x-code-prism language="javascript">
-  if(xtag.matchesSelector(element, '.foo')){
+  if(xtag.matchSelector(element, '.foo')){
     // matches
   }else{
     // doesn't match
@@ -242,7 +242,7 @@ xtag.register('x-superinput', {
       </dl>
   </div>
 
-  
+
 </div>
 
 {% endblock%}
