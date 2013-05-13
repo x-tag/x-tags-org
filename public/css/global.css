@@ -439,11 +439,11 @@ a:hover {
   -webkit-transition: 1s;
 }
 
-#panel_demo_element[src="elements/panel/demo/panel-content.html"][readystate="4"] {
+#panel_demo_element[src="elements/panel/demo/panel-content.html"][data-readystate="4"] {
   background-color: #58F48C;
 }
 
-#panel_demo_element[src="elements/panel/demo/panel-content2.html"][readystate="4"] {
+#panel_demo_element[src="elements/panel/demo/panel-content2.html"][data-readystate="4"] {
   background-color: #CBDDEF;
 }
 
