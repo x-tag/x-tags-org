@@ -6,3 +6,7 @@ framework:
 
 processes:
   web: node app.js
+
+  url:
+    - www.x-tags.org
+    - x-tags.org
