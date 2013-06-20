@@ -13,7 +13,7 @@ We chose to include HTMLImports, Custom Elements, and HTMLTemplate polyfills bec
 
 *What about Shadow DOM polyfill?*
 
-While Shadow DOM sounds uber cool with its ability to hide elements inside shadow nodes, it is not necessary when creating custom elements.  It is a nice to have.  There are also performance implications to fake shadow DOM behavior in a polyfill.  We felt that it is best to leave this out and wait until we have native implementations in the browsers.
+While Shadow DOM sounds uber cool with its ability to hide elements inside shadow nodes, it is not necessary when creating custom elements.  It is a nice to have.  There are also performance implications to fake shadow DOM behavior in a polyfill.  We felt that it is best to leave this out and wait until we have native implementations in browsers.
 
 *What about MDV?*
 
