@@ -9,7 +9,7 @@ A few weeks ago, we began working with Google on a shared set of polyfills, whic
 
 *Which polyfills are included in X-Tag?*
 
-We selected to use HTMLImports, Custom Elements, and HTMLTemplate polyfills because we feel they provide you the most benefit without the bloat.  You can use the other polyfills from Polymer if you want to and everything will function as normal.
+We chose to include HTMLImports, Custom Elements, and HTMLTemplate polyfills because we feel they provide you the most benefit without the bloat.  You can use the other polyfills from Polymer if you want to and everything will function as normal.  We simply wanted to minimize X-Tag's footprint and focus on Custom Elements.
 
 *What about Shadow DOM polyfill?*
 
