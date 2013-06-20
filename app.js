@@ -34,7 +34,10 @@ app.get('/blog', function(req, res){
     }
 
     var posts = [];
-    files.forEach(function(file){
+    var regex = new RegExp(/(\d+-\d+-\d+)/);
+    files.sort(function(a,b){
+      return new Date(regex.exec(a)).getTime() - new Date(regex.exec(b)).getTime();
+    }).forEach(function(file){
       if (path.extname(file) == '.md'){
         posts.splice(0,0,createBlogItem(file));
       }
@@ -89,7 +92,7 @@ function createBlogItem(filePath){
   filePath = filePath.replace('.md','');
   var fileParts = filePath.split('-');
 
-  return { 
+  return {
     date: moment(fileParts.splice(0,3).join('-')).format('MMMM Do, YYYY'),
     permalink: filePath,
     content: content };
