@@ -35,12 +35,13 @@ app.get('/blog', function(req, res){
 
     var posts = [];
     var regex = new RegExp(/(\d+-\d+-\d+)/);
-    files.sort(function(a,b){
-      return new Date(regex.exec(a)).getTime() - new Date(regex.exec(b)).getTime();
-    }).forEach(function(file){
+    files.forEach(function(file){
       if (path.extname(file) == '.md'){
         posts.splice(0,0,createBlogItem(file));
       }
+    });
+    posts = posts.sort(function(a,b){
+      return b.seconds - a.seconds;
     });
     render(req,res,'blog.html', { posts: posts });
   });
@@ -91,9 +92,10 @@ function createBlogItem(filePath){
   content = md.parse(content);
   filePath = filePath.replace('.md','');
   var fileParts = filePath.split('-');
-
+  var date = moment(fileParts.splice(0,3).join('-'));
   return {
-    date: moment(fileParts.splice(0,3).join('-')).format('MMMM Do, YYYY'),
+    date: date.format('MMMM Do, YYYY'),
+    seconds: date.valueOf(),
     permalink: filePath,
     content: content };
 }
