@@ -239,6 +239,58 @@ xtag.register('x-superinput', {
 </x-code-prism>
         </dd>
 
+        <dd>
+          <h4><code>queryChildren</code><span>element, selector</span></h4>
+          <p>Allows you to query only the direct children of the element.</p>
+        </dd>
+
+         <dd>
+          <h4><code>requestFrame</code><span>none</span></h4>
+          <p>Returns an animation frame.</p>
+        </dd>
+
+        <dd>
+          <h4><code>createFragment</code><span>element</span></h4>
+          <p>Creates a document fragment out of the passed element.</p>
+        </dd>
+
+        <dd>
+          <h4><code>wrap</code><span>function, function</span></h4>
+          <p>Returns a new function where the first function is called, then the second function.  If false is returned from the first function then the second function will not execute.</p>
+        </dd>
+
+        <dd>
+          <h4><code>innerHTML</code><span>element, html</span></h4>
+          <p>Sets the innerHTML of element with the passed html and parses for x-tags.</p>
+        </dd>
+
+
+        <dd>
+          <h4><code>addEvent</code><span>element, eventType, function</span></h4>
+          <p>Adds a DOM event listener to an element.  It also allows for event psuedo chains.</p>
+
+<x-code-prism language="javascript">
+  xtag.addEvent(element, 'click:delegate(button)', function(e){
+    // "this" is the button element
+  });
+</x-code-prism>
+        </dd>
+
+        <dd>
+          <h4><code>addEvents</code><span>element, object</span></h4>
+          <p>Adds multiple DOM event listeners to an element.</p>
+
+<x-code-prism language="javascript">
+  xtag.addEvents(element, {
+    'click:delegate(button.save)': function(){
+
+    },
+    'click:delegate(button.cancel)': function(){
+
+    }
+  });
+</x-code-prism>
+        </dd>
       </dl>
   </div>
 
