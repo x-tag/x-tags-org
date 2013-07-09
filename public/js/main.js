@@ -29,7 +29,7 @@
     if(!pop && location.pathname != url){
       History.pushState({
         page:slide.getAttribute('name'),
-        index:index }, slide.getAttribute('name'), slide.getAttribute('name'));
+        index:index });
     }
     document.querySelector('#global_nav x-slidebox').slideTo(index);
     document.getElementById('content_slidebox').slideTo(index);
