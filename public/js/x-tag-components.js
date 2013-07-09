@@ -3033,7 +3033,7 @@ xtag.callbacks = {};
     }
     element.setAttribute('src', element.xtag.request.url);
     anchor.href = options.url;
-    if (anchor.hostname == window.location.hostname) {
+    if (~anchor.href.indexOf(window.location.hostname)) {
       request = xtag.merge(new XMLHttpRequest(), request);
       request.onreadystatechange = function(){
         element.setAttribute('data-readystate', request.readyState);

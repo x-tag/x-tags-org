@@ -1,8 +1,11 @@
- window.onpopstate = function(e){
-    if(e.state){
-      slidePage(e.state.index,true);
-    }
-  }
+  History.Adapter.bind(window,'statechange',function(e){ // Note: We are using statechange instead of popstate
+        var state = History.getState();
+        var slide = document.querySelectorAll('#content_slidebox x-slide')[state.data.index];
+        if (slide.firstElementChild.src != '/' + slide.getAttribute('name') + '?frag'){
+          slidePage(state.data.index,true);
+        }
+  });
+
   introImageLoads = 0;
   introAnimation = function(){
     introImageLoads++;
@@ -19,12 +22,12 @@
 
   slidePage = function(index,pop){
     var slide = document.querySelectorAll('#content_slidebox x-slide')[index];
-    var url = "/" + slide.getAttribute('name');
+    var url = '/' + slide.getAttribute('name');
     if (slide.firstElementChild.children.length == 0){
-      slide.firstElementChild.src = url + "?frag";
+      slide.firstElementChild.src = url + '?frag';
     }
     if(!pop && location.pathname != url){
-      history.pushState({
+      History.pushState({
         page:slide.getAttribute('name'),
         index:index }, slide.getAttribute('name'), slide.getAttribute('name'));
     }
@@ -36,14 +39,14 @@
     'tap:delegate(#global_nav x-slide)': function(e){
       var index = Array.prototype.indexOf.call(this.parentNode.children, this);
       if (index == 4){ // registry
-        window.open("http://registry.x-tags.org/");
+        window.open('http://registry.x-tags.org/');
       }
       else {
         slidePage(index);
       }
     },
     'tap:delegate(#registry_elements)': function(){
-      window.open("http://registry.x-tags.org/");
+      window.open('http://registry.x-tags.org/');
     },
     'tap:delegate(#search_btn)': function(){
       var elem = document.getElementById('search_result_json_p');
@@ -56,18 +59,18 @@
         category.push(group1);
         return '';
       });
-      elem.src = "http://registry.x-tags.org/search?callback=search_results&query=" +
-        query + "&category=" + category.join(',');
+      elem.src = 'http://registry.x-tags.org/search?callback=search_results&query=' +
+        query + '&category=' + category.join(',');
     },
     'keydown:keypass(13):delegate(#search_query)': function(e){
-      console.log("keydown", e);
+      console.log('keydown', e);
       xtag.fireEvent(document.getElementById('search_btn'), 'click');
     }
   });
 
   window.search_results = function(results){
     var container = document.getElementById('search_results');
-    container.innerHTML = "";
+    container.innerHTML = '';
     results.data.forEach(function(row){
       var item = document.createElement('x-search-result');
       item.templateData = row;
