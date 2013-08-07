@@ -37,11 +37,53 @@
 
       </div>
 
+      <div id="diagram" class="block">
+        <x-ribbon>X-Tag Technology Stack</x-ribbon>
+        <br/>
+        <section>
+          <p>Using the power of X-Tag and custom elements you can easily create your own elements to encapsulate common behavior or use existing custom elements to quickly get the behavior you're looking for.</p>
+
+          <p>X-Tag provides several powerful features that assist you in creating custom elements, such as: Custom events and delegation, mixins, accessors, component lifecycle functions, pseudos and more.</p>
+
+          <p>X-Tag is built upon W3C Web Component polyfills provided by the Polymer project.  We use <a href="https://github.com/polymer/CustomElements" target="_blank">Custom Element</a>, <a href="https://github.com/polymer/HTMLImports" target="_blank">HTMLImports</a>, and <a href="https://github.com/Polymer/MutationObservers">Mutation Observers</a>.  There are a few other polyfills to support IE 9 compatibility.</p>
+
+        </section>
+        <section>
+
+          <div class="peachbox">
+            <h3>X-Tag Custom Elements</h3>
+            <div>
+              <span>Panel</span>
+              <span>Map</span>
+              <span>Flipbox</span>
+              <span>Etc</span>
+            </div>
+          </div>
+          <div class="greenbox">
+            <h3>X-Tag Core Library</h3>
+            <div>
+              <span>Accessors</span>
+              <span>Pseudos</span>
+              <span>Mixins</span>
+              <span>Events</span>
+              <span>Utils</span>
+            </div>
+          </div>
+
+          <div class="bluebox">
+            <h3>Web Components Polyfills</h3>
+            <div>
+              <span>Custom Element</span>
+              <span>HTMLImports</span>
+            </div>
+        </section>
+      </div>
+
       <div class="block">
         <x-ribbon>Get the code</x-ribbon>
         <div id="code_options" class="unlink">
           <div>
-            <a id="download" target="_blank" href="https://github.com/x-tag/x-tag/archive/master.zip">
+            <a id="download" class="bluebox" target="_blank" href="https://github.com/x-tag/x-tag/archive/master.zip">
               <img src="images/archive.png">
               <div>
                 Download it
@@ -51,7 +93,7 @@
           </div>
 
           <div>
-            <a id="fork" href="https://github.com/x-tag/core">
+            <a id="fork" class="greenbox" href="https://github.com/x-tag/core">
               <img src="images/github-logo.png">
               <div>
                 Fork it
@@ -61,7 +103,7 @@
           </div>
 
           <div>
-            <a id="registry_elements">
+            <a id="registry_elements" class="peachbox">
               <img src="images/xtr.png">
               <div>
                 Get tags

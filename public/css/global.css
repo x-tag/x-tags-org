@@ -284,6 +284,46 @@ a:hover {
           max-width: 400px;
         }
 
+  #diagram {
+
+  }
+
+    #diagram section {
+      display: table-cell;
+      padding: 0 10px;
+      width: 45%;
+      vertical-align: top;
+    }
+
+    #diagram section > div {
+        border-radius: 4px;
+        background-color: #ddd;
+        margin: 0 0 10px;
+        padding: 10px;
+    }
+
+    #diagram section > div > div {
+      display: table;
+      width: 100%;
+    }
+
+    #diagram section div div span {
+      display: table-cell;
+      border: #888 1px dotted;
+      text-align: center;
+      border-radius: 8px;
+      padding: 10px 0;
+    }
+
+    #diagram section div h3 {
+      padding: 6px 0 13px;
+      width: 100%;
+      text-align: center;
+    }
+
+    #diagram section > p {
+      margin: 0 0 26px;
+    }
 #code_options {
   display: table;
   width: 100%;
@@ -297,7 +337,6 @@ a:hover {
 
     #download, #fork, #registry_elements {
       margin: 10px;
-      background: #ddd;
     }
 
       #code_options a {
@@ -324,7 +363,7 @@ a:hover {
         height: 32px;
       }
 
-      #download {
+      .bluebox {
         box-shadow: 0 0 0 1px rgba(80, 137, 180, 0.4) inset;
         background: -webkit-linear-gradient(top, #E0EDFB, #C4D8EB);
         background: -moz-linear-gradient(top, #E0EDFB, #C4D8EB);
@@ -333,12 +372,12 @@ a:hover {
         background: linear-gradient(top, #E0EDFB, #C4D8EB);
       }
 
-        #download:hover:active {
+        .bluebox:hover:active {
           box-shadow: 0 1px 2px 0px rgba(80, 137, 180, 0.8) inset;
           background: #E0EDFB;
         }
 
-      #fork {
+      .greenbox {
         box-shadow: 0 0 0 1px rgba(30, 102, 25, 0.4) inset;
         background: -webkit-linear-gradient(top, #A8DCA5, #84C881);
         background: -moz-linear-gradient(top, #A8DCA5, #84C881);
@@ -347,12 +386,12 @@ a:hover {
         background: linear-gradient(top, #A8DCA5, #84C881);
       }
 
-        #fork:hover:active {
+        .greenbox:hover:active {
           box-shadow: 0 1px 2px 0px rgba(4, 76, 0, 0.8) inset;
           background: #A8DCA5;
         }
 
-      #registry_elements {
+      .peachbox {
         box-shadow: 0 0 0 1px rgba(140, 75, 0, 0.4) inset;
         background: -webkit-linear-gradient(top, #F0CD96, #DCB680);
         background: -moz-linear-gradient(top, #F0CD96, #DCB680);
@@ -361,7 +400,7 @@ a:hover {
         background: linear-gradient(top, #F0CD96, #DCB680);
       }
 
-        #registry_elements:hover:active {
+        .peachbox:hover:active {
           box-shadow: 0 1px 2px 0px rgba(140, 75, 0, 0.8) inset;
           background: #F0CD96;
         }
@@ -609,12 +648,16 @@ dd h4 code {
 /* MEDIA QUERIES */
 
 @media all and (max-width: 450px) {
-  #code_options > div {
+  #code_options > div, #diagram section {
     display: block;
     width: auto;
   }
 
   #intro h2 {
     font-size: 120%;
+  }
+
+  #diagram section > p {
+    margin: 0 0 10px;
   }
 }
