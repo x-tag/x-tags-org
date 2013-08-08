@@ -322,7 +322,7 @@ a:hover {
     }
 
     #diagram section > p {
-      margin: 0 0 26px;
+      margin: 0 0 10px;
     }
 #code_options {
   display: table;
@@ -657,7 +657,4 @@ dd h4 code {
     font-size: 120%;
   }
 
-  #diagram section > p {
-    margin: 0 0 10px;
-  }
 }
