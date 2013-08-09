@@ -127,11 +127,9 @@ xtag.register('x-superinput', {
 xtag.register('x-superinput', {
   accessors: {
     value: {
-      get: {
-        function(){
+      get: function(){
           // everything superinputs do has a little super mixed in ;)
           return this.dataset.value + ' is super';
-        }
       }
     }
   }
