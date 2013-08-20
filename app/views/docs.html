@@ -19,6 +19,8 @@
 
 <x-code-prism language="javascript">
 xtag.register('accordion', {
+  // extend existing elements
+  extends: 'div',
   lifecycle:{
     created: function(){
       // fired once at the time a component
@@ -179,6 +181,38 @@ xtag.register('x-superinput', {
 </x-code-prism>
 
       </dd>
+
+
+    <dd>
+
+      <h4><code>extends</code><span>element name</span></h4>
+      <p>
+        Extends allows you to use an existing html element as the base of your custom element.  Common values are <code>div, span, input</code>.
+      </p>
+
+<x-code-prism language="javascript">
+xtag.register('x-superinput', {
+  extends: 'input'
+});
+</x-code-prism>
+
+      </dd>
+
+      <dd>
+
+      <h4><code>prototype</code><span>object</span></h4>
+      <p>
+        Prototype allows you to set the prototype of the custom element to any object you wish.  This enables you to incorporate functionality of another object into your custom element.
+      </p>
+
+<x-code-prism language="javascript">
+xtag.register('x-supertemplate', {
+  prototype: Object.create(HTMLTemplateElement.prototype)
+});
+</x-code-prism>
+
+      </dd>
+
     </dl>
   </div>
 
