@@ -65,7 +65,7 @@ body
 }
 
 #content_slidebox > x-slides > x-slide[selected] {
-	overflow: auto;
+	overflow: scroll;
 }
 
 /* Media Queries */
