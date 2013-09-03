@@ -43,7 +43,6 @@
       }
       else {
         slidePage(index);
-     //   selectScrollable();
       }
     },
     'tap:delegate(#registry_elements)': function(){
@@ -67,9 +66,7 @@
       xtag.fireEvent(document.getElementById('search_btn'), 'click');
     },
     'slideend:delegate(#content_slidebox)':function(){
-     // setTimeout(function(){
-        selectScrollable();
-     // }, 100);
+      selectScrollable();
     }
   });
 
