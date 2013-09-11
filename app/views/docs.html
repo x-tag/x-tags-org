@@ -67,10 +67,12 @@ xtag.register('x-accordion', {
   </div>
 
   <div class="block">
-    <x-ribbon>Custom Tag Registration</x-ribbon>
+    <a name="custom-tag-registration"></a>
+    <x-ribbon><a href="#custom-tag-registration">Custom Tag Registration</a></x-ribbon>
     <dl>
     <dd>
-      <h4><code>created</code><span>function</span></h4>
+        <a name="custom-tag-registration-created"></a>
+      <h4><a href="#custom-tag-registration-created"><code>created</code></a><span>function</span></h4>
       <p>
         Whenever a tag is recognized and parsed on load or generated using
         <code>document.createElement</code>, a created function is called
@@ -92,7 +94,8 @@ xtag.register('x-superinput', {
     </dd>
 
     <dd>
-      <h4><code>inserted</code><span>function</span></h4>
+        <a name="custom-tag-registration-inserted"></a>
+      <h4><a href="#custom-tag-registration-inserted"><code>inserted</code></a><span>function</span></h4>
       <p>
         The <b>inserted</b> method is called everytime a given component's DOM element
         is added to the DOM. This allows you to do things like check the state or
@@ -116,7 +119,8 @@ xtag.register('x-superinput', {
     </dd>
 
     <dd>
-      <h4><code>accessors</code><span>object</span></h4>
+        <a name="custom-tag-registration-accessors"></a>
+      <h4><a href="#custom-tag-registration-accessors"><code>accessors</code></a><span>object</span></h4>
       <p>
         The <b>accessors</b> object provides native value retrieval handlers
         to your component. For example: if a user caches a component's value,
@@ -142,7 +146,8 @@ xtag.register('x-superinput', {
     </dd>
 
     <dd>
-      <h4><code>events</code><span>object</span></h4>
+        <a name="custom-tag-registration-events"></a>
+      <h4><a href="#custom-tag-registration-events"><code>events</code></a><span>object</span></h4>
       <p>
         The events object allows you to bind events to the component at the time of creation.
         Pseudo events like delegation are supported, additional pseudos can be added to
@@ -163,7 +168,8 @@ xtag.register('x-superinput', {
     </dd>
 
     <dd>
-      <h4><code>mixins</code><span>array</span></h4>
+        <a name="custom-tag-registration-mixins"></a>
+      <h4><a href="#custom-tag-registration-mixins"><code>mixins</code></a><span>array</span></h4>
       <p>
         The mixins array allows you specify mixin keys that map to collections of getters, setters,
         events, and lifecycle functions. X-Tag merges mixins into your component definition object for you.
@@ -183,7 +189,8 @@ xtag.register('x-superinput', {
 
     <dd>
 
-      <h4><code>extends</code><span>element name</span></h4>
+        <a name="custom-tag-registration-extends"></a>
+      <h4><a href="#custom-tag-registration-extends"><code>extends</code></a><span>element name</span></h4>
       <p>
         Extends allows you to use an existing html element as the base of your custom element.  Common values are <code>div, span, input</code>.
       </p>
@@ -198,7 +205,8 @@ xtag.register('x-superinput', {
 
       <dd>
 
-      <h4><code>prototype</code><span>object</span></h4>
+          <a name="custom-tag-registration-prototype"></a>
+      <h4><a href="#custom-tag-registration-prototype"><code>prototype</code></a><span>object</span></h4>
       <p>
         Prototype allows you to set the prototype of the custom element to any object you wish.  This enables you to incorporate functionality of another object into your custom element.
       </p>
@@ -215,39 +223,46 @@ xtag.register('x-supertemplate', {
   </div>
 
   <div class="block">
-    <x-ribbon>Helpers</x-ribbon>
+      <a name="helpers"></a>
+    <x-ribbon><a href="#helpers">Helpers</a></x-ribbon>
 
     <p>The X-Tag library comes with just enough helper methods to make it bearable to work in Vanilla JS.</p>
       <dl>
         <dd>
-          <h4><code>toArray</code><span>object</span></h4>
+            <a name="helpers-to-array"></a>
+          <h4><a href="#helpers-to-array"><code>toArray</code></a><span>object</span></h4>
           <p>
           Converts the given object into an array.</p>
         </dd>
 
         <dd>
-          <h4><code>hasClass</code><span>element,className</span></h4>
+            <a name="helpers-has-class"></a>
+          <h4><a href="#helpers-has-class"><code>hasClass</code></a><span>element,className</span></h4>
           <p>
           Returns a boolean that indicates if the element has the specified class.</p>
         </dd>
 
         <dd>
-          <h4><code>addClass</code><span>element,className</span></h4>
+            <a name="helpers-add-class"></a>
+          <h4><a href="#helpers-add-class"><code>addClass</code></a><span>element,className</span></h4>
           <p>Adds a class to the element.</p>
         </dd>
 
         <dd>
-          <h4><code>removeClass</code><span>element,className</span></h4>
+            <a name="helpers-remove-class"></a>
+          <h4><a href="#helpers-remove-class"><code>removeClass</code></a><span>element,className</span></h4>
           <p>Removes a class from the element.</p>
         </dd>
 
         <dd>
-          <h4><code>toggleClass</code><span>element,className</span></h4>
+            <a name="helpers-toggle-class"></a>
+          <h4><a href="#helpers-toggle-class"><code>toggleClass</code></a><span>element,className</span></h4>
           <p>Adds the class if it doesn't exist on an element or removes the class if it exists.</p>
         </dd>
 
         <dd>
-          <h4><code>matchSelector</code><span>element,selector</span></h4>
+            <a name="helpers-match-selector"></a>
+          <h4><a href="#helpers-match-selector"><code>matchSelector</code></a><span>element,selector</span></h4>
           <p>Returns a boolean that indicates if the given selector matches the element.</p>
 
 <x-code-prism language="javascript">
@@ -261,7 +276,8 @@ xtag.register('x-supertemplate', {
 
 
         <dd>
-          <h4><code>query</code><span>element,selector</span></h4>
+            <a name="helpers-query"></a>
+          <h4><a href="#helpers-query"><code>query</code></a><span>element,selector</span></h4>
           <p>Runs querySelector all on the given element and returns the results as an array.</p>
 
 <x-code-prism language="javascript">
@@ -272,33 +288,39 @@ xtag.register('x-supertemplate', {
         </dd>
 
         <dd>
-          <h4><code>queryChildren</code><span>element, selector</span></h4>
+            <a name="helpers-query-children"></a>
+          <h4><a href="#helpers-query-children"><code>queryChildren</code></a><span>element, selector</span></h4>
           <p>Allows you to query only the direct children of the element.</p>
         </dd>
 
          <dd>
-          <h4><code>requestFrame</code><span>none</span></h4>
+             <a name="helpers-request-frame"></a>
+          <h4><a href="#helpers-request-frame"><code>requestFrame</code></a><span>none</span></h4>
           <p>Returns an animation frame.</p>
         </dd>
 
         <dd>
-          <h4><code>createFragment</code><span>element</span></h4>
+            <a name="helpers-create-fragment"></a>
+          <h4><a href="#helpers-create-fragment"><code>createFragment</code></a><span>element</span></h4>
           <p>Creates a document fragment out of the passed element.</p>
         </dd>
 
         <dd>
-          <h4><code>wrap</code><span>function, function</span></h4>
+            <a name="helpers-wrap"></a>
+          <h4><a href="#helpers-wrap"><code>wrap</code></a><span>function, function</span></h4>
           <p>Returns a new function where the first function is called, then the second function.  If false is returned from the first function then the second function will not execute.</p>
         </dd>
 
         <dd>
-          <h4><code>innerHTML</code><span>element, html</span></h4>
+            <a name="helpers-inner-html"></a>
+          <h4><a href="#helpers-inner-html"><code>innerHTML</code></a><span>element, html</span></h4>
           <p>Sets the innerHTML of element with the passed html and parses for x-tags.</p>
         </dd>
 
 
         <dd>
-          <h4><code>addEvent</code><span>element, eventType, function</span></h4>
+            <a name="helpers-add-event"></a>
+          <h4><a href="#helpers-add-event"><code>addEvent</code></a><span>element, eventType, function</span></h4>
           <p>Adds a DOM event listener to an element.  It also allows for event psuedo chains.</p>
 
 <x-code-prism language="javascript">
@@ -309,7 +331,8 @@ xtag.register('x-supertemplate', {
         </dd>
 
         <dd>
-          <h4><code>addEvents</code><span>element, object</span></h4>
+            <a name="helpers-add-events"></a>
+          <h4><a href="#helpers-add-events"><code>addEvents</code></a><span>element, object</span></h4>
           <p>Adds multiple DOM event listeners to an element.</p>
 
 <x-code-prism language="javascript">
