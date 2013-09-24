@@ -205,7 +205,7 @@ xtag.register('x-superinput', {
 
 <x-code-prism language="javascript">
 xtag.register('x-supertemplate', {
-  prototype: Object.create(HTMLTemplateElement.prototype)
+  prototype: Object.create(HTMLDivElement.prototype)
 });
 </x-code-prism>
 
@@ -299,7 +299,7 @@ xtag.register('x-supertemplate', {
 
         <dd>
           <h4><code>addEvent</code><span>element, eventType, function</span></h4>
-          <p>Adds a DOM event listener to an element.  It also allows for event psuedo chains.</p>
+          <p>Adds a DOM event listener to an element.  It also allows for event pseudo chains.</p>
 
 <x-code-prism language="javascript">
   xtag.addEvent(element, 'click:delegate(button)', function(e){
