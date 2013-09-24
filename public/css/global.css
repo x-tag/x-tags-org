@@ -72,6 +72,10 @@ a:hover {
   .block > x-ribbon + * {
     clear: both;
   }
+  .block > x-ribbon a{
+      text-decoration: none;
+      color: inherit;
+  }
 
   .block > dl dt {
     position: relative;
@@ -345,7 +349,7 @@ a:hover {
         margin: 10px;
         border: none;
         font-weight: bold;
-        box-shadow: 0 -1px 1px 0px #rgba(4,76,0, 0.5) inset;
+        box-shadow: 0 -1px 1px 0px rgba(4,76,0, 0.5) inset;
         border-radius: 4px;
         cursor: pointer;
       }
@@ -531,6 +535,11 @@ a:hover {
   text-shadow: 0 1px 0 #fff;
   font-weight: bold;
   border-radius: 3px;
+}
+
+#docs h4 a{
+    text-decoration: none;
+    color: inherit;
 }
 
 #docs h4  span {
