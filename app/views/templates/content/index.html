@@ -1,0 +1,224 @@
+  <div class="limit">
+
+      <h1 class="tagline">X-Tag - The Custom Elements Polylib</h1>
+
+      <div id="intro" class="block">
+
+        <x-ribbon>What is X-Tag?</x-ribbon>
+
+        <div id="intro_graphic">
+
+          <div id="intro_logo" class="foo">
+            <span>&lt;</span>
+            <div></div>
+            <span>&gt;</span>
+          </div>
+
+          <div class="intro_details" id="intro_webcomponents">
+            <img src="images/webcomponents.png" onload="introAnimation()" />
+          </div>
+
+          <div class="intro_details" id="intro_browsers">
+            <img src="images/browsers.png" onload="introAnimation()" />
+          </div>
+        </div>
+
+        <h2>
+          X-Tag is a small JavaScript library, created and supported by Mozilla, that brings
+          Web Components Custom Element capabilities to all modern browsers.
+        </h2>
+
+      </div>
+
+      <div id="diagram" class="block">
+        <x-ribbon>X-Tag Technology Stack</x-ribbon>
+        <br/>
+        <section>
+          <p>X-Tag allows you to easily create elements to encapsulate common behavior or use existing custom elements to quickly get the behavior you're looking for.  For example, check out <a href="http://mozilla.github.io/brick/">Brick</a>, which contains 14 custom elements optimized for Web Applications.</p>
+
+          <p>Creating custom elements has never been easier.  X-Tag provides several powerful features that streamline element creation such as: Custom events and delegation, mixins, accessors, component lifecycle functions, pseudos and more.</p>
+
+          <p>X-Tag is built upon W3C Web Component polyfills provided by the Polymer project.  We use <a href="https://github.com/polymer/CustomElements" target="_blank">Custom Element</a>, <a href="https://github.com/polymer/HTMLImports" target="_blank">HTMLImports</a>, and <a href="https://github.com/Polymer/MutationObservers">Mutation Observers</a>.  We also included a few other polyfills to ensure IE 9 compatibility.</p>
+
+        </section>
+        <section>
+
+          <div class="peachbox">
+            <h3>X-Tag Custom Elements</h3>
+            <div>
+              <span>Panel</span>
+              <span>Map</span>
+              <span>Flipbox</span>
+              <span>Etc</span>
+            </div>
+          </div>
+          <div class="greenbox">
+            <h3>X-Tag Core Library</h3>
+            <div>
+              <span>Accessors</span>
+              <span>Pseudos</span>
+              <span>Mixins</span>
+              <span>Events</span>
+              <span>Utils</span>
+            </div>
+          </div>
+
+          <div class="bluebox">
+            <h3>Web Components Polyfills</h3>
+            <div>
+              <span>Custom Element</span>
+              <span>HTMLImports</span>
+            </div>
+        </section>
+      </div>
+
+      <div class="block">
+        <x-ribbon>Get the code</x-ribbon>
+        <div id="code_options" class="unlink">
+          <div>
+            <a id="download" class="bluebox" target="_blank" href="https://github.com/x-tag/x-tag/archive/master.zip">
+              <img src="images/archive.png">
+              <div>
+                Download it
+                <span>63k compressed</span>
+              </div>
+            </a>
+          </div>
+
+          <div>
+            <a id="fork" class="greenbox" href="https://github.com/x-tag/core">
+              <img src="images/github-logo.png">
+              <div>
+                Fork it
+                <span>on Github</span>
+              </div>
+            </a>
+          </div>
+
+          <div>
+            <a id="registry_elements" class="peachbox">
+              <img src="images/xtr.png">
+              <div>
+                Get tags
+                <span>view the Registry</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="intro_demos" class="block">
+        <x-ribbon>Razzle-Dazzle</x-ribbon>
+
+        <dl>
+          <dt text="Panel"><button title="markup"></button><button title="example" selected></button></dt>
+          <dd id="panel_demo">
+            <x-growbox>
+                  <div class="demo-view">
+                    <p>
+                      The modal element provides an simple, structural tag
+                      that for showing modaled content that auto-centers in
+                      response to dynamic changes to screen and content size.
+                    </p>
+                    <div>
+                      <x-panel id="panel_demo_element" class="demo-element">Click to set this panel element's <code>src</code> attribute, it will fetch the specified content asynchronously.</x-panel>
+                    </div>
+                  </div>
+
+                  <div class="demo-markup">
+      <x-code-prism language="markup">
+      &lt;x-panel src=&quot;/elements/demo/panel-content.html&quot;&gt;&lt;/x-panel&gt;
+      </x-code-prism>
+                  </div>
+            </x-growbox>
+          </dd>
+
+          <dt text="Modal"><button title="markup"></button><button title="example" selected></button></dt>
+          <dd id="modal_demo">
+            <x-growbox>
+                  <div class="demo-view">
+                    <p>
+                      The modal element provides an simple, structural tag
+                      that for showing modaled content that auto-centers in
+                      response to dynamic changes to screen and content size.
+                    </p>
+
+                    <div>
+                      <table class="demo-element">
+                        <tr>
+                          <td>
+                            <button>Show Modal</button>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="demo-markup">
+<x-code-prism language="markup">
+&lt;x-modal&gt;
+  &lt;h3&gt;Modal 2 Demo&lt;/h3&gt;
+  &lt;p&gt;Hello, I'm an auto-magical modal, how do you do?&lt;/p&gt;
+&lt;/x-modal&gt;
+</x-code-prism>
+                  </div>
+            </x-growbox>
+          </dd>
+
+          <dt text="Map"><button title="markup"></button><button title="example" selected></button></dt>
+          <dd id="map_demo">
+            <x-growbox>
+                  <div class="demo-view">
+                    <p>
+                      Leaflet maps is a popular, open alternative to Google maps
+                      that has caught fire in the developer community. This custom map
+                      tag  allows you to easily create live map elements declaratively.
+                    </p>
+
+                    <div>
+                      <x-map id="map_demo_element" class="demo-element" key="6c86bb5b30a442c180772d978f3ae000"></x-map>
+                    </div>
+                  </div>
+
+                  <div class="demo-markup">
+<x-code-prism language="markup">
+&lt;x-map data-key=&quot;6c86bb5b30a442c180772d978f3ae000&quot;&gt;&lt;/x-map&gt;
+</x-code-prism>
+                  </div>
+            </x-growbox>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="block">
+    <x-ribbon>Browser Support</x-ribbon>
+
+
+    <p>
+      X-Tag is compatible with the following browser versions:
+    </p>
+    <div id="browser_logos">
+      <a target="_blank" href="http://www.mozilla.org/en-US/firefox/new/">
+        <img src="/images/firefox.png" />
+        Firefox 5+ <span>desktop & mobile</span>
+      </a>
+      <a target="_blank" href="https://www.google.com/intl/en/chrome/browser/">
+        <img src="/images/chrome.png" />
+        Chrome 4+, Android 2.1+
+      </a>
+      <a target="_blank" href="http://www.apple.com/safari/download/">
+        <img src="/images/safari.png" />
+        Safari 4+ <span>desktop & mobile</span>
+      </a>
+      <a target="_blank" href="http://ie.microsoft.com/testdrive/info/downloads/">
+        <img src="/images/ie.png" />
+        Internet Explorer 9+
+      </a>
+      <a target="_blank" href="http://www.opera.com/browser/next/">
+        <img src="/images/opera.png" />
+        Opera 11+ <span>desktop & mobile</span>
+      </a>
+    </div>
+  </div>
+
+    </div>
