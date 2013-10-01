@@ -346,4 +346,103 @@ xtag.register('x-supertemplate', {
   </div>
 
 
+  <div class="block">
+    <a name="pseudos"></a>
+    <x-ribbon><a href="#pseudos">Pseudos</a></x-ribbon>
+
+    <p>X-Tag pseudos can be applied to accessors, events and methods.  They allow you to easily tack on common functionality like filtering and delegation.</p>
+    <dl>
+      <dd>
+        <a name="pseudos-delegate"></a>
+        <h4><a href="#pseudos-delegate"><code>Event:delegate</code></a><span></span></h4>
+        <p>
+          Delegate works by attaching a listener to a given element/document and will call the provided function if the target matches the delegate selector.
+        </p>
+<x-code-prism language="javascript">
+  // Listen on the document for any button with a class of 'save'
+  xtag.addEvent(document, 'click:delegate(button.save)', function(e){
+    // &lt;button class="save"&gt; was clicked
+    // 'this' is the button
+  });
+
+  // Here's the syntax inside a custom element.
+  xtag.register('x-foo', {
+    lifecycle: {
+      created: function(){
+        this.innerHTML = '&lt;button&gt;HI&lt;/button&gt;';
+      }
+    },
+    events: {
+      'click:delegate(button)': function(e){
+        console.log('button clicked', this);
+      }
+    }
+  });
+</x-code-prism>
+
+      </dd>
+
+      <dd>
+        <a name="pseudos-keypass"></a>
+        <h4><a href="#pseudos-keypass"><code>KeyboardEvent:keypass</code></a><span></span></h4>
+        <p>
+          Keypass acts as a filter, only letting through certain keycodes.
+        </p>
+
+<x-code-prism language="javascript">
+
+  xtag.addEvent(input, 'keydown:keypass(13)', function(e){
+    // 'enter' pressed
+  });
+
+  xtag.addEvent(input, 'keydown:keypass(13,27)', function(e){
+    // 'enter' or 'esc' pressed
+  });
+
+</x-code-prism>
+
+      </dd>
+
+  <!--    <dd>
+        <a name="pseudos-custom"></a>
+        <h4><a href="#pseudos-custom"><code>Custom Pseudos</code></a><span></span></h4>
+        <p>
+          Pseudos are registered by adding a key to <code>xtag.pseudos</code>.
+        </p>
+
+<x-code-prism language="javascript">
+
+  xtag.pseudos.once = {
+    action: function(pseudo, event){
+
+    },
+    onAdd: function(pseudo){
+
+    }
+  }
+
+</x-code-prism>
+-->
+
+      </dd>
+    </dl>
+    </div>
+
+    <div class="block">
+    <a name="template"></a>
+    <x-ribbon><a href="#template">Template</a></x-ribbon>
+    <p>Anything placed inside a template element will be turned into a HTML document fragment.  Use the <code>.content</code> accessor to access the document fragment and cloneNode() to create a new instance of the contents.</p>
+<x-code-prism language="javascript">
+
+  &lt;template id="test-template"&gt;
+    &lt;div&gt;test&lt;/div&gt;
+  &lt;/template&gt;
+
+  var t = document.getElementById('test-template');
+  document.body.appendChild(t.content.cloneNode());
+
+
+</x-code-prism>
+    </div>
+
 </div>
