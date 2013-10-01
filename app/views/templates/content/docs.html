@@ -233,32 +233,32 @@ xtag.register('x-supertemplate', {
 
         <dd>
             <a name="helpers-has-class"></a>
-          <h4><a href="#helpers-has-class"><code>hasClass</code></a><span>element,className</span></h4>
+          <h4><a href="#helpers-has-class"><code>hasClass</code></a><span>element, className</span></h4>
           <p>
           Returns a boolean that indicates if the element has the specified class.</p>
         </dd>
 
         <dd>
             <a name="helpers-add-class"></a>
-          <h4><a href="#helpers-add-class"><code>addClass</code></a><span>element,className</span></h4>
+          <h4><a href="#helpers-add-class"><code>addClass</code></a><span>element, className</span></h4>
           <p>Adds a class to the element.</p>
         </dd>
 
         <dd>
             <a name="helpers-remove-class"></a>
-          <h4><a href="#helpers-remove-class"><code>removeClass</code></a><span>element,className</span></h4>
+          <h4><a href="#helpers-remove-class"><code>removeClass</code></a><span>element, className</span></h4>
           <p>Removes a class from the element.</p>
         </dd>
 
         <dd>
             <a name="helpers-toggle-class"></a>
-          <h4><a href="#helpers-toggle-class"><code>toggleClass</code></a><span>element,className</span></h4>
+          <h4><a href="#helpers-toggle-class"><code>toggleClass</code></a><span>element, className</span></h4>
           <p>Adds the class if it doesn't exist on an element or removes the class if it exists.</p>
         </dd>
 
         <dd>
             <a name="helpers-match-selector"></a>
-          <h4><a href="#helpers-match-selector"><code>matchSelector</code></a><span>element,selector</span></h4>
+          <h4><a href="#helpers-match-selector"><code>matchSelector</code></a><span>element, selector</span></h4>
           <p>Returns a boolean that indicates if the given selector matches the element.</p>
 
 <x-code-prism language="javascript">
@@ -273,7 +273,7 @@ xtag.register('x-supertemplate', {
 
         <dd>
             <a name="helpers-query"></a>
-          <h4><a href="#helpers-query"><code>query</code></a><span>element,selector</span></h4>
+          <h4><a href="#helpers-query"><code>query</code></a><span>element, selector</span></h4>
           <p>Runs querySelector all on the given element and returns the results as an array.</p>
 
 <x-code-prism language="javascript">
@@ -291,13 +291,13 @@ xtag.register('x-supertemplate', {
 
          <dd>
              <a name="helpers-request-frame"></a>
-          <h4><a href="#helpers-request-frame"><code>requestFrame</code></a><span>none</span></h4>
+          <h4><a href="#helpers-request-frame"><code>requestFrame</code></a><span>function</span></h4>
           <p>Returns an animation frame.</p>
         </dd>
 
         <dd>
             <a name="helpers-create-fragment"></a>
-          <h4><a href="#helpers-create-fragment"><code>createFragment</code></a><span>element</span></h4>
+          <h4><a href="#helpers-create-fragment"><code>createFragment</code></a><span>element or html string</span></h4>
           <p>Creates a document fragment out of the passed element.</p>
         </dd>
 
@@ -359,22 +359,24 @@ xtag.register('x-supertemplate', {
           Delegate works by attaching a listener to a given element/document and will call the provided function if the target matches the delegate selector.
         </p>
 <x-code-prism language="javascript">
+  // Example 1
   // Listen on the document for any button with a class of 'save'
   xtag.addEvent(document, 'click:delegate(button.save)', function(e){
     // &lt;button class="save"&gt; was clicked
     // 'this' is the button
   });
 
+  // Example 2
   // Here's the syntax inside a custom element.
   xtag.register('x-foo', {
     lifecycle: {
       created: function(){
-        this.innerHTML = '&lt;button&gt;HI&lt;/button&gt;';
+        this.innerHTML = '&lt;a&gt;HI&lt;/a&gt;';
       }
     },
     events: {
-      'click:delegate(button)': function(e){
-        console.log('button clicked', this);
+      'click:delegate(a)': function(e){
+        console.log('a clicked', this);
       }
     }
   });
