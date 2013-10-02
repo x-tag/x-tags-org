@@ -444,7 +444,33 @@ xtag.register('x-supertemplate', {
   document.body.appendChild(t.content.cloneNode());
 
 
+  </x-code-prism>
+
+  <p>You can also use templates when registering components. For example:</p>
+<x-code-prism language="html">
+  &lt;template id="test-template"&gt;
+    &lt;div&gt;test&lt;/div&gt;
+  &lt;/template&gt;
 </x-code-prism>
+
+<x-code-prism language="javascript">
+window.addEventListener('DOMComponentsLoaded', function() {
+  xtag.register('templated-component', {
+    lifecycle: {
+      created: function() {
+        var tpl = document.getElementById('test-template').content;
+        this.appendChild(tpl.cloneNode(true));
+      }
+    }
+  });
+
+  var t = document.createElement('templated-component');
+  document.body.appendChild(t);
+});
+
+</x-code-prism>
+
+
     </div>
 
 </div>
