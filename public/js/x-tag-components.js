@@ -715,13 +715,10 @@ var flags = scope.flags;
 
 // native document.register?
 
-var hasNative = Boolean(document.webkitRegister || document.register);
+var hasNative = Boolean(document.register);
 var useNative = !flags.register && hasNative;
 
 if (useNative) {
-
-  // normalize
-  document.register = document.register || document.webkitRegister;
 
   // stub
   var nop = function() {};
@@ -791,7 +788,7 @@ if (useNative) {
     if (name.indexOf('-') < 0) {
       // TODO(sjmiles): replace with more appropriate error (EricB can probably
       // offer guidance)
-      throw new Error('document.register: first argument `name` must contain a dash (\'-\'). Argument was \'' + String(name) + '\'.');
+      throw new Error('document.register: first argument (\'name\') must contain a dash (\'-\'). Argument provided was \'' + String(name) + '\'.');
     }
     // record name
     definition.name = name;
@@ -1068,9 +1065,9 @@ license that can be found in the LICENSE file.
 
 var logFlags = window.logFlags || {};
 
-// walk the subtree rooted at node, applying 'find(element, data)' function 
+// walk the subtree rooted at node, applying 'find(element, data)' function
 // to each element
-// if 'find' returns true for 'element', do not search element's subtree  
+// if 'find' returns true for 'element', do not search element's subtree
 function findAll(node, find, data) {
   var e = node.firstElementChild;
   if (!e) {
@@ -1090,14 +1087,14 @@ function findAll(node, find, data) {
 
 // walk all shadowRoots on a given node.
 function forRoots(node, cb) {
-  var root = node.webkitShadowRoot;
+  var root = node.shadowRoot;
   while(root) {
     forSubtree(root, cb);
     root = root.olderShadowRoot;
   }
 }
 
-// walk the subtree rooted at node, including descent into shadow-roots, 
+// walk the subtree rooted at node, including descent into shadow-roots,
 // applying 'cb' to each element
 function forSubtree(node, cb) {
   //logFlags.dom && node.childNodes && node.childNodes.length && console.group('subTree: ', node);
@@ -1115,7 +1112,7 @@ function forSubtree(node, cb) {
 function added(node) {
   if (upgrade(node)) {
     insertedNode(node);
-    return true; 
+    return true;
   }
   inserted(node);
 }
@@ -1124,7 +1121,7 @@ function added(node) {
 function addedSubtree(node) {
   forSubtree(node, function(e) {
     if (added(e)) {
-      return true; 
+      return true;
     }
   });
 }
@@ -1157,9 +1154,50 @@ function insertedNode(node) {
   }
 }
 
-// TODO(sjmiles): if there are descents into trees that can never have inDocument(*) true, fix this
+
+// TODO(sorvell): on platforms without MutationObserver, mutations may not be 
+// reliable and therefore entered/leftView are not reliable.
+// To make these callbacks less likely to fail, we defer all inserts and removes
+// to give a chance for elements to be inserted into dom. 
+// This ensures enteredViewCallback fires for elements that are created and 
+// immediately added to dom.
+var hasPolyfillMutations = (!window.MutationObserver ||
+    (window.MutationObserver === window.JsMutationObserver));
+scope.hasPolyfillMutations = hasPolyfillMutations;
+
+var isPendingMutations = false;
+var pendingMutations = [];
+function deferMutation(fn) {
+  pendingMutations.push(fn);
+  if (!isPendingMutations) {
+    isPendingMutations = true;
+    var async = (window.Platform && window.Platform.endOfMicrotask) ||
+        setTimeout;
+    async(takeMutations);
+  }
+}
+
+function takeMutations() {
+  isPendingMutations = false;
+  var $p = pendingMutations;
+  for (var i=0, l=$p.length, p; (i<l) && (p=$p[i]); i++) {
+    p();
+  }
+  pendingMutations = [];
+}
 
 function inserted(element) {
+  if (hasPolyfillMutations) {
+    deferMutation(function() {
+      _inserted(element);
+    });
+  } else {
+    _inserted(element);
+  }
+}
+
+// TODO(sjmiles): if there are descents into trees that can never have inDocument(*) true, fix this
+function _inserted(element) {
   // TODO(sjmiles): it's possible we were inserted and removed in the space
   // of one microtask, in which case we won't be 'inDocument' here
   // But there are other cases where we are testing for inserted without
@@ -1170,7 +1208,7 @@ function inserted(element) {
   // TODO(sjmiles): when logging, do work on all custom elements so we can
   // track behavior even when callbacks not defined
   //console.log('inserted: ', element.localName);
-  if (element.enteredDocumentCallback || (element.__upgraded__ && logFlags.dom)) {
+  if (element.enteredViewCallback || (element.__upgraded__ && logFlags.dom)) {
     logFlags.dom && console.group('inserted:', element.localName);
     if (inDocument(element)) {
       element.__inserted = (element.__inserted || 0) + 1;
@@ -1182,9 +1220,9 @@ function inserted(element) {
       if (element.__inserted > 1) {
         logFlags.dom && console.warn('inserted:', element.localName,
           'insert/remove count:', element.__inserted)
-      } else if (element.enteredDocumentCallback) {
+      } else if (element.enteredViewCallback) {
         logFlags.dom && console.log('inserted:', element.localName);
-        element.enteredDocumentCallback();
+        element.enteredViewCallback();
       }
     }
     logFlags.dom && console.groupEnd();
@@ -1198,10 +1236,21 @@ function removedNode(node) {
   });
 }
 
+
+function removed(element) {
+  if (hasPolyfillMutations) {
+    deferMutation(function() {
+      _removed(element);
+    });
+  } else {
+    _removed(element);
+  }
+}
+
 function removed(element) {
   // TODO(sjmiles): temporary: do work on all custom elements so we can track
   // behavior even when callbacks not defined
-  if (element.leftDocumentCallback || (element.__upgraded__ && logFlags.dom)) {
+  if (element.leftViewCallback || (element.__upgraded__ && logFlags.dom)) {
     logFlags.dom && console.log('removed:', element.localName);
     if (!inDocument(element)) {
       element.__inserted = (element.__inserted || 0) - 1;
@@ -1213,8 +1262,8 @@ function removed(element) {
       if (element.__inserted < 0) {
         logFlags.dom && console.warn('removed:', element.localName,
             'insert/remove count:', element.__inserted)
-      } else if (element.leftDocumentCallback) {
-        element.leftDocumentCallback();
+      } else if (element.leftViewCallback) {
+        element.leftViewCallback();
       }
     }
   }
@@ -1222,8 +1271,10 @@ function removed(element) {
 
 function inDocument(element) {
   var p = element;
+  var doc = window.ShadowDOMPolyfill &&
+      window.ShadowDOMPolyfill.wrapIfNeeded(document) || document;
   while (p) {
-    if (p == element.ownerDocument) {
+    if (p == doc) {
       return true;
     }
     p = p.parentNode || p.host;
@@ -1231,10 +1282,10 @@ function inDocument(element) {
 }
 
 function watchShadow(node) {
-  if (node.webkitShadowRoot && !node.webkitShadowRoot.__watched) {
+  if (node.shadowRoot && !node.shadowRoot.__watched) {
     logFlags.dom && console.log('watching shadow-root for: ', node.localName);
     // watch all unwatched roots...
-    var root = node.webkitShadowRoot;
+    var root = node.shadowRoot;
     while (root) {
       watchRoot(root);
       root = root.olderShadowRoot;
@@ -1306,6 +1357,7 @@ var observer = new MutationObserver(handler);
 function takeRecords() {
   // TODO(sjmiles): ask Raf why we have to call handler ourselves
   handler(observer.takeRecords());
+  takeMutations();
 }
 
 var forEach = Array.prototype.forEach.call.bind(Array.prototype.forEach);
@@ -2081,9 +2133,12 @@ if (document.readyState === 'complete') {
 
 // Utilities
 
-  var typeObj = {};
+  var typeCache = {},
+      typeString = typeCache.toString,
+      typeRegexp = /\s([a-zA-Z]+)/;
   function typeOf(obj) {
-    return typeObj.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+    var type = typeString.call(obj);
+    return typeCache[type] || (typeCache[type] = type.match(typeRegexp)[1].toLowerCase());
   }
 
   function clone(item, type){
@@ -2166,7 +2221,7 @@ if (document.readyState === 'complete') {
   }
 
 // Events
-  
+
   function delegateAction(pseudo, event) {
     var target = query(this, pseudo.value).filter(function(node){
       return node == event.target || node.contains ? node.contains(event.target) : null;
@@ -2207,7 +2262,7 @@ if (document.readyState === 'complete') {
       value: base[key]
     });
   }
-  
+
   var skipProps = {};
   for (var z in document.createEvent('CustomEvent')) skipProps[z] = 1;
   function inheritEvent(event, base){
@@ -2359,7 +2414,7 @@ if (document.readyState === 'complete') {
         }
       };
 
-      if (tag.lifecycle.inserted) tag.prototype.enteredDocumentCallback = { value: tag.lifecycle.inserted, enumerable: true };
+      if (tag.lifecycle.inserted) tag.prototype.enteredViewCallback = { value: tag.lifecycle.inserted, enumerable: true };
       if (tag.lifecycle.removed) tag.prototype.leftDocumentCallback = { value: tag.lifecycle.removed, enumerable: true };
       if (tag.lifecycle.attributeChanged) tag.prototype.attributeChangedCallback = { value: tag.lifecycle.attributeChanged, enumerable: true };
 
@@ -2669,7 +2724,7 @@ if (document.readyState === 'complete') {
                     listener: last
                   };
               var output = pseudo.action.apply(this, [obj].concat(args));
-              if (!output) return output;
+              if (output === null || output === false) return output;
               return obj.listener.apply(this, args);
             };
             if (element && pseudo.onAdd) {
@@ -2692,7 +2747,7 @@ if (document.readyState === 'complete') {
     },
 
   /*** Events ***/
-    
+
     parseEvent: function(type, fn) {
       var pseudos = type.split(':'),
           key = pseudos.shift(),
@@ -2714,7 +2769,7 @@ if (document.readyState === 'complete') {
       event.condition = function(e){
         var t = e.touches, tt = e.targetTouches;
         return condition.apply(this, toArray(arguments));
-      }; 
+      };
       var stack = xtag.applyPseudos(event.chain, fn, event._pseudos, event);
       event.stack = function(e){
         var t = e.touches, tt = e.targetTouches;
@@ -2894,10 +2949,7 @@ var touchReset = {
   };
 
 if (win.TouchEvent) {
-  for (z in TouchEventProto) {
-    win.TouchEvent.prototype[z] = TouchEventProto[z];
-    Object.defineProperty(win.TouchEvent.prototype, z, TouchEventProto[z]);
-  }
+  for (z in TouchEventProto) win.TouchEvent.prototype[z] = TouchEventProto[z];
 }
 
 /*** Custom Event Definitions ***/
@@ -2979,14 +3031,15 @@ if (win.TouchEvent) {
     }
   };
 
+  win.xtag = xtag;
   if (typeof define == 'function' && define.amd) define(xtag);
-  else win.xtag = xtag;
 
   doc.addEventListener('WebComponentsReady', function(){
     xtag.fireEvent(doc.body, 'DOMComponentsLoaded');
   });
 
 })();
+
 /**
  * Prism: Lightweight, robust, elegant syntax highlighting
  * MIT license http://www.opensource.org/licenses/mit-license.php/
@@ -3021,20 +3074,32 @@ xtag.register('x-code-prism', {
   }
 });
 (function() {
-
   xtag.register('x-flipbox', {
     lifecycle: {
       created: function() {
-        if (this.flipped){
-          xtag.skipTransition(this.firstElementChild,function(){});
-        } else {
-          xtag.skipTransition(this.lastElementChild,function(){});
-        }
+          // instantiate sides without initial flip animation
+          if(this.firstElementChild){
+            xtag.skipTransition(this.firstElementChild,function(){});
+          }
+          if(this.lastElementChild){
+            xtag.skipTransition(this.lastElementChild,function(){});
+          }
+
+          if(!this.hasAttribute("direction")){
+            this.xtag._direction = "right";
+          }
       }
     },
     events:{
-      'transitionend': function(e) {
-        if (e.target == this) xtag.fireEvent(this, 'flipend');
+      // only listen to one side of flipbox to prevent double firing of flipend
+      'transitionend:delegate(*:first-child)': function(e) {
+          // because we can't use the descendent selector of > at the front of
+          // our delegation, make sure this is the correct top-level element
+          var frontCard = e.target;
+          var flipBox = frontCard.parentNode;
+          if(flipBox.nodeName.toLowerCase() === "x-flipbox"){
+            xtag.fireEvent(flipBox, "flipend");
+          }
       },
       'show:delegate(*:first-child)': function(e){
          // because we can't use the descendent selector of > at the front of
@@ -3061,16 +3126,20 @@ xtag.register('x-code-prism', {
     },
     accessors: {
       direction: {
+        attribute: {},
         get: function(){
-          return this.getAttribute('direction');
+          return this.xtag._direction;
         },
         set: function(value) {
+          // set animation direction attribute and skip any transition
           xtag.skipTransition(this.firstElementChild, function() {
-            this.setAttribute('direction', value);
+            this.setAttribute('_anim-direction', value);
           }, this);
           xtag.skipTransition(this.lastElementChild, function() {
-            this.setAttribute('direction', value);
+            this.setAttribute('_anim-direction', value);
           }, this);
+
+          this.xtag._direction = value;
         }
       },
       flipped: {
@@ -3080,6 +3149,12 @@ xtag.register('x-code-prism', {
     methods: {
       toggle: function() {
         this.flipped = !this.flipped;
+      },
+      "showFront": function(){
+        this.flipped = false;
+      },
+      "showBack": function(){
+        this.flipped = true;
       }
     }
   });
@@ -3484,7 +3559,8 @@ xtag.callbacks = {};
   function slide(el, index){
     var slides = xtag.toArray(el.firstElementChild.children);
     slides.forEach(function(slide){ slide.removeAttribute('selected'); });
-    slides[index || 0].setAttribute('selected', null);
+
+    slides[index || 0].setAttribute('selected', true);
     el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('orientation') || 'x') + '(' + (index || 0) * (-100 / slides.length) + '%)';
   }
 
@@ -3522,6 +3598,18 @@ xtag.callbacks = {};
         if (e.target == this.firstElementChild){
           xtag.fireEvent(this, 'slideend');
         }
+      },
+      'show:delegate(x-slide)': function(e){
+        var slide = e.target;
+        if(slide.parentNode.nodeName.toLowerCase() === "x-slides" &&
+           slide.parentNode.parentNode.nodeName.toLowerCase() === "x-slidebox")
+        {
+            var slideWrap = slide.parentNode;
+            var box = slideWrap.parentNode;
+            var slides = xtag.query(slideWrap, 'x-slide');
+            
+            box.slideTo(slides.indexOf(slide));
+        }
       }
     },
     accessors:{
@@ -3530,8 +3618,12 @@ xtag.callbacks = {};
           return this.getAttribute('orientation');
         },
         set: function(value){
-          this.setAttribute('orientation', value.toLowerCase());
-          init.call(this, true);
+          var slidebox = this;
+          // prevent filmstrip animation when setting orientation
+          xtag.skipTransition(slidebox.firstElementChild, function(){
+              slidebox.setAttribute('orientation', value.toLowerCase());
+              init.call(slidebox, true);
+          });
         }
       }
     },
