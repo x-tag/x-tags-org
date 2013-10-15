@@ -5,6 +5,7 @@ body
   font-family: Segoe UI, Trebuchet MS, Helvetica, Arial;
   font-size: 14px;
   background: url(/images/chruch.png);
+  overflow: hidden;
 }
 
 h1, h2, h3 {

@@ -53,15 +53,15 @@ body
 
 #content_slidebox {
 	position: absolute;
-	top: 39px;
+	top: 5px;
 	left: 0;
 	right: 0;
 	bottom: 0;
-    width: 100%;
+  width: 100%;
 }
 
 #content_slidebox > x-slides > x-slide {
-    padding: 32px 0 0;
+  padding: 65px 0 0;
 }
 
 #content_slidebox > x-slides > x-slide[selected] {
