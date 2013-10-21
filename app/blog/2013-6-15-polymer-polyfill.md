@@ -30,32 +30,8 @@ HTML Imports allows you to declare fragments of html - via `<template>` elements
 </x-code-prism>
 ```
 
-The declaritive `<element>` tag (HTMLElementElement) is a another way to create custom elements. Notice the main difference is that you pass `this` to `xtag.register` instead of the element name and use the attributes to declare the name and constructor of the element.
+<del>The declaritive `<element>` tag (HTMLElementElement) is a another way to create custom elements. Notice the main difference is that you pass `this` to `xtag.register` instead of the element name and use the attributes to declare the name and constructor of the element.</del>  Update: Element has been removed from the polyfill.  Please use the imparitive declaration instead.  eg. `xtag.register`
 
-```
-<x-code-prism language="javascript">
-&lt;element name=&quot;x-foo&quot; constructor=&quot;XFoo&quot;&gt;
-  &lt;section&gt;
-    I am x-foo
-  &lt;/section&gt;
-  &lt;script&gt;
-  // polyfill runs this block twice,
-  // once on initial parse and again in the scope of the element.
-    if (this != window){
-      var content = this.firstElementChild;
-      xtag.register(this, {
-        lifecycle: {
-          created: function(){
-            this.appendChild(content)
-            console.log('created x-foo');
-          }
-        }
-      });
-    }
-  &lt;/script&gt;
-&lt;/element&gt;
-</x-code-prism>
-```
 
 Templates are essentially a wrapper that automatically creates a document fragment out of its innerHTML, accessible via the `content` property. They are useful for declaring reusable blobs of HTML, something that is hackishly achieved today by using `<script>` elements with a non-JavaScript `type` property.
 
