@@ -3289,6 +3289,218 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
 
 })();
 
+(function(){  
+  
+  var events = {},
+      elements = {},
+      observers = {};
+  
+  function outerNodes(element, event){
+    var type = event.type,
+        el = elements[type] || (elements[type] = []),
+        ev = events[type] || (events[type] = []),
+        i = el.indexOf(element);
+    if (i == -1) {
+      el.push(element);
+      ev.push(event);
+    }
+    else {
+      el.splice(i, 1);
+      ev.splice(i, 1);
+    }
+    return el;
+  }
+  
+  xtag.pseudos.outer = {
+    action: function(pseudo, e){
+      if (this == e.target || this.contains && this.contains(e.target)) return null;
+    },
+    onRemove: function(pseudo){
+      if (!outerNodes(this, pseudo.source).length) {
+        xtag.removeEvent(document, observers[pseudo.source.type]);
+      }
+    },
+    onAdd: function(pseudo){
+      outerNodes(this, pseudo.source);
+      var element = this,
+          type = pseudo.source.type;
+      if (!observers[type]) {
+        observers[type] = xtag.addEvent(document, type, function(e){
+          elements[type].forEach(function(node, i){
+            if (node == e.target || node.contains(e.target)) return;
+            events[type][i].stack.call(node, e);
+          });
+        });
+      }
+    }
+  }
+
+})();
+(function(){
+
+  var replaceSpaces = / /g,
+      captureTimes = /(\d|\d+?[.]?\d+?)(s|ms)(?!\w)/gi;
+    
+  function getTransitions(node){
+    return node.__transitions__ = node.__transitions__ || {};
+  }
+  
+  xtag.addEvents(document, {
+    transitionend: function(e){
+      var node = e.target,
+          name = node.getAttribute('transition');
+      if (name) {
+        var i = max = 0,
+            prop = null,
+            style = getComputedStyle(node),
+            transitions = getTransitions(node),
+            props = (style.transitionProperty || style[xtag.prefix.js + 'TransitionProperty']).replace(replaceSpaces, '').split(',');
+        (style.transitionDuration || style[xtag.prefix.js + 'TransitionDuration']).replace(captureTimes, function(match, time, unit){
+          var time = parseFloat(time) * (unit === 's' ? 1000 : 1);
+          if (time > max) prop = i, max = time;
+          i++;
+        });
+        prop = props[prop];
+        if (!prop) throw new SyntaxError('No matching transition property found');
+        else if (e.propertyName == prop && transitions[name].after) transitions[name].after();
+      }
+    }
+  });
+  
+  xtag.transition = function(node, name, obj){
+    var options = obj || {},
+        transitions = getTransitions(node),
+        trans = transitions[name] = transitions[name] || options;
+        trans.immediate = options.immediate || trans.immediate;
+        trans.before = options.before || trans.before;
+        trans.after = options.after || trans.after;
+    if (trans.immediate) trans.immediate();
+    if (trans.before) {
+      trans.before();
+      xtag.requestFrame(function(){
+        xtag.requestFrame(function(){
+          node.setAttribute('transition', name);
+        });
+      });
+    }
+    else node.setAttribute('transition', name);
+  };
+  
+  xtag.pseudos.transition = {
+    onCompiled: function(fn, pseudo){
+      var options = {},
+          when = pseudo.arguments[0] || 'immediate',
+          name = pseudo.arguments[1] || pseudo.key.split(':')[0];
+      return function(){
+        var target = this,
+            args = xtag.toArray(arguments);
+        if (this.hasAttribute('transition')) {
+          options[when] = options[when] || function(){
+            return fn.apply(target, args);
+          }
+          xtag.transition(this, name, options);
+        }
+        else return fn.apply(this, args);
+      }
+    }
+  }
+
+})();
+
+(function(){
+
+  var oldiOS = /OS [1-4]_\d like Mac OS X/i.test(navigator.userAgent),
+      oldDroid = /Android 2.\d.+AppleWebKit/.test(navigator.userAgent),
+      gingerbread = /Android 2\.3.+AppleWebKit/.test(navigator.userAgent);
+
+  if (oldDroid){
+    //<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+    var meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;';
+    document.head.appendChild(meta);
+  }
+  
+  function setTop(modal){
+    modal.style.top = (window.pageYOffset + window.innerHeight * 0.5) + 'px';
+  }
+  
+  function insertOverlay(modal){
+    var next = modal.nextElementSibling;
+    if (next) modal.parentNode.insertBefore(modal.overlayElement, next);
+    else modal.parentNode.appendChild(modal.overlayElement);
+  }
+  
+  window.addEventListener('keyup', function(event){
+    if(event.keyCode == 27) xtag.query(document, 'x-modal[escape-hide]:not([hidden])').forEach(function(modal){
+      modal.hide();
+    });
+  });
+
+  if (oldiOS || oldDroid) {
+    window.addEventListener('scroll', function(event){
+      xtag.query(document, 'body > x-modal').forEach(setTop);
+    });
+  }
+
+  xtag.register('x-modal', {
+    lifecycle: {
+      created: function() {
+        this.overlayElement = document.createElement('x-modal-overlay');
+        insertOverlay(this);
+      },
+      inserted: function() {
+        if (oldiOS || oldDroid) setTop(this);
+        this.xtag.lastParent = this.parentNode;
+        insertOverlay(this);
+      },
+      removed: function(){
+        if (this.xtag.lastParent) this.xtag.lastParent.removeChild(this.overlayElement);
+        this.xtag.lastParent = null;
+      }
+    },
+    events: {
+      'tap:outer': function(e){
+        if (!this.hasAttribute('hidden') && this.clickHide) this.hide();
+      }
+    },
+    accessors: {
+      overlay: {
+        attribute: {boolean: true},
+        set: function(){
+          var last = this.className;
+          this.className += ' x-modal-safari-redraw-bug';
+          this.className = last;
+        }
+      },
+      escapeHide: {
+        attribute: {
+          boolean: true,
+          name: 'escape-hide'
+        }
+      },
+      clickHide: {
+        attribute: {
+          boolean: true,
+          name: 'click-hide'
+        }
+      }
+    },
+    methods: { 
+      'show:transition(before)': function(){
+        this.removeAttribute('hidden');
+      },
+      'hide:transition(after)': function(){
+        this.setAttribute('hidden', '');
+      },
+      toggle: function() {
+        this[this.hasAttribute('hidden') && 'show' || 'hide']();
+      }
+    }
+  });
+  
+})();
+
 (function(){
 
 var head = document.querySelector('head');
@@ -3404,111 +3616,6 @@ xtag.callbacks = {};
   };
 
 })();
-
-(function(){
-
-  var oldiOS = /OS [1-4]_\d like Mac OS X/i.test(navigator.userAgent),
-    oldDroid = /Android 2.\d.+AppleWebKit/.test(navigator.userAgent),
-    gingerbread = /Android 2\.3.+AppleWebKit/.test(navigator.userAgent);
-
-  if(oldDroid){
-    //<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;';
-    document.head.appendChild(meta);
-  }
-
-  function hasParentNode(elem, parent){
-      if(parent.contains){
-          return parent.contains(elem);
-      }
-      else{
-          while(elem){
-              if(elem === parent){
-                  return true;
-              }
-              elem = elem.parentNode;
-          }
-          return false;
-      }
-  }
-
-  window.addEventListener('keyup', function(event){
-    if(event.keyCode == 27) xtag.query(document, 'x-modal[esc-hide]').forEach(function(modal){
-      if (modal.getAttribute('hidden') === null) xtag.fireEvent(modal, 'modalhide');
-    });
-  });
-
-  xtag.addEvent(document, "tap", function(e){
-    var target = e.target;
-    var modals = xtag.query(document, "x-modal:not([cancel-click-hide])");
-    modals.forEach(function(modal){
-      if(!hasParentNode(target, modal)){
-        xtag.fireEvent(modal, "modalhide");
-      }
-    });
-  });
-
-  if (oldiOS || oldDroid) {
-    window.addEventListener('scroll', function(event){
-      var modals = xtag.query(document, 'body > x-modal');
-      modals.forEach(function(m){
-        m.style.top = (window.pageYOffset + window.innerHeight * 0.5) + 'px';
-      });
-    });
-  }
-
-  xtag.register('x-modal', {
-    mixins: ['request'],
-    lifecycle: {
-      created: function() {
-        this.setAttribute('tabindex',0);
-      },
-      inserted: function() {
-        if (oldiOS || oldDroid) {
-          this.style.top = (window.pageYOffset + window.innerHeight * 0.5) + 'px';
-        }
-      }
-    },
-    events: {
-      'modalhide': function() {
-        this.hide();
-      }
-    },
-    accessors:{
-      "hidden": {
-        attribute: {boolean: true}
-      },
-      "overlay": {
-        attribute: {boolean: true}
-      },
-      "escHide": {
-        attribute: {boolean: true, name:"esc-hide"}
-      },
-      "cancelClickHide": {
-        attribute: {boolean: true, name:"cancel-click-hide"}
-      }
-    },
-    methods: {
-      toggle: function() {
-        if (this.hasAttribute('hidden')) {
-          this.show();
-        } else {
-          this.hide();
-        }
-      },
-      hide: function(){
-        this.setAttribute("hidden", "");
-      },
-      show: function(){
-        this.removeAttribute("hidden");
-      }
-    }
-  });
-
-})();
-
 (function(){
 
   xtag.register('x-panel', {
