@@ -1,47 +1,50 @@
 # X-Tag - Custom Elements for Modern Browsers
 
+X-Tag is a small JavaScript library, created and supported by Mozilla, that brings Web Components Custom Element capabilities to all modern browsers.
 
-Based on the current W3 Web Components [draft][1], X-Tag enables the custom element portion of the proposal.
-Custom elements let you register new tags/elements with the parser so they are recognized and inflated with
-special abilities you define.
-
-Find out more about what X-Tag does, where it works, and how to use it, on the project page here: http://mozilla.github.com/x-tag/
-
-X-Tag (excluding third-party icons or images) is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
-  [1]: https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html       "W3 Web Components Spec (Draft)"
+This is the repository for the [x-tag website](http://x-tags.org/).
 
 
+## Setup
 
-# Setup
+If you want to contribute to the website, simply follow these instructions.
 
-Requires NodeJS and Bower
+First install [node.js](http://nodejs.org/) if it's not already in your system. Download and install it from their server, or use your favourite system package manager.
 
+Clone our repository:
 
-```
+````bash
+git clone git@github.com:x-tag/x-tags-org.git
+````
+
+Change to that directory and run:
+
+````bash
 npm install
-```
+````
 
 Install bower (if you don't already have it)
 
-```
+````bash
 npm install bower -g
-```
+````
 
 Install components
 
-```
+````bash
 bower install 
-```
+````
 
-Combine js/css assets,  see Gruntfile.js for details
+Combine js/css assets, see Gruntfile.js for details
 
-```
+````bash
 grunt build
-```
+````
 
-Run
+Run the site locally
 
-```
+````bash
 node app
-```
+````
+
+You can now access the site at [localhost:3000](http://localhost:3000).
