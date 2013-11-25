@@ -310,7 +310,36 @@ xtag.register('x-supertemplate', {
         <dd>
             <a name="helpers-inner-html"></a>
           <h4><a href="#helpers-inner-html"><code>innerHTML</code></a><span>element, html</span></h4>
-          <p>Sets the innerHTML of element with the passed html and parses for x-tags.</p>
+          <p>Sets the innerHTML of element with the passed html and parses for x-tags. You need to do this instead of just assigning the innerHTML property if you intend to use custom elements as part of the html of a custom element.</p>
+
+<x-code-prism language="javascript">
+xtag.register('x-foo', {
+  lifecycle: {
+    created: function() {
+      // works because we're not using another component
+      this.innerHTML = 'Hello foo';
+    }
+  },
+  methods: {
+    hello: function() {
+      console.log('hello from x-foo');
+    }
+  }
+});
+
+xtag.register('x-bar', {
+  lifecycle: {
+    created: function() {
+      // Since we use xtag.innerHTML, x-foo will be available immediately
+      xtag.innerHTML(this, 'Super &lt;x-foo&gt;&lt;/x-foo&gt;');
+
+      // You can call x-foo methods already
+      var foo = this.querySelector('x-foo');
+      foo.hello();
+    }
+  }
+});
+</x-code-prism>
         </dd>
 
 
@@ -447,27 +476,24 @@ xtag.register('x-supertemplate', {
   </x-code-prism>
 
   <p>You can also use templates when registering components. For example:</p>
-<x-code-prism language="html">
+<x-code-prism language="javascript">
   &lt;template id="test-template"&gt;
     &lt;div&gt;test&lt;/div&gt;
   &lt;/template&gt;
 </x-code-prism>
 
 <x-code-prism language="javascript">
-window.addEventListener('DOMComponentsLoaded', function() {
-  xtag.register('templated-component', {
-    lifecycle: {
-      created: function() {
-        var tpl = document.getElementById('test-template').content;
-        this.appendChild(tpl.cloneNode(true));
-      }
+xtag.register('templated-component', {
+  lifecycle: {
+    created: function() {
+      var tpl = document.getElementById('test-template').content;
+      this.appendChild(tpl.cloneNode(true));
     }
-  });
-
-  var t = document.createElement('templated-component');
-  document.body.appendChild(t);
+  }
 });
 
+var t = document.createElement('templated-component');
+document.body.appendChild(t);
 </x-code-prism>
 
 
