@@ -39,14 +39,14 @@
     'tap:delegate(#global_nav x-slide)': function(e){
       var index = Array.prototype.indexOf.call(this.parentNode.children, this);
       if (index == 4){ // registry
-        window.open('http://registry.x-tags.org/');
+        window.open('http://customelements.io/');
       }
       else {
         slidePage(index);
       }
     },
     'tap:delegate(#registry_elements)': function(){
-      window.open('http://registry.x-tags.org/');
+      window.open('http://customelements.io/');
     },
     'tap:delegate(#search_btn)': function(){
       var elem = document.getElementById('search_result_json_p');

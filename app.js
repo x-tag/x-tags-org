@@ -62,7 +62,7 @@ app.get('/blog/:permalink', function(req, res){
 
 app.get('/registry', function(req, res){
 
-  res.redirect('http://registry.x-tags.org/');
+  res.redirect('http://customelements.io/');
 
 });
 
