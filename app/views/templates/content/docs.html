@@ -142,6 +142,31 @@ xtag.register('x-superinput', {
     </dd>
 
     <dd>
+        <a name="custom-tag-registration-accessors-attribute"></a>
+      <h4><a href="#custom-tag-registration-accessors-attribute"><code>accessors:attribute</code></a><span>object</span></h4>
+      <p>
+        The <b>attribute</b> object allows easy mapping from an accessor to an element attribute.  Instead of having to write getAttribute and setAttribute inside of your accessors, you can add the attribute object to create the mapping automatically. There are also a few options available inside the attribute object.  See the code example below.
+      </p>
+
+<x-code-prism language="javascript">
+xtag.register('x-superinput', {
+  accessors: {
+    enabled: {
+      attribute: { boolean: true } // creates a boolean attribute.  enabled=""
+    },
+    lastName: {
+      attribute: { name:'last-name' } // use a different attribute name
+    }
+  }
+});
+</x-code-prism>
+
+
+    </dd>
+
+
+
+    <dd>
         <a name="custom-tag-registration-events"></a>
       <h4><a href="#custom-tag-registration-events"><code>events</code></a><span>object</span></h4>
       <p>
