@@ -4,8 +4,7 @@ window.Platform = {};
 var logFlags = {};
 
 
-
-// DOMTokenList polyfill fir IE9
+// DOMTokenList polyfill for IE9
 (function () {
 
 if (typeof window.Element === "undefined" || "classList" in document.documentElement) return;
@@ -91,26 +90,20 @@ defineElementGetter(Element.prototype, 'classList', function () {
 
 /*
  * Copyright 2012 The Polymer Authors. All rights reserved.
- * Use of this source code is goverened by a BSD-style
+ * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
 
-// SideTable is a weak map where possible. If WeakMap is not available the
-// association is stored as an expando property.
-var SideTable;
-// TODO(arv): WeakMap does not allow for Node etc to be keys in Firefox
-if (typeof WeakMap !== 'undefined' && navigator.userAgent.indexOf('Firefox/') < 0) {
-  SideTable = WeakMap;
-} else {
+if (typeof WeakMap === 'undefined') {
   (function() {
     var defineProperty = Object.defineProperty;
     var counter = Date.now() % 1e9;
 
-    SideTable = function() {
+    var WeakMap = function() {
       this.name = '__st' + (Math.random() * 1e9 >>> 0) + (counter++ + '__');
     };
 
-    SideTable.prototype = {
+    WeakMap.prototype = {
       set: function(key, value) {
         var entry = key[this.name];
         if (entry && entry[0] === key)
@@ -126,7 +119,9 @@ if (typeof WeakMap !== 'undefined' && navigator.userAgent.indexOf('Firefox/') < 
       delete: function(key) {
         this.set(key, undefined);
       }
-    }
+    };
+
+    window.WeakMap = WeakMap;
   })();
 }
 
@@ -138,7 +133,7 @@ if (typeof WeakMap !== 'undefined' && navigator.userAgent.indexOf('Firefox/') < 
 
 (function(global) {
 
-  var registrationsTable = new SideTable();
+  var registrationsTable = new WeakMap();
 
   // We use setImmediate or postMessage for our future callback.
   var setImmediate = window.msSetImmediate;
@@ -671,22 +666,15 @@ if (typeof WeakMap !== 'undefined' && navigator.userAgent.indexOf('Firefox/') < 
 
   global.JsMutationObserver = JsMutationObserver;
 
+  // Provide unprefixed MutationObserver with native or JS implementation
+  if (!global.MutationObserver && global.WebKitMutationObserver)
+    global.MutationObserver = global.WebKitMutationObserver;
+
+  if (!global.MutationObserver)
+    global.MutationObserver = JsMutationObserver;
+
+
 })(this);
-
-/*
- * Copyright 2013 The Polymer Authors. All rights reserved.
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file.
- */
-
-if (!window.MutationObserver) {
-  window.MutationObserver = 
-      window.WebKitMutationObserver || 
-      window.JsMutationObserver;
-  if (!MutationObserver) {
-    throw new Error("no mutation observer support");
-  }
-}
 
 /*
  * Copyright 2013 The Polymer Authors. All rights reserved.
@@ -713,9 +701,9 @@ if (!scope) {
 }
 var flags = scope.flags;
 
-// native document.register?
+// native document.registerElement?
 
-var hasNative = Boolean(document.register);
+var hasNative = Boolean(document.registerElement);
 var useNative = !flags.register && hasNative;
 
 if (useNative) {
@@ -763,7 +751,7 @@ if (useNative) {
    *      element.
    *
    * @example
-   *      FancyButton = document.register("fancy-button", {
+   *      FancyButton = document.registerElement("fancy-button", {
    *        extends: 'button',
    *        prototype: Object.create(HTMLButtonElement.prototype, {
    *          readyCallback: {
@@ -776,22 +764,24 @@ if (useNative) {
    * @return {Function} Constructor for the newly registered type.
    */
   function register(name, options) {
-    //console.warn('document.register("' + name + '", ', options, ')');
+    //console.warn('document.registerElement("' + name + '", ', options, ')');
     // construct a defintion out of options
     // TODO(sjmiles): probably should clone options instead of mutating it
     var definition = options || {};
     if (!name) {
       // TODO(sjmiles): replace with more appropriate error (EricB can probably
       // offer guidance)
-      throw new Error('document.register: first argument `name` must not be empty');
+      throw new Error('document.registerElement: first argument `name` must not be empty');
     }
     if (name.indexOf('-') < 0) {
       // TODO(sjmiles): replace with more appropriate error (EricB can probably
       // offer guidance)
-      throw new Error('document.register: first argument (\'name\') must contain a dash (\'-\'). Argument provided was \'' + String(name) + '\'.');
+      throw new Error('document.registerElement: first argument (\'name\') must contain a dash (\'-\'). Argument provided was \'' + String(name) + '\'.');
     }
-    // record name
-    definition.name = name;
+    // elements may only be registered once
+    if (getRegisteredDefinition(name)) {
+      throw new Error('DuplicateDefinitionError: a type with name \'' + String(name) + '\' is already registered');
+    }
     // must have a prototype, default to an extension of HTMLElement
     // TODO(sjmiles): probably should throw if no prototype, check spec
     if (!definition.prototype) {
@@ -799,6 +789,8 @@ if (useNative) {
       // offer guidance)
       throw new Error('Options missing required prototype property');
     }
+    // record name
+    definition.__name = name.toLowerCase();
     // ensure a lifecycle object so we don't have to null test it
     definition.lifecycle = definition.lifecycle || {};
     // build a list of ancestral custom elements (for native base detection)
@@ -814,7 +806,7 @@ if (useNative) {
     // overrides to implement attributeChanged callback
     overrideAttributeApi(definition.prototype);
     // 7.1.5: Register the DEFINITION with DOCUMENT
-    registerDefinition(name, definition);
+    registerDefinition(definition.__name, definition);
     // 7.1.7. Run custom element constructor generation algorithm with PROTOTYPE
     // 7.1.8. Return the output of the previous step.
     definition.ctor = generateConstructor(definition);
@@ -830,7 +822,7 @@ if (useNative) {
   }
 
   function ancestry(extnds) {
-    var extendee = registry[extnds];
+    var extendee = getRegisteredDefinition(extnds);
     if (extendee) {
       return ancestry(extendee.extends).concat([extendee]);
     }
@@ -847,10 +839,10 @@ if (useNative) {
       baseTag = a.is && a.tag;
     }
     // our tag is our baseTag, if it exists, and otherwise just our name
-    definition.tag = baseTag || definition.name;
+    definition.tag = baseTag || definition.__name;
     if (baseTag) {
       // if there is a base tag, use secondary 'is' specifier
-      definition.is = definition.name;
+      definition.is = definition.__name;
     }
   }
 
@@ -898,6 +890,8 @@ if (useNative) {
     if (definition.is) {
       element.setAttribute('is', definition.is);
     }
+    // remove 'unresolved' attr, which is a standin for :unresolved.
+    element.removeAttribute('unresolved');
     // make 'element' implement definition.prototype
     implement(element, definition);
     // flag as upgraded
@@ -961,28 +955,41 @@ if (useNative) {
     // overrides to implement callbacks
     // TODO(sjmiles): should support access via .attributes NamedNodeMap
     // TODO(sjmiles): preserves user defined overrides, if any
+    if (prototype.setAttribute._polyfilled) {
+      return;
+    }
     var setAttribute = prototype.setAttribute;
     prototype.setAttribute = function(name, value) {
       changeAttribute.call(this, name, value, setAttribute);
     }
     var removeAttribute = prototype.removeAttribute;
-    prototype.removeAttribute = function(name, value) {
-      changeAttribute.call(this, name, value, removeAttribute);
+    prototype.removeAttribute = function(name) {
+      changeAttribute.call(this, name, null, removeAttribute);
     }
+    prototype.setAttribute._polyfilled = true;
   }
 
+  // https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/custom/
+  // index.html#dfn-attribute-changed-callback
   function changeAttribute(name, value, operation) {
     var oldValue = this.getAttribute(name);
     operation.apply(this, arguments);
-    if (this.attributeChangedCallback 
-        && (this.getAttribute(name) !== oldValue)) {
-      this.attributeChangedCallback(name, oldValue);
+    var newValue = this.getAttribute(name);
+    if (this.attributeChangedCallback
+        && (newValue !== oldValue)) {
+      this.attributeChangedCallback(name, oldValue, newValue);
     }
   }
 
   // element registry (maps tag names to definitions)
 
   var registry = {};
+
+  function getRegisteredDefinition(name) {
+    if (name) {
+      return registry[name.toLowerCase()];
+    }
+  }
 
   function registerDefinition(name, definition) {
     registry[name] = definition;
@@ -997,7 +1004,7 @@ if (useNative) {
   function createElement(tag, typeExtension) {
     // TODO(sjmiles): ignore 'tag' when using 'typeExtension', we could
     // error check it, or perhaps there should only ever be one argument
-    var definition = registry[typeExtension || tag];
+    var definition = getRegisteredDefinition(typeExtension || tag);
     if (definition) {
       return new definition.ctor();
     }
@@ -1007,7 +1014,7 @@ if (useNative) {
   function upgradeElement(element) {
     if (!element.__upgraded__ && (element.nodeType === Node.ELEMENT_NODE)) {
       var type = element.getAttribute('is') || element.localName;
-      var definition = registry[type];
+      var definition = getRegisteredDefinition(type);
       return definition && upgrade(element, definition);
     }
   }
@@ -1030,7 +1037,7 @@ if (useNative) {
 
   // exports
 
-  document.register = register;
+  document.registerElement = register;
   document.createElement = createElement; // override
   Node.prototype.cloneNode = cloneNode; // override
 
@@ -1049,6 +1056,9 @@ if (useNative) {
    */
   scope.upgrade = upgradeElement;
 }
+
+// bc
+document.register = document.registerElement;
 
 scope.hasNative = hasNative;
 scope.useNative = useNative;
@@ -1156,10 +1166,10 @@ function insertedNode(node) {
 
 
 // TODO(sorvell): on platforms without MutationObserver, mutations may not be 
-// reliable and therefore entered/leftView are not reliable.
+// reliable and therefore attached/detached are not reliable.
 // To make these callbacks less likely to fail, we defer all inserts and removes
 // to give a chance for elements to be inserted into dom. 
-// This ensures enteredViewCallback fires for elements that are created and 
+// This ensures attachedCallback fires for elements that are created and 
 // immediately added to dom.
 var hasPolyfillMutations = (!window.MutationObserver ||
     (window.MutationObserver === window.JsMutationObserver));
@@ -1208,7 +1218,7 @@ function _inserted(element) {
   // TODO(sjmiles): when logging, do work on all custom elements so we can
   // track behavior even when callbacks not defined
   //console.log('inserted: ', element.localName);
-  if (element.enteredViewCallback || (element.__upgraded__ && logFlags.dom)) {
+  if (element.attachedCallback || element.detachedCallback || (element.__upgraded__ && logFlags.dom)) {
     logFlags.dom && console.group('inserted:', element.localName);
     if (inDocument(element)) {
       element.__inserted = (element.__inserted || 0) + 1;
@@ -1220,9 +1230,9 @@ function _inserted(element) {
       if (element.__inserted > 1) {
         logFlags.dom && console.warn('inserted:', element.localName,
           'insert/remove count:', element.__inserted)
-      } else if (element.enteredViewCallback) {
+      } else if (element.attachedCallback) {
         logFlags.dom && console.log('inserted:', element.localName);
-        element.enteredViewCallback();
+        element.attachedCallback();
       }
     }
     logFlags.dom && console.groupEnd();
@@ -1247,11 +1257,11 @@ function removed(element) {
   }
 }
 
-function removed(element) {
+function _removed(element) {
   // TODO(sjmiles): temporary: do work on all custom elements so we can track
   // behavior even when callbacks not defined
-  if (element.leftViewCallback || (element.__upgraded__ && logFlags.dom)) {
-    logFlags.dom && console.log('removed:', element.localName);
+  if (element.attachedCallback || element.detachedCallback || (element.__upgraded__ && logFlags.dom)) {
+    logFlags.dom && console.group('removed:', element.localName);
     if (!inDocument(element)) {
       element.__inserted = (element.__inserted || 0) - 1;
       // if we are in a 'inserted' state, bluntly adjust to an 'removed' state
@@ -1262,10 +1272,11 @@ function removed(element) {
       if (element.__inserted < 0) {
         logFlags.dom && console.warn('removed:', element.localName,
             'insert/remove count:', element.__inserted)
-      } else if (element.leftViewCallback) {
-        element.leftViewCallback();
+      } else if (element.detachedCallback) {
+        element.detachedCallback();
       }
     }
+    logFlags.dom && console.groupEnd();
   }
 }
 
@@ -1300,16 +1311,6 @@ function watchRoot(root) {
   }
 }
 
-function filter(inNode) {
-  switch (inNode.localName) {
-    case 'style':
-    case 'script':
-    case 'template':
-    case undefined:
-      return true;
-  }
-}
-
 function handler(mutations) {
   //
   if (logFlags.dom) {
@@ -1332,7 +1333,7 @@ function handler(mutations) {
     if (mx.type === 'childList') {
       forEach(mx.addedNodes, function(n) {
         //logFlags.dom && console.log(n.localName);
-        if (filter(n)) {
+        if (!n.localName) {
           return;
         }
         // nodes added may need lifecycle management
@@ -1341,7 +1342,7 @@ function handler(mutations) {
       // removed nodes may need lifecycle management
       forEach(mx.removedNodes, function(n) {
         //logFlags.dom && console.log(n.localName);
-        if (filter(n)) {
+        if (!n.localName) {
           return;
         }
         removedNode(n);
@@ -1388,599 +1389,6 @@ scope.upgradeDocument = upgradeDocument;
 scope.takeRecords = takeRecords;
 
 })(window.CustomElements);
-
-/*
- * Copyright 2013 The Polymer Authors. All rights reserved.
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file.
- */
-
-(function(scope) {
-
-if (!scope) {
-  scope = window.HTMLImports = {flags:{}};
-}
-
-// imports
-
-var xhr = scope.xhr;
-
-// importer
-
-var IMPORT_LINK_TYPE = 'import';
-var STYLE_LINK_TYPE = 'stylesheet';
-
-// highlander object represents a primary document (the argument to 'load')
-// at the root of a tree of documents
-
-// for any document, importer:
-// - loads any linked documents (with deduping), modifies paths and feeds them back into importer
-// - loads text of external script tags
-// - loads text of external style tags inside of <element>, modifies paths
-
-// when importer 'modifies paths' in a document, this includes
-// - href/src/action in node attributes
-// - paths in inline stylesheets
-// - all content inside templates
-
-// linked style sheets in an import have their own path fixed up when their containing import modifies paths
-// linked style sheets in an <element> are loaded, and the content gets path fixups
-// inline style sheets get path fixups when their containing import modifies paths
-
-var loader;
-
-var importer = {
-  documents: {},
-  cache: {},
-  preloadSelectors: [
-    'link[rel=' + IMPORT_LINK_TYPE + ']',
-    'element link[rel=' + STYLE_LINK_TYPE + ']',
-    'template',
-    'script[src]:not([type])',
-    'script[src][type="text/javascript"]'
-  ].join(','),
-  loader: function(next) {
-    // construct a loader instance
-    loader = new Loader(importer.loaded, next);
-    // alias the loader cache (for debugging)
-    loader.cache = importer.cache;
-    return loader;
-  },
-  load: function(doc, next) {
-    // construct a loader instance
-    loader = importer.loader(next);
-    // add nodes from document into loader queue
-    importer.preload(doc);
-  },
-  preload: function(doc) {
-    // all preloadable nodes in inDocument
-    var nodes = doc.querySelectorAll(importer.preloadSelectors);
-    // from the main document, only load imports
-    // TODO(sjmiles): do this by altering the selector list instead
-    nodes = this.filterMainDocumentNodes(doc, nodes);
-    // extra link nodes from templates, filter templates out of the nodes list
-    nodes = this.extractTemplateNodes(nodes);
-    // add these nodes to loader's queue
-    loader.addNodes(nodes);
-  },
-  filterMainDocumentNodes: function(doc, nodes) {
-    if (doc === document) {
-      nodes = Array.prototype.filter.call(nodes, function(n) {
-        return !isScript(n);
-      });
-    }
-    return nodes;
-  },
-  extractTemplateNodes: function(nodes) {
-    var extra = [];
-    nodes = Array.prototype.filter.call(nodes, function(n) {
-      if (n.localName === 'template') {
-        if (n.content) {
-          var l$ = n.content.querySelectorAll('link[rel=' + STYLE_LINK_TYPE +
-            ']');
-          if (l$.length) {
-            extra = extra.concat(Array.prototype.slice.call(l$, 0));
-          }
-        }
-        return false;
-      }
-      return true;
-    });
-    if (extra.length) {
-      nodes = nodes.concat(extra);
-    }
-    return nodes;
-  },
-  loaded: function(url, elt, resource) {
-    if (isDocumentLink(elt)) {
-      var document = importer.documents[url];
-      // if we've never seen a document at this url
-      if (!document) {
-        // generate an HTMLDocument from data
-        document = makeDocument(resource, url);
-        // resolve resource paths relative to host document
-        path.resolvePathsInHTML(document);
-        // cache document
-        importer.documents[url] = document;
-        // add nodes from this document to the loader queue
-        importer.preload(document);
-      }
-      // store import record
-      elt.import = {
-        href: url,
-        ownerNode: elt,
-        content: document
-      };
-      // store document resource
-      elt.content = resource = document;
-    }
-    // store generic resource
-    // TODO(sorvell): fails for nodes inside <template>.content
-    // see https://code.google.com/p/chromium/issues/detail?id=249381.
-    elt.__resource = resource;
-    // css path fixups
-    if (isStylesheetLink(elt)) {
-      path.resolvePathsInStylesheet(elt);
-    }
-  }
-};
-
-function isDocumentLink(elt) {
-  return isLinkRel(elt, IMPORT_LINK_TYPE);
-}
-
-function isStylesheetLink(elt) {
-  return isLinkRel(elt, STYLE_LINK_TYPE);
-}
-
-function isLinkRel(elt, rel) {
-  return elt.localName === 'link' && elt.getAttribute('rel') === rel;
-}
-
-function isScript(elt) {
-  return elt.localName === 'script';
-}
-
-function makeDocument(resource, url) {
-  // create a new HTML document
-  var doc = resource;
-  if (!(doc instanceof Document)) {
-    doc = document.implementation.createHTMLDocument(IMPORT_LINK_TYPE);
-    // install html
-    doc.body.innerHTML = resource;
-  }
-  // cache the new document's source url
-  doc._URL = url;
-  // establish a relative path via <base>
-  var base = doc.createElement('base');
-  base.setAttribute('href', document.baseURI || document.URL);
-  doc.head.appendChild(base);
-  // TODO(sorvell): ideally this code is not aware of Template polyfill,
-  // but for now the polyfill needs help to bootstrap these templates
-  if (window.HTMLTemplateElement && HTMLTemplateElement.bootstrap) {
-    HTMLTemplateElement.bootstrap(doc);
-  }
-  return doc;
-}
-
-var Loader = function(onLoad, onComplete) {
-  this.onload = onLoad;
-  this.oncomplete = onComplete;
-  this.inflight = 0;
-  this.pending = {};
-  this.cache = {};
-};
-
-Loader.prototype = {
-  addNodes: function(nodes) {
-    // number of transactions to complete
-    this.inflight += nodes.length;
-    // commence transactions
-    forEach(nodes, this.require, this);
-    // anything to do?
-    this.checkDone();
-  },
-  require: function(elt) {
-    var url = path.nodeUrl(elt);
-    // TODO(sjmiles): ad-hoc
-    elt.__nodeUrl = url;
-    // deduplication
-    if (!this.dedupe(url, elt)) {
-      // fetch this resource
-      this.fetch(url, elt);
-    }
-  },
-  dedupe: function(url, elt) {
-    if (this.pending[url]) {
-      // add to list of nodes waiting for inUrl
-      this.pending[url].push(elt);
-      // don't need fetch
-      return true;
-    }
-    if (this.cache[url]) {
-      // complete load using cache data
-      this.onload(url, elt, loader.cache[url]);
-      // finished this transaction
-      this.tail();
-      // don't need fetch
-      return true;
-    }
-    // first node waiting for inUrl
-    this.pending[url] = [elt];
-    // need fetch (not a dupe)
-    return false;
-  },
-  fetch: function(url, elt) {
-    var receiveXhr = function(err, resource) {
-      this.receive(url, elt, err, resource);
-    }.bind(this);
-    xhr.load(url, receiveXhr);
-    // TODO(sorvell): blocked on
-    // https://code.google.com/p/chromium/issues/detail?id=257221
-    // xhr'ing for a document makes scripts in imports runnable; otherwise
-    // they are not; however, it requires that we have doctype=html in
-    // the import which is unacceptable. This is only needed on Chrome
-    // to avoid the bug above.
-    /*
-    if (isDocumentLink(elt)) {
-      xhr.loadDocument(url, receiveXhr);
-    } else {
-      xhr.load(url, receiveXhr);
-    }
-    */
-  },
-  receive: function(url, elt, err, resource) {
-    if (!err) {
-      loader.cache[url] = resource;
-    }
-    loader.pending[url].forEach(function(e) {
-      if (!err) {
-        this.onload(url, e, resource);
-      }
-      this.tail();
-    }, this);
-    loader.pending[url] = null;
-  },
-  tail: function() {
-    --this.inflight;
-    this.checkDone();
-  },
-  checkDone: function() {
-    if (!this.inflight) {
-      this.oncomplete();
-    }
-  }
-};
-
-var URL_ATTRS = ['href', 'src', 'action'];
-var URL_ATTRS_SELECTOR = '[' + URL_ATTRS.join('],[') + ']';
-var URL_TEMPLATE_SEARCH = '{{.*}}';
-
-var path = {
-  nodeUrl: function(node) {
-    return path.resolveUrl(path.documentURL, path.hrefOrSrc(node));
-  },
-  hrefOrSrc: function(node) {
-    return node.getAttribute("href") || node.getAttribute("src");
-  },
-  documentUrlFromNode: function(node) {
-    return path.getDocumentUrl(node.ownerDocument || node);
-  },
-  getDocumentUrl: function(doc) {
-    var url = doc &&
-        // TODO(sjmiles): ShadowDOMPolyfill intrusion
-        (doc._URL || (doc.impl && doc.impl._URL)
-            || doc.baseURI || doc.URL)
-                || '';
-    // take only the left side if there is a #
-    return url.split('#')[0];
-  },
-  resolveUrl: function(baseUrl, url) {
-    if (this.isAbsUrl(url)) {
-      return url;
-    }
-    return this.compressUrl(this.urlToPath(baseUrl) + url);
-  },
-  resolveRelativeUrl: function(baseUrl, url) {
-    if (this.isAbsUrl(url)) {
-      return url;
-    }
-    return this.makeDocumentRelPath(this.resolveUrl(baseUrl, url));
-  },
-  isAbsUrl: function(url) {
-    return /(^data:)|(^http[s]?:)|(^\/)/.test(url);
-  },
-  urlToPath: function(baseUrl) {
-    var parts = baseUrl.split("/");
-    parts.pop();
-    parts.push('');
-    return parts.join("/");
-  },
-  compressUrl: function(url) {
-    var search = '';
-    var searchPos = url.indexOf('?');
-    // query string is not part of the path
-    if (searchPos > -1) {
-      search = url.substring(searchPos);
-      url = url.substring(searchPos, 0);
-    }
-    var parts = url.split('/');
-    for (var i=0, p; i<parts.length; i++) {
-      p = parts[i];
-      if (p === '..') {
-        parts.splice(i-1, 2);
-        i -= 2;
-      }
-    }
-    return parts.join('/') + search;
-  },
-  makeDocumentRelPath: function(url) {
-    // test url against document to see if we can construct a relative path
-    path.urlElt.href = url;
-    // IE does not set host if same as document
-    if (!path.urlElt.host || 
-        (path.urlElt.host === window.location.host &&
-        path.urlElt.protocol === window.location.protocol)) {
-      return this.makeRelPath(path.documentURL, path.urlElt.href);
-    } else {
-      return url;
-    }
-  },
-  // make a relative path from source to target
-  makeRelPath: function(source, target) {
-    var s = source.split('/');
-    var t = target.split('/');
-    while (s.length && s[0] === t[0]){
-      s.shift();
-      t.shift();
-    }
-    for(var i = 0, l = s.length-1; i < l; i++) {
-      t.unshift('..');
-    }
-    var r = t.join('/');
-    return r;
-  },
-  resolvePathsInHTML: function(root, url) {
-    url = url || path.documentUrlFromNode(root)
-    path.resolveAttributes(root, url);
-    path.resolveStyleElts(root, url);
-    // handle template.content
-    var templates = root.querySelectorAll('template');
-    if (templates) {
-      forEach(templates, function(t) {
-        if (t.content) {
-          path.resolvePathsInHTML(t.content, url);
-        }
-      });
-    }
-  },
-  resolvePathsInStylesheet: function(sheet) {
-    var docUrl = path.nodeUrl(sheet);
-    sheet.__resource = path.resolveCssText(sheet.__resource, docUrl);
-  },
-  resolveStyleElts: function(root, url) {
-    var styles = root.querySelectorAll('style');
-    if (styles) {
-      forEach(styles, function(style) {
-        style.textContent = path.resolveCssText(style.textContent, url);
-      });
-    }
-  },
-  resolveCssText: function(cssText, baseUrl) {
-    return cssText.replace(/url\([^)]*\)/g, function(match) {
-      // find the url path, ignore quotes in url string
-      var urlPath = match.replace(/["']/g, "").slice(4, -1);
-      urlPath = path.resolveRelativeUrl(baseUrl, urlPath);
-      return "url(" + urlPath + ")";
-    });
-  },
-  resolveAttributes: function(root, url) {
-    // search for attributes that host urls
-    var nodes = root && root.querySelectorAll(URL_ATTRS_SELECTOR);
-    if (nodes) {
-      forEach(nodes, function(n) {
-        this.resolveNodeAttributes(n, url);
-      }, this);
-    }
-  },
-  resolveNodeAttributes: function(node, url) {
-    URL_ATTRS.forEach(function(v) {
-      var attr = node.attributes[v];
-      if (attr && attr.value &&
-         (attr.value.search(URL_TEMPLATE_SEARCH) < 0)) {
-        var urlPath = path.resolveRelativeUrl(url, attr.value);
-        attr.value = urlPath;
-      }
-    });
-  }
-};
-
-path.documentURL = path.getDocumentUrl(document);
-path.urlElt = document.createElement('a');
-
-xhr = xhr || {
-  async: true,
-  ok: function(request) {
-    return (request.status >= 200 && request.status < 300)
-        || (request.status === 304)
-        || (request.status === 0);
-  },
-  load: function(url, next, nextContext) {
-    var request = new XMLHttpRequest();
-    if (scope.flags.debug || scope.flags.bust) {
-      url += '?' + Math.random();
-    }
-    request.open('GET', url, xhr.async);
-    request.addEventListener('readystatechange', function(e) {
-      if (request.readyState === 4) {
-        next.call(nextContext, !xhr.ok(request) && request,
-          request.response, url);
-      }
-    });
-    request.send();
-    return request;
-  },
-  loadDocument: function(url, next, nextContext) {
-    this.load(url, next, nextContext).responseType = 'document';
-  }
-};
-
-var forEach = Array.prototype.forEach.call.bind(Array.prototype.forEach);
-
-// exports
-
-scope.path = path;
-scope.xhr = xhr;
-scope.importer = importer;
-scope.getDocumentUrl = path.getDocumentUrl;
-scope.IMPORT_LINK_TYPE = IMPORT_LINK_TYPE;
-
-})(window.HTMLImports);
-
-/*
- * Copyright 2013 The Polymer Authors. All rights reserved.
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file.
- */
-
-(function(scope) {
-
-var IMPORT_LINK_TYPE = 'import';
-
-// highlander object for parsing a document tree
-
-var importParser = {
-  selectors: [
-    'link[rel=' + IMPORT_LINK_TYPE + ']',
-    'link[rel=stylesheet]',
-    'style',
-    'script:not([type])',
-    'script[type="text/javascript"]'
-  ],
-  map: {
-    link: 'parseLink',
-    script: 'parseScript',
-    style: 'parseGeneric'
-  },
-  parse: function(inDocument) {
-    if (!inDocument.__importParsed) {
-      // only parse once
-      inDocument.__importParsed = true;
-      // all parsable elements in inDocument (depth-first pre-order traversal)
-      var elts = inDocument.querySelectorAll(importParser.selectors);
-      // for each parsable node type, call the mapped parsing method
-      forEach(elts, function(e) {
-        importParser[importParser.map[e.localName]](e);
-      });
-    }
-  },
-  parseLink: function(linkElt) {
-    if (isDocumentLink(linkElt)) {
-      if (linkElt.content) {
-        importParser.parse(linkElt.content);
-      }
-    } else {
-      this.parseGeneric(linkElt);
-    }
-  },
-  parseGeneric: function(elt) {
-    if (needsMainDocumentContext(elt)) {
-      document.head.appendChild(elt);
-    }
-  },
-  parseScript: function(scriptElt) {
-    if (needsMainDocumentContext(scriptElt)) {
-      // acquire code to execute
-      var code = (scriptElt.__resource || scriptElt.textContent).trim();
-      if (code) {
-        // calculate source map hint
-        var moniker = scriptElt.__nodeUrl;
-        if (!moniker) {
-          var moniker = scope.path.documentUrlFromNode(scriptElt);
-          // there could be more than one script this url
-          var tag = '[' + Math.floor((Math.random()+1)*1000) + ']';
-          // TODO(sjmiles): Polymer hack, should be pluggable if we need to allow 
-          // this sort of thing
-          var matches = code.match(/Polymer\(['"]([^'"]*)/);
-          tag = matches && matches[1] || tag;
-          // tag the moniker
-          moniker += '/' + tag + '.js';
-        }
-        // source map hint
-        code += "\n//# sourceURL=" + moniker + "\n";
-        // evaluate the code
-        eval.call(window, code);
-      }
-    }
-  }
-};
-
-var forEach = Array.prototype.forEach.call.bind(Array.prototype.forEach);
-
-function isDocumentLink(elt) {
-  return elt.localName === 'link'
-      && elt.getAttribute('rel') === IMPORT_LINK_TYPE;
-}
-
-function needsMainDocumentContext(node) {
-  // nodes can be moved to the main document:
-  // if they are in a tree but not in the main document and not children of <element>
-  return node.parentNode && !inMainDocument(node) 
-      && !isElementElementChild(node);
-}
-
-function inMainDocument(elt) {
-  return elt.ownerDocument === document ||
-    // TODO(sjmiles): ShadowDOMPolyfill intrusion
-    elt.ownerDocument.impl === document;
-}
-
-function isElementElementChild(elt) {
-  return elt.parentNode && elt.parentNode.localName === 'element';
-}
-
-// exports
-
-scope.parser = importParser;
-
-})(HTMLImports);
-/*
- * Copyright 2013 The Polymer Authors. All rights reserved.
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file.
- */
-(function(){
-
-// bootstrap
-
-// IE shim for CustomEvent
-if (typeof window.CustomEvent !== 'function') {
-  window.CustomEvent = function(inType) {
-     var e = document.createEvent('HTMLEvents');
-     e.initEvent(inType, true, true);
-     return e;
-  };
-}
-
-function bootstrap() {
-  // preload document resource trees
-  HTMLImports.importer.load(document, function() {
-    HTMLImports.parser.parse(document);
-    HTMLImports.readyTime = new Date().getTime();
-    // send HTMLImportsLoaded when finished
-    document.dispatchEvent(
-      new CustomEvent('HTMLImportsLoaded', {bubbles: true})
-    );
-  });
-};
-
-if (document.readyState === 'complete') {
-  bootstrap();
-} else {
-  window.addEventListener('DOMContentLoaded', bootstrap);
-}
-
-})();
 
 /*
  * Copyright 2013 The Polymer Authors. All rights reserved.
@@ -2050,20 +1458,20 @@ CustomElements.parser = parser;
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-(function(){
+(function(scope){
 
 // bootstrap parsing
 function bootstrap() {
   // parse document
   CustomElements.parser.parse(document);
   // one more pass before register is 'live'
-  CustomElements.upgradeDocument(document);  
+  CustomElements.upgradeDocument(document);
   // choose async
   var async = window.Platform && Platform.endOfMicrotask ? 
     Platform.endOfMicrotask :
     setTimeout;
   async(function() {
-    // set internal 'ready' flag, now document.register will trigger 
+    // set internal 'ready' flag, now document.registerElement will trigger 
     // synchronous upgrades
     CustomElements.ready = true;
     // capture blunt profiling data
@@ -2072,7 +1480,7 @@ function bootstrap() {
       CustomElements.elapsed = CustomElements.readyTime - HTMLImports.readyTime;
     }
     // notify the system that we are bootstrapped
-    document.body.dispatchEvent(
+    document.dispatchEvent(
       new CustomEvent('WebComponentsReady', {bubbles: true})
     );
   });
@@ -2081,20 +1489,31 @@ function bootstrap() {
 // CustomEvent shim for IE
 if (typeof window.CustomEvent !== 'function') {
   window.CustomEvent = function(inType) {
-     var e = document.createEvent('HTMLEvents');
-     e.initEvent(inType, true, true);
-     return e;
+    var e = document.createEvent('HTMLEvents');
+    e.initEvent(inType, true, true);
+    return e;
   };
 }
 
-if (document.readyState === 'complete') {
+// When loading at readyState complete time (or via flag), boot custom elements
+// immediately.
+// If relevant, HTMLImports must already be loaded.
+if (document.readyState === 'complete' || scope.flags.eager) {
   bootstrap();
+// When loading at readyState interactive time, bootstrap only if HTMLImports
+// are not pending. Also avoid IE as the semantics of this state are unreliable.
+} else if (document.readyState === 'interactive' && !window.attachEvent &&
+    (!window.HTMLImports || window.HTMLImports.ready)) {
+  bootstrap();
+// When loading at other readyStates, wait for the appropriate DOM event to 
+// bootstrap.
 } else {
-  var loadEvent = window.HTMLImports ? 'HTMLImportsLoaded' : 'DOMContentLoaded';
+  var loadEvent = window.HTMLImports && !HTMLImports.ready ?
+      'HTMLImportsLoaded' : 'DOMContentLoaded';
   window.addEventListener(loadEvent, bootstrap);
 }
 
-})();
+})(window.CustomElements);
 
 (function () {
 
@@ -2164,6 +1583,7 @@ if (document.readyState === 'complete') {
   }
 
 // DOM
+
   var str = '';
   function query(element, selector){
     return (selector || str).length ? toArray(element.querySelectorAll(selector)) : [];
@@ -2195,25 +1615,48 @@ if (document.readyState === 'complete') {
     return source;
   }
 
-  function mergeMixin(type, mixin, option) {
-    var original = {};
-    for (var o in option) original[o.split(':')[0]] = true;
-    for (var x in mixin) if (!original[x.split(':')[0]]) option[x] = mixin[x];
+  function wrapMixin(tag, key, pseudo, value, original){
+    var fn = original[key];
+    if (!(key in original)) original[key] = value;
+    else if (typeof original[key] == 'function') {
+      if (!fn.__mixins__) fn.__mixins__ = [];
+      fn.__mixins__.push(xtag.applyPseudos(pseudo, value, tag.pseudos));
+    }
+  }
+
+  var uniqueMixinCount = 0;
+  function mergeMixin(tag, mixin, original, mix) {
+    if (mix) {
+      var uniques = {};
+      for (var z in original) uniques[z.split(':')[0]] = z;
+      for (z in mixin) {
+        wrapMixin(tag, uniques[z.split(':')[0]] || z, z, mixin[z], original);
+      }
+    }
+    else {
+      for (var zz in mixin){
+        original[zz + ':__mixin__(' + (uniqueMixinCount++) + ')'] = xtag.applyPseudos(zz, mixin[zz], tag.pseudos);
+      }
+    }
   }
 
   function applyMixins(tag) {
     tag.mixins.forEach(function (name) {
       var mixin = xtag.mixins[name];
       for (var type in mixin) {
-        switch (type) {
-          case 'lifecycle': case 'methods':
-            mergeMixin(type, mixin[type], tag[type]);
-            break;
-          case 'accessors': case 'prototype':
-            for (var z in mixin[type]) mergeMixin(z, mixin[type], tag.accessors);
-            break;
-          case 'events':
-            break;
+        var item = mixin[type],
+            original = tag[type];
+        if (!original) tag[type] = item;
+        else {
+          switch (type){
+            case 'accessors': case 'prototype':
+              for (var z in item) {
+                if (!original[z]) original[z] = item[z];
+                else mergeMixin(tag, item[z], original[z], true);
+              }
+              break;
+            default: mergeMixin(tag, item, original, type != 'events');
+          }
         }
       }
     });
@@ -2223,10 +1666,17 @@ if (document.readyState === 'complete') {
 // Events
 
   function delegateAction(pseudo, event) {
-    var target = query(this, pseudo.value).filter(function(node){
-      return node == event.target || node.contains ? node.contains(event.target) : null;
-    })[0];
-    return target ? pseudo.listener = pseudo.listener.bind(target) : null;
+    var match, target = event.target;
+    if (!target.tagName) return null;
+    if (xtag.matchSelector(target, pseudo.value)) match = target;
+    else if (xtag.matchSelector(target, pseudo.value + ' *')) {
+      var parent = target.parentNode;
+      while (!match) {
+        if (xtag.matchSelector(parent, pseudo.value)) match = parent;
+        parent = parent.parentNode;
+      }
+    }
+    return match ? pseudo.listener = pseudo.listener.bind(match) : null;
   }
 
   function touchFilter(event) {
@@ -2303,7 +1753,7 @@ if (document.readyState === 'complete') {
     var key = z.split(':'), type = key[0];
     if (type == 'get') {
       key[0] = prop;
-      tag.prototype[prop].get = xtag.applyPseudos(key.join(':'), accessor[z], tag.pseudos);
+      tag.prototype[prop].get = xtag.applyPseudos(key.join(':'), accessor[z], tag.pseudos, accessor[z]);
     }
     else if (type == 'set') {
       key[0] = prop;
@@ -2317,7 +1767,7 @@ if (document.readyState === 'complete') {
       } : accessor[z] ? function(value){
         accessor[z].call(this, value);
         updateView(this, name, value);
-      } : null, tag.pseudos);
+      } : null, tag.pseudos, accessor[z]);
 
       if (attr) attr.setter = setter;
     }
@@ -2349,6 +1799,15 @@ if (document.readyState === 'complete') {
         updateView(this, name, value);
       };
     }
+  }
+
+  var readyTags = {};
+  function fireReady(name){
+    readyTags[name] = (readyTags[name] || []).filter(function(obj){
+      return (obj.tags = obj.tags.filter(function(z){
+        return z != name && !xtag.tags[z];
+      })).length || obj.fn();
+    });
   }
 
 /*** X-Tag Object Definition ***/
@@ -2386,8 +1845,8 @@ if (document.readyState === 'complete') {
       var tag = xtag.tags[_name] = applyMixins(xtag.merge({}, xtag.defaultOptions, options));
 
       for (var z in tag.events) tag.events[z] = xtag.parseEvent(z, tag.events[z]);
-      for (z in tag.lifecycle) tag.lifecycle[z.split(':')[0]] = xtag.applyPseudos(z, tag.lifecycle[z], tag.pseudos);
-      for (z in tag.methods) tag.prototype[z.split(':')[0]] = { value: xtag.applyPseudos(z, tag.methods[z], tag.pseudos), enumerable: true };
+      for (z in tag.lifecycle) tag.lifecycle[z.split(':')[0]] = xtag.applyPseudos(z, tag.lifecycle[z], tag.pseudos, tag.lifecycle[z]);
+      for (z in tag.methods) tag.prototype[z.split(':')[0]] = { value: xtag.applyPseudos(z, tag.methods[z], tag.pseudos, tag.methods[z]), enumerable: true };
       for (z in tag.accessors) parseAccessor(tag, z);
 
       var ready = tag.lifecycle.created || tag.lifecycle.ready;
@@ -2399,7 +1858,7 @@ if (document.readyState === 'complete') {
           tag.mixins.forEach(function(mixin){
             if (xtag.mixins[mixin].events) xtag.addEvents(element, xtag.mixins[mixin].events);
           });
-          var output = ready ? ready.apply(this, toArray(arguments)) : null;
+          var output = ready ? ready.apply(this, arguments) : null;
           for (var name in tag.attributes) {
             var attr = tag.attributes[name],
                 hasAttr = this.hasAttribute(name);
@@ -2414,8 +1873,8 @@ if (document.readyState === 'complete') {
         }
       };
 
-      if (tag.lifecycle.inserted) tag.prototype.enteredViewCallback = { value: tag.lifecycle.inserted, enumerable: true };
-      if (tag.lifecycle.removed) tag.prototype.leftDocumentCallback = { value: tag.lifecycle.removed, enumerable: true };
+      if (tag.lifecycle.inserted) tag.prototype.attachedCallback = { value: tag.lifecycle.inserted, enumerable: true };
+      if (tag.lifecycle.removed) tag.prototype.detachedCallback = { value: tag.lifecycle.removed, enumerable: true };
       if (tag.lifecycle.attributeChanged) tag.prototype.attributeChangedCallback = { value: tag.lifecycle.attributeChanged, enumerable: true };
 
       var setAttribute = tag.prototype.setAttribute || HTMLElement.prototype.setAttribute;
@@ -2456,28 +1915,35 @@ if (document.readyState === 'complete') {
       };
 
       var elementProto = basePrototype ?
-        basePrototype :
-          options['extends'] ?
-            Object.create(doc.createElement(options['extends'])
-              .constructor).prototype :
-          win.HTMLElement.prototype;
+            basePrototype :
+            options['extends'] ?
+            Object.create(doc.createElement(options['extends']).constructor).prototype :
+            win.HTMLElement.prototype;
 
-      return doc.register(_name, {
-        'extends': options['extends'],
+      var definition = {
         'prototype': Object.create(elementProto, tag.prototype)
-      });
+      };
+      if (options['extends']) {
+        definition['extends'] = options['extends'];
+      }
+      var reg = doc.registerElement(_name, definition);
+      fireReady(_name);
+      return reg;
+    },
 
+    ready: function(names, fn){
+      var obj = { tags: toArray(names), fn: fn };
+      if (obj.tags.reduce(function(last, name){
+        if (xtag.tags[name]) return last;
+        (readyTags[name] = readyTags[name] || []).push(obj);
+      }, true)) fn();
     },
 
     /* Exposed Variables */
 
     mixins: {},
     prefix: prefix,
-    touches: {
-      active: [],
-      changed: []
-    },
-    captureEvents: ['focus', 'blur', 'scroll', 'underflow', 'overflow', 'overflowchanged'],
+    captureEvents: ['focus', 'blur', 'scroll', 'underflow', 'overflow', 'overflowchanged', 'DOMMouseScroll'],
     customEvents: {
       overflow: createFlowEvent('over'),
       underflow: createFlowEvent('under'),
@@ -2501,6 +1967,13 @@ if (document.readyState === 'complete') {
       leave: {
         attach: ['mouseout', 'touchleave'],
         condition: touchFilter
+      },
+      scrollwheel: {
+        attach: ['DOMMouseScroll', 'mousewheel'],
+        condition: function(event){
+          event.delta = event.wheelDelta ? event.wheelDelta / 40 : Math.round(event.detail / 3.5 * -1);
+          return true;
+        }
       },
       tapstart: {
         observe: {
@@ -2526,7 +1999,6 @@ if (document.readyState === 'complete') {
               custom.lastDrag = event;
               return (last.pageX != event.pageX && last.pageY != event.pageY) || null;
             case 'tapstart':
-              custom.touches = custom.touches || 1;
               if (!custom.move) {
                 custom.current = this;
                 custom.move = xtag.addEvents(this, {
@@ -2537,10 +2009,9 @@ if (document.readyState === 'complete') {
               }
               break;
             case 'tapend': case 'dragend': case 'touchcancel':
-              custom.touches--;
-              if (!custom.touches) {
-                xtag.removeEvents(custom.current , custom.move || {});
-                xtag.removeEvent(doc, custom.tapend || {});
+              if (!event.touches.length) {
+                if (custom.move) xtag.removeEvents(custom.current , custom.move || {});
+                if (custom.tapend) xtag.removeEvent(doc, custom.tapend || {});
                 delete custom.lastDrag;
                 delete custom.current;
                 delete custom.tapend;
@@ -2551,6 +2022,31 @@ if (document.readyState === 'complete') {
       }
     },
     pseudos: {
+      __mixin__: {},
+      mixins: {
+        onCompiled: function(fn, pseudo){
+          var mixins = pseudo.source.__mixins__;
+          if (mixins) switch (pseudo.value) {
+            case 'before': return function(){
+              var self = this,
+                  args = arguments;
+              mixins.forEach(function(m){
+                m.apply(self, args);
+              });
+              return fn.apply(self, args);
+            };
+            case 'after': case null: return function(){
+              var self = this,
+                  args = arguments;
+                  returns = fn.apply(self, args);
+              mixins.forEach(function(m){
+                m.apply(self, args);
+              });
+              return returns;
+            };
+          }
+        }
+      },
       keypass: keypseudo,
       keyfail: keypseudo,
       delegate: { action: delegateAction },
@@ -2580,9 +2076,10 @@ if (document.readyState === 'complete') {
 
     wrap: function (original, fn) {
       return function(){
-        var args = toArray(arguments),
-          returned = original.apply(this, args);
-        return returned === false ? false : fn.apply(this, typeof returned != 'undefined' ? toArray(returned) : args);
+        var args = arguments,
+            output = original.apply(this, args);
+        fn.apply(this, args);
+        return output;
       };
     },
 
@@ -2606,9 +2103,8 @@ if (document.readyState === 'complete') {
     skipTransition: function(element, fn, bind){
       var prop = prefix.js + 'TransitionProperty';
       element.style[prop] = element.style.transitionProperty = 'none';
-      xtag.requestFrame(function(){
-        var callback;
-        if (fn) callback = fn.call(bind);
+      var callback = fn ? fn.call(bind) : null;
+      return xtag.requestFrame(function(){
         xtag.requestFrame(function(){
           element.style[prop] = element.style.transitionProperty = '';
           if (callback) xtag.requestFrame(callback);
@@ -2618,11 +2114,16 @@ if (document.readyState === 'complete') {
 
     requestFrame: (function(){
       var raf = win.requestAnimationFrame ||
-        win[prefix.lowercase + 'RequestAnimationFrame'] ||
-        function(fn){ return win.setTimeout(fn, 20); };
-      return function(fn){
-        return raf.call(win, fn);
-      };
+                win[prefix.lowercase + 'RequestAnimationFrame'] ||
+                function(fn){ return win.setTimeout(fn, 20); };
+      return function(fn){ return raf(fn); };
+    })(),
+
+    cancelFrame: (function(){
+      var cancel = win.cancelAnimationFrame ||
+                   win[prefix.lowercase + 'CancelAnimationFrame'] ||
+                   win.clearTimeout;
+      return function(id){ return cancel(id); };
     })(),
 
     matchSelector: function (element, selector) {
@@ -2697,7 +2198,7 @@ if (document.readyState === 'complete') {
 
     /* PSEUDOS */
 
-    applyPseudos: function(key, fn, element, source) {
+    applyPseudos: function(key, fn, target, source) {
       var listener = fn,
           pseudos = {};
       if (key.match(':')) {
@@ -2706,13 +2207,14 @@ if (document.readyState === 'complete') {
         while (--i) {
           split[i].replace(regexPseudoReplace, function (match, name, value) {
             if (!xtag.pseudos[name]) throw "pseudo not found: " + name + " " + split;
+            value = (value === '' || typeof value == 'undefined') ? null : value;
             var pseudo = pseudos[i] = Object.create(xtag.pseudos[name]);
-                pseudo.key = key;
-                pseudo.name = name;
-                pseudo.value = value;
-                pseudo['arguments'] = (value || '').split(',');
-                pseudo.action = pseudo.action || trueop;
-                pseudo.source = source;
+            pseudo.key = key;
+            pseudo.name = name;
+            pseudo.value = value;
+            pseudo['arguments'] = (value || '').split(',');
+            pseudo.action = pseudo.action || trueop;
+            pseudo.source = source;
             var last = listener;
             listener = function(){
               var args = toArray(arguments),
@@ -2721,15 +2223,16 @@ if (document.readyState === 'complete') {
                     name: name,
                     value: value,
                     source: source,
+                    'arguments': pseudo['arguments'],
                     listener: last
                   };
               var output = pseudo.action.apply(this, [obj].concat(args));
               if (output === null || output === false) return output;
               return obj.listener.apply(this, args);
             };
-            if (element && pseudo.onAdd) {
-              if (element.getAttribute) pseudo.onAdd.call(element, pseudo);
-              else element.push(pseudo);
+            if (target && pseudo.onAdd) {
+              if (target.nodeName) pseudo.onAdd.call(target, pseudo);
+              else target.push(pseudo);
             }
           });
         }
@@ -2740,9 +2243,9 @@ if (document.readyState === 'complete') {
       return listener;
     },
 
-    removePseudos: function(element, event){
-      event._pseudos.forEach(function(obj){
-        if (obj.onRemove) obj.onRemove.call(element, obj);
+    removePseudos: function(target, pseudos){
+      pseudos.forEach(function(obj){
+        if (obj.onRemove) obj.onRemove.call(target, obj);
       });
     },
 
@@ -2768,24 +2271,30 @@ if (document.readyState === 'complete') {
       var condition = event.condition;
       event.condition = function(e){
         var t = e.touches, tt = e.targetTouches;
-        return condition.apply(this, toArray(arguments));
+        return condition.apply(this, arguments);
       };
       var stack = xtag.applyPseudos(event.chain, fn, event._pseudos, event);
       event.stack = function(e){
+        e.currentTarget = e.currentTarget || this;
         var t = e.touches, tt = e.targetTouches;
         var detail = e.detail || {};
-        if (!detail.__stack__) return stack.apply(this, toArray(arguments));
+        if (!detail.__stack__) return stack.apply(this, arguments);
         else if (detail.__stack__ == stack) {
           e.stopPropagation();
           e.cancelBubble = true;
-          return stack.apply(this, toArray(arguments));
+          return stack.apply(this, arguments);
         }
       };
       event.listener = function(e){
         var args = toArray(arguments),
             output = event.condition.apply(this, args.concat([event]));
         if (!output) return output;
-        if (e.type != key) xtag.fireEvent(e.target, key, { baseEvent: e, detail: { __stack__: stack } });
+        if (e.type != key) {
+          xtag.fireEvent(e.target, key, {
+            baseEvent: e,
+            detail: output !== true && (output.__stack__ = stack) ? output : { __stack__: stack }
+          });
+        }
         else return event.stack.apply(this, args);
       };
       event.attach.forEach(function(name) {
@@ -2795,7 +2304,10 @@ if (document.readyState === 'complete') {
         custom.observer = function(e){
           var output = event.condition.apply(this, toArray(arguments).concat([custom]));
           if (!output) return output;
-          xtag.fireEvent(e.target, key, { baseEvent: e });
+          xtag.fireEvent(e.target, key, {
+            baseEvent: e,
+            detail: output !== true ? output : {}
+          });
         };
         for (var z in custom.observe) xtag.addEvent(custom.observe[z] || document, z, custom.observer, true);
         custom.__observing__ = true;
@@ -2804,7 +2316,7 @@ if (document.readyState === 'complete') {
     },
 
     addEvent: function (element, type, fn, capture) {
-      var event = (typeof fn == 'function') ? xtag.parseEvent(type, fn) : fn;
+      var event = typeof fn == 'function' ? xtag.parseEvent(type, fn) : fn;
       event._pseudos.forEach(function(obj){
         obj.onAdd.call(element, obj);
       });
@@ -2827,7 +2339,7 @@ if (document.readyState === 'complete') {
     removeEvent: function (element, type, event) {
       event = event || type;
       event.onRemove.call(element, event, event.listener);
-      xtag.removePseudos(element, event);
+      xtag.removePseudos(element, event._pseudos);
       event._attach.forEach(function(obj) {
         xtag.removeEvent(element, obj);
       });
@@ -2841,7 +2353,7 @@ if (document.readyState === 'complete') {
     fireEvent: function(element, type, options, warn){
       var event = doc.createEvent('CustomEvent');
       options = options || {};
-      if (warn) console.warn('fireEvent has been modified, more info here: ');
+      if (warn) console.warn('fireEvent has been modified');
       event.initCustomEvent(type,
         options.bubbles !== false,
         options.cancelable !== false,
@@ -2850,7 +2362,7 @@ if (document.readyState === 'complete') {
       if (options.baseEvent) inheritEvent(event, options.baseEvent);
       try { element.dispatchEvent(event); }
       catch (e) {
-        console.warn('This error may have been caused by a change in the fireEvent method, more info here: ', e);
+        console.warn('This error may have been caused by a change in the fireEvent method', e);
       }
     },
 
@@ -2894,17 +2406,23 @@ if (document.readyState === 'complete') {
 
 /*** Universal Touch ***/
 
-var touchCount = 0, touchTarget = null;
+var touching = false,
+    touchTarget = null;
 
 doc.addEventListener('mousedown', function(e){
-  touchCount++;
+  touching = true;
   touchTarget = e.target;
 }, true);
 
 doc.addEventListener('mouseup', function(){
-  touchCount--;
+  touching = false;
   touchTarget = null;
-}, false);
+}, true);
+
+doc.addEventListener('dragend', function(){
+  touching = false;
+  touchTarget = null;
+}, true);
 
 var UIEventProto = {
   touches: {
@@ -2912,22 +2430,22 @@ var UIEventProto = {
     get: function(){
       return this.__touches__ ||
         (this.identifier = 0) ||
-        (this.__touches__ = touchCount ? [this] : []);
+        (this.__touches__ = touching ? [this] : []);
     }
   },
   targetTouches: {
     configurable: true,
     get: function(){
       return this.__targetTouches__ || (this.__targetTouches__ =
-        (touchCount && this.currentTarget &&
+        (touching && this.currentTarget &&
         (this.currentTarget == touchTarget ||
-        (this.currentTarget.contains && this.currentTarget.contains(touchTarget)))) ? [this] : []);
+        (this.currentTarget.contains && this.currentTarget.contains(touchTarget)))) ? (this.identifier = 0) || [this] : []);
     }
   },
   changedTouches: {
     configurable: true,
     get: function(){
-      return this.touches;
+      return this.__changedTouches__ || (this.identifier = 0) || (this.__changedTouches__ = [this]);
     }
   }
 };
@@ -2937,20 +2455,6 @@ for (z in UIEventProto){
   Object.defineProperty(UIEvent.prototype, z, UIEventProto[z]);
 }
 
-var touchReset = {
-    value: null,
-    writable: true,
-    configurable: true
-  },
-  TouchEventProto = {
-    touches: touchReset,
-    targetTouches: touchReset,
-    changedTouches: touchReset
-  };
-
-if (win.TouchEvent) {
-  for (z in TouchEventProto) win.TouchEvent.prototype[z] = TouchEventProto[z];
-}
 
 /*** Custom Event Definitions ***/
 
@@ -2986,12 +2490,13 @@ if (win.TouchEvent) {
   }
 
   function checkTapPosition(el, tap, e){
-    var touch = e.changedTouches[0];
+    var touch = e.changedTouches[0],
+        tol = tap.gesture.tolerance;
     if (
-      touch.pageX < el.__tap__.x + tap.gesture.tolerance &&
-      touch.pageX > el.__tap__.x - tap.gesture.tolerance &&
-      touch.pageY < el.__tap__.y + tap.gesture.tolerance &&
-      touch.pageY > el.__tap__.y - tap.gesture.tolerance
+      touch.pageX < el.__tap__.x + tol &&
+      touch.pageX > el.__tap__.x - tol &&
+      touch.pageY < el.__tap__.y + tol &&
+      touch.pageY > el.__tap__.y - tol
     ) return true;
   }
 
@@ -3039,7 +2544,6 @@ if (win.TouchEvent) {
   });
 
 })();
-
 /**
  * Prism: Lightweight, robust, elegant syntax highlighting
  * MIT license http://www.opensource.org/licenses/mit-license.php/
@@ -3074,6 +2578,19 @@ xtag.register('x-code-prism', {
   }
 });
 (function() {
+
+  function reveal(e){
+    var flipBox = e.currentTarget;
+    if (this.parentNode == flipBox){
+      if (this.parentNode.firstElementChild == this){
+        flipBox.flipped = false;
+      }
+      else if(this.parentNode.lastElementChild == this){
+        flipBox.flipped = true;
+      }
+    }
+  }
+
   xtag.register('x-flipbox', {
     lifecycle: {
       created: function() {
@@ -3084,7 +2601,6 @@ xtag.register('x-code-prism', {
           if(this.lastElementChild){
             xtag.skipTransition(this.lastElementChild,function(){});
           }
-
           if(!this.hasAttribute("direction")){
             this.xtag._direction = "right";
           }
@@ -3092,37 +2608,15 @@ xtag.register('x-code-prism', {
     },
     events:{
       // only listen to one side of flipbox to prevent double firing of flipend
-      'transitionend:delegate(*:first-child)': function(e) {
+      'transitionend:delegate(x-flipbox > *:first-child)': function(e) {
           // because we can't use the descendent selector of > at the front of
           // our delegation, make sure this is the correct top-level element
-          var frontCard = e.target;
-          var flipBox = frontCard.parentNode;
-          if(flipBox.nodeName.toLowerCase() === "x-flipbox"){
+          var flipBox = e.currentTarget;
+          if (this.parentNode == flipBox){
             xtag.fireEvent(flipBox, "flipend");
           }
       },
-      'show:delegate(*:first-child)': function(e){
-         // because we can't use the descendent selector of > at the front of
-         // our delegation, make sure this is the correct top-level element
-         
-         var frontCard = e.target;
-         var flipBox = frontCard.parentNode;
-         
-         if(flipBox.nodeName.toLowerCase() === "x-flipbox"){
-            flipBox.flipped = false;
-         }
-      },
-      'show:delegate(*:last-child)': function(e){
-         // because we can't use the descendent selector of > at the front of
-         // our delegation, make sure this is the correct top-level element
-         
-         var backCard = e.target;
-         var flipBox = backCard.parentNode;
-         
-         if(flipBox.nodeName.toLowerCase() === "x-flipbox"){
-            flipBox.flipped = true;
-         }
-      }
+      'reveal:delegate(x-flipbox > *)': reveal
     },
     accessors: {
       direction: {
@@ -3132,13 +2626,15 @@ xtag.register('x-code-prism', {
         },
         set: function(value) {
           // set animation direction attribute and skip any transition
+          var self = this;
+          xtag.skip(elem, before, after);
           xtag.skipTransition(this.firstElementChild, function() {
-            this.setAttribute('_anim-direction', value);
-          }, this);
+            self.setAttribute('_anim-direction', value);
+            return function(){};
+          });
           xtag.skipTransition(this.lastElementChild, function() {
-            this.setAttribute('_anim-direction', value);
-          }, this);
-
+            self.setAttribute('_anim-direction', value);
+          });
           this.xtag._direction = value;
         }
       },
@@ -3338,11 +2834,33 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
 })();
 (function(){
 
-  var replaceSpaces = / /g,
-      captureTimes = /(\d|\d+?[.]?\d+?)(s|ms)(?!\w)/gi;
-    
+  var matchNum = /[1-9]/,
+      replaceSpaces = / /g,
+      captureTimes = /(\d|\d+?[.]?\d+?)(s|ms)(?!\w)/gi,
+      transPre = 'transition' in getComputedStyle(document.documentElement) ? 't' : xtag.prefix.js + 'T',
+      transDur = transPre + 'ransitionDuration',
+      transProp = transPre + 'ransitionProperty',
+      skipFrame = function(fn){
+        xtag.requestFrame(function(){ xtag.requestFrame(fn) });
+      },
+      ready = document.readyState == 'complete' ? 
+        skipFrame(function(){ ready = false }) :
+        xtag.addEvent(document, 'readystatechange', function(){
+          if (document.readyState == 'complete') {
+            skipFrame(function(){ ready = false });
+            xtag.removeEvent(document, 'readystatechange', ready);
+          }
+        });
+  
   function getTransitions(node){
     return node.__transitions__ = node.__transitions__ || {};
+  }
+  
+  function startTransition(node, name, transitions){
+    var style = getComputedStyle(node),
+        after = transitions[name].after;
+    node.setAttribute('transition', name);
+    if (after && !style[transDur].match(matchNum)) after();
   }
   
   xtag.addEvents(document, {
@@ -3354,8 +2872,8 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
             prop = null,
             style = getComputedStyle(node),
             transitions = getTransitions(node),
-            props = (style.transitionProperty || style[xtag.prefix.js + 'TransitionProperty']).replace(replaceSpaces, '').split(',');
-        (style.transitionDuration || style[xtag.prefix.js + 'TransitionDuration']).replace(captureTimes, function(match, time, unit){
+            props = style[transProp].replace(replaceSpaces, '').split(',');
+        style[transDur].replace(captureTimes, function(match, time, unit){
           var time = parseFloat(time) * (unit === 's' ? 1000 : 1);
           if (time > max) prop = i, max = time;
           i++;
@@ -3368,22 +2886,19 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
   });
   
   xtag.transition = function(node, name, obj){
-    var options = obj || {},
-        transitions = getTransitions(node),
-        trans = transitions[name] = transitions[name] || options;
-        trans.immediate = options.immediate || trans.immediate;
-        trans.before = options.before || trans.before;
-        trans.after = options.after || trans.after;
-    if (trans.immediate) trans.immediate();
-    if (trans.before) {
-      trans.before();
-      xtag.requestFrame(function(){
-        xtag.requestFrame(function(){
-          node.setAttribute('transition', name);
-        });
+    var transitions = getTransitions(node),
+        options = transitions[name] = obj || {};
+    if (options.immediate) options.immediate();
+    if (options.before) {
+      options.before();
+      if (ready) xtag.skipTransition(node, function(){
+        startTransition(node, name, transitions);
+      });
+      else skipFrame(function(){
+        startTransition(node, name, transitions);
       });
     }
-    else node.setAttribute('transition', name);
+    else startTransition(node, name, transitions);
   };
   
   xtag.pseudos.transition = {
@@ -3392,10 +2907,9 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
           when = pseudo.arguments[0] || 'immediate',
           name = pseudo.arguments[1] || pseudo.key.split(':')[0];
       return function(){
-        var target = this,
-            args = xtag.toArray(arguments);
+        var target = this, args = arguments;
         if (this.hasAttribute('transition')) {
-          options[when] = options[when] || function(){
+          options[when] = function(){
             return fn.apply(target, args);
           }
           xtag.transition(this, name, options);
@@ -3653,17 +3167,19 @@ xtag.callbacks = {};
   });
 })();
 
-(function(){
+(function () {
 
   var transform = xtag.prefix.js + 'Transform';
-  function getState(el){
+  function getState(el) {
     var selected = xtag.query(el, 'x-slides > x-slide[selected]')[0] || 0;
     return [selected ? xtag.query(el, 'x-slides > x-slide').indexOf(selected) : selected, el.firstElementChild.children.length - 1];
   }
 
-  function slide(el, index){
+  function slide(el, index) {
     var slides = xtag.toArray(el.firstElementChild.children);
-    slides.forEach(function(slide){ slide.removeAttribute('selected'); });
+    slides.forEach(function (slide) {
+      slide.removeAttribute('selected');
+    });
 
     slides[index || 0].setAttribute('selected', true);
     var translate = 'translate'+ (el.getAttribute('orientation') || 'x') + '(' + (index || 0) * (-100 / slides.length) + '%)';
@@ -3671,64 +3187,67 @@ xtag.callbacks = {};
     el.firstElementChild.style.transform = translate;
   }
 
-  function init(toSelected){
+  function init(toSelected) {
     var slides = this.firstElementChild;
-    if (!slides || !slides.children.length || slides.tagName.toLowerCase() != 'x-slides') return;
+    if (!slides ||
+        !slides.children.length ||
+        slides.tagName.toLowerCase() != 'x-slides') {
+      return;
+    }
 
-    var children = xtag.toArray(slides.children),
-      size = 100 / (children.length || 1),
-      orient = this.getAttribute('orientation') || 'x',
-      style = orient == 'x' ? ['width', 'height'] : ['height', 'width'];
+    var children = xtag.toArray(slides.children);
+    var size = 100 / (children.length || 1);
+    var orient = this.getAttribute('orientation') || 'x';
+    var style = orient == 'x' ? ['width', 'height'] : ['height', 'width'];
 
     slides.style[style[1]] =  '100%';
     slides.style[style[0]] = children.length * 100 + '%';
     slides.style[transform] = 'translate' + orient + '(0%)';
     slides.style.transform = 'translate' + orient + '(0%)';
-    children.forEach(function(slide){
+    children.forEach(function (slide) {
       slide.style[style[0]] = size + '%';
       slide.style[style[1]] = '100%';
     });
 
     if (toSelected) {
       var selected = slides.querySelector('[selected]');
-      if (selected) slide(this, children.indexOf(selected) || 0);
+      if (selected) {
+        slide(this, children.indexOf(selected) || 0);
+      }
     }
   }
 
   xtag.register('x-slidebox', {
     lifecycle: {
-      created: function(){
+      created: function () {
         init();
       }
     },
-    events:{
-      'transitionend': function(e){
-        if (e.target == this.firstElementChild){
+    events: {
+      'transitionend': function (e) {
+        if (e.target == this.firstElementChild) {
           xtag.fireEvent(this, 'slideend');
         }
       },
-      'show:delegate(x-slide)': function(e){
+      'reveal:delegate(x-slidebox > x-slides > x-slide)': function(e){
         var slide = e.target;
-        if(slide.parentNode.nodeName.toLowerCase() === "x-slides" &&
-           slide.parentNode.parentNode.nodeName.toLowerCase() === "x-slidebox")
-        {
-            var slideWrap = slide.parentNode;
-            var box = slideWrap.parentNode;
-            var slides = xtag.query(slideWrap, 'x-slide');
-
-            box.slideTo(slides.indexOf(slide));
+        if (e.target.parentNode.parentNode == e.currentTarget){
+          var slideWrap = slide.parentNode;
+          var box = slideWrap.parentNode;
+          var slides = xtag.query(slideWrap, 'x-slide');
+          box.slideTo(slides.indexOf(slide));
         }
       }
     },
-    accessors:{
-      orientation:{
-        get: function(){
+    accessors: {
+      orientation: {
+        get: function () {
           return this.getAttribute('orientation');
         },
-        set: function(value){
+        set: function (value) {
           var slidebox = this;
           // prevent filmstrip animation when setting orientation
-          xtag.skipTransition(slidebox.firstElementChild, function(){
+          xtag.skipTransition(slidebox.firstElementChild, function () {
               slidebox.setAttribute('orientation', value.toLowerCase());
               init.call(slidebox, true);
           });
@@ -3736,32 +3255,36 @@ xtag.callbacks = {};
       }
     },
     methods: {
-      slideTo: function(index){
+      slideTo: function (index) {
         slide(this, index);
       },
-      slideNext: function(){
+      slideNext: function () {
         var shift = getState(this);
-          shift[0]++;
+        shift[0]++;
         slide(this, shift[0] > shift[1] ? 0 : shift[0]);
       },
-      slidePrevious: function(){
+      slidePrevious: function () {
         var shift = getState(this);
-          shift[0]--;
+        shift[0]--;
         slide(this, shift[0] < 0 ? shift[1] : shift[0]);
       }
     }
   });
 
   xtag.register('x-slide', {
-    lifecycle:{
-      inserted: function(){
+    lifecycle: {
+      inserted: function () {
         var ancestor = this.parentNode.parentNode;
-        if (ancestor.tagName.toLowerCase() == 'x-slidebox') init.call(ancestor, true);
+        if (ancestor.tagName.toLowerCase() == 'x-slidebox') {
+          init.call(ancestor, true);
+        }
       },
-      created: function(e){
-        if (this.parentNode){
+      created: function () {
+        if (this.parentNode) {
           var ancestor = this.parentNode.parentNode;
-          if (ancestor.tagName.toLowerCase() == 'x-slidebox') init.call(ancestor, true);
+          if (ancestor.tagName.toLowerCase() == 'x-slidebox') {
+            init.call(ancestor, true);
+          }
         }
       }
     }
