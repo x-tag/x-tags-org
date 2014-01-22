@@ -369,6 +369,23 @@ xtag.register('x-bar', {
 
 
         <dd>
+          <a name="helpers-fire-event"></a>
+          <h4><a href="#helpers-fire-event"><code>fireEvent</code></a><span>element, eventType, object</span></h4>
+          <p>Creates a DOM custom event and fires it on the given element.</p>
+
+<x-code-prism language="javascript">
+  xtag.fireEvent(element, 'beep');
+
+  xtag.fireEvent(element, 'beep', {
+    bubbles: false,
+    cancelable: true,
+    detail: {foo: 'bar'}
+  });
+</x-code-prism>
+        </dd>
+
+
+        <dd>
           <a name="helpers-add-event"></a>
           <h4><a href="#helpers-add-event"><code>addEvent</code></a><span>element, eventType, function</span></h4>
           <p>Adds a DOM event listener to an element.  It also allows for event psuedo chains.</p>
