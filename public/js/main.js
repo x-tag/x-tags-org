@@ -38,32 +38,7 @@
   xtag.addEvents(document, {
     'tap:delegate(#global_nav x-slide)': function(e){
       var index = Array.prototype.indexOf.call(this.parentNode.children, this);
-      if (index == 4){ // registry
-        window.open('http://customelements.io/?q=x-tag');
-      }
-      else {
-        slidePage(index);
-      }
-    },
-    'tap:delegate(#registry_elements)': function(){
-      window.open('http://customelements.io/?q=x-tag');
-    },
-    'tap:delegate(#search_btn)': function(){
-      var elem = document.getElementById('search_result_json_p');
-      if (!elem){
-        elem = document.createElement('script');
-        document.body.appendChild(elem);
-      }
-      category = [];
-      var query = document.getElementById('search_query').value.replace(/#(\w+)/g, function(match,group1,idx){
-        category.push(group1);
-        return '';
-      });
-      elem.src = 'http://registry.x-tags.org/search?callback=search_results&query=' +
-        query + '&category=' + category.join(',');
-    },
-    'keydown:keypass(13):delegate(#search_query)': function(e){
-      xtag.fireEvent(document.getElementById('search_btn'), 'click');
+      slidePage(index);
     },
     'slideend:delegate(#content_slidebox)':function(){
       selectScrollable();

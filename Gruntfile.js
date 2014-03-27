@@ -17,15 +17,16 @@ module.exports = function(grunt) {
         }
       }
     }
-
   });
+
+  grunt.task.loadTasks('./tasks/');
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-smush-components');
 
   grunt.registerTask('build', ['smush-components', 'uglify:x-tag-js']);
-  grunt.registerTask('build-dist', ['concat:x-tag-dist','uglify:x-tag-dist']);
   grunt.registerTask('build-all', ['build','build-dist']);
   grunt.registerTask('smush',['smush-components']);
   grunt.registerTask('default', ['build-all']);

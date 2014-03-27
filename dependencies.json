@@ -1,0 +1,1457 @@
+[
+  {
+    "x-tag-core": {
+      "endpoint": {
+        "name": "x-tag-core",
+        "source": "x-tag-core",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+      "pkgMeta": {
+        "name": "x-tag-core",
+        "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+        "version": "0.9.5",
+        "keywords": [
+          "web-components",
+          "core",
+          "library",
+          "x-tag"
+        ],
+        "main": [
+          "lib/web-components-polyfills.js",
+          "src/core.js"
+        ],
+        "homepage": "https://github.com/x-tag/core",
+        "_release": "0.9.5",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.9.5",
+          "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+        },
+        "_source": "git://github.com/x-tag/core.git",
+        "_target": "*",
+        "_originalSource": "x-tag-core"
+      },
+      "dependencies": {},
+      "nrDependants": 11,
+      "versions": [
+        "0.9.5",
+        "0.9.4",
+        "0.9.3",
+        "0.9.2",
+        "0.9.1",
+        "0.9.0",
+        "0.8.20",
+        "0.8.19",
+        "0.8.18",
+        "0.8.17",
+        "0.8.16",
+        "0.8.15",
+        "0.8.14",
+        "0.8.13",
+        "0.8.12",
+        "0.8.11",
+        "0.8.9",
+        "0.8.8",
+        "0.8.7",
+        "0.8.6",
+        "0.8.5",
+        "0.8.4",
+        "0.8.3",
+        "0.8.3-noimports",
+        "0.8.2",
+        "0.8.1",
+        "0.8.0",
+        "0.7.12",
+        "0.7.11",
+        "0.7.10",
+        "0.7.9",
+        "0.7.8",
+        "0.7.7",
+        "0.7.6",
+        "0.7.5",
+        "0.7.4",
+        "0.7.3",
+        "0.7.2",
+        "0.7.1",
+        "0.7.0"
+      ],
+      "update": {
+        "target": "0.9.5",
+        "latest": "0.9.5"
+      },
+      "dependenciesArray": []
+    },
+    "key": "x-tag-core"
+  },
+  {
+    "x-tag-code-prism": {
+      "endpoint": {
+        "name": "x-tag-code-prism",
+        "source": "x-tag-code-prism",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-code-prism",
+      "pkgMeta": {
+        "name": "x-tag-code-prism",
+        "description": "Code Syntax highlighting using PrismJS",
+        "version": "0.2.0",
+        "keywords": [
+          "web-components",
+          "syntax",
+          "highlighting",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/code-prism.js",
+          "src/code-prism.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/code-prism",
+        "_release": "0.2.0",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.0",
+          "commit": "ece9c09d101b04432b8f65b7c571f198fc7b7a7c"
+        },
+        "_source": "git://github.com/x-tag/code-prism.git",
+        "_target": "*",
+        "_originalSource": "x-tag-code-prism"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11,
+          "versions": [
+            "0.9.5",
+            "0.9.4",
+            "0.9.3",
+            "0.9.2",
+            "0.9.1",
+            "0.9.0",
+            "0.8.20",
+            "0.8.19",
+            "0.8.18",
+            "0.8.17",
+            "0.8.16",
+            "0.8.15",
+            "0.8.14",
+            "0.8.13",
+            "0.8.12",
+            "0.8.11",
+            "0.8.9",
+            "0.8.8",
+            "0.8.7",
+            "0.8.6",
+            "0.8.5",
+            "0.8.4",
+            "0.8.3",
+            "0.8.3-noimports",
+            "0.8.2",
+            "0.8.1",
+            "0.8.0",
+            "0.7.12",
+            "0.7.11",
+            "0.7.10",
+            "0.7.9",
+            "0.7.8",
+            "0.7.7",
+            "0.7.6",
+            "0.7.5",
+            "0.7.4",
+            "0.7.3",
+            "0.7.2",
+            "0.7.1",
+            "0.7.0"
+          ],
+          "update": {
+            "target": "0.9.5",
+            "latest": "0.9.5"
+          },
+          "dependenciesArray": []
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.0",
+        "latest": "0.2.0"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-code-prism"
+  },
+  {
+    "brick-common": {
+      "endpoint": {
+        "name": "brick-common",
+        "source": "brick-common",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/brick-common",
+      "pkgMeta": {
+        "name": "brick-common",
+        "description": "Brick Common files",
+        "version": "0.1.2",
+        "keywords": [
+          "brick",
+          "custom",
+          "elements",
+          "x-tag"
+        ],
+        "main": [
+          "styles/mixins.styl",
+          "styles/params.styl"
+        ],
+        "homepage": "https://github.com/mozilla/brick-common",
+        "_release": "0.1.2",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.1.2",
+          "commit": "ad697f1973f13956dd6d2474fe175ea5917b90de"
+        },
+        "_source": "git://github.com/mozilla/brick-common.git",
+        "_target": "*",
+        "_originalSource": "brick-common"
+      },
+      "dependencies": {},
+      "nrDependants": 3,
+      "versions": [
+        "0.1.2",
+        "0.1.1",
+        "0.1.0"
+      ],
+      "update": {
+        "target": "0.1.2",
+        "latest": "0.1.2"
+      },
+      "dependenciesArray": []
+    },
+    "key": "brick-common"
+  },
+  {
+    "x-tag-flipbox": {
+      "endpoint": {
+        "name": "x-tag-flipbox",
+        "source": "x-tag-flipbox",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-flipbox",
+      "pkgMeta": {
+        "name": "Flipbox",
+        "description": "Flips between two content elements with a CSS Animation, similar to flipping a playing card.",
+        "version": "0.2.8",
+        "keywords": [
+          "web-components",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/flipbox.js",
+          "src/flipbox.css",
+          "src/flipbox.styl"
+        ],
+        "dependencies": {
+          "x-tag-core": "*",
+          "brick-common": "*"
+        },
+        "homepage": "https://github.com/x-tag/flipbox",
+        "_release": "0.2.8",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.8",
+          "commit": "74000b65f7a98780077f4b27f69f88f3cf1c748a"
+        },
+        "_source": "git://github.com/x-tag/flipbox.git",
+        "_target": "*",
+        "_originalSource": "x-tag-flipbox"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.8",
+        "0.2.7",
+        "0.2.6",
+        "0.2.5",
+        "0.2.4",
+        "0.2.3",
+        "0.2.2",
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.8",
+        "latest": "0.2.8"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-flipbox"
+  },
+  {
+    "x-tag-growbox": {
+      "endpoint": {
+        "name": "x-tag-growbox",
+        "source": "x-tag-growbox",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-growbox",
+      "pkgMeta": {
+        "name": "x-tag-growbox",
+        "description": "Dynamically grows according to inner content",
+        "version": "0.2.2",
+        "keywords": [
+          "web-components",
+          "growbox",
+          "structural",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/growbox.js",
+          "src/growbox.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/growbox",
+        "_release": "0.2.2",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.2",
+          "commit": "7b58fb4443f06a8c09cb92ac15befa69d2a7bb8d"
+        },
+        "_source": "git://github.com/x-tag/growbox.git",
+        "_target": "*",
+        "_originalSource": "x-tag-growbox"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.2",
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.2",
+        "latest": "0.2.2"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-growbox"
+  },
+  {
+    "leaflet-bower": {
+      "endpoint": {
+        "name": "leaflet-bower",
+        "source": "leaflet-bower",
+        "target": "0.6.3-bower"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/leaflet-bower",
+      "pkgMeta": {
+        "name": "leaflet-maps-bower",
+        "description": "Bower consumable Leaflet maps",
+        "version": "0.6.3-bower",
+        "keywords": [
+          "library"
+        ],
+        "main": [
+          "dist/leaflet.js",
+          "dist/leaflet.css"
+        ],
+        "homepage": "https://github.com/pennyfx/Leaflet",
+        "_release": "0.6.3-bower",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.6.3-bower",
+          "commit": "ca951d81062beda4d7f165301aee1999f6d9acc6"
+        },
+        "_source": "git://github.com/pennyfx/Leaflet.git",
+        "_target": "0.6.3-bower",
+        "_originalSource": "leaflet-bower"
+      },
+      "dependencies": {},
+      "nrDependants": 1,
+      "versions": [
+        "0.6.4",
+        "0.6.4-bower",
+        "0.6.3",
+        "0.6.3-bower",
+        "0.6.2",
+        "0.6.1",
+        "0.5.1",
+        "0.4.5",
+        "0.4.4",
+        "0.4.3",
+        "0.4.2",
+        "0.4.1",
+        "0.3.1",
+        "0.2.1"
+      ],
+      "update": {
+        "target": "0.6.3-bower",
+        "latest": "0.6.4"
+      },
+      "dependenciesArray": []
+    },
+    "key": "leaflet-bower"
+  },
+  {
+    "x-tag-leaflet-map": {
+      "endpoint": {
+        "name": "x-tag-leaflet-map",
+        "source": "x-tag-leaflet-map",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-leaflet-map",
+      "pkgMeta": {
+        "name": "Leaflet-Maps",
+        "description": "The map tag provides an simple declaritive way to include an interactive map element in your pages, all you need is a CloudMade API key!",
+        "version": "0.2.4",
+        "keywords": [
+          "element",
+          "map",
+          "web-components",
+          "x-tag"
+        ],
+        "main": [
+          "src/map.js",
+          "src/map.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*",
+          "leaflet-bower": "0.6.3-bower"
+        },
+        "homepage": "https://github.com/x-tag/map",
+        "_release": "0.2.4",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.4",
+          "commit": "6854d0e0e53983a53b69dcaf8f918a7b11c6ade4"
+        },
+        "_source": "git://github.com/x-tag/map.git",
+        "_target": "*",
+        "_originalSource": "x-tag-leaflet-map"
+      },
+      "dependencies": {
+        "leaflet-bower": {
+          "endpoint": {
+            "name": "leaflet-bower",
+            "source": "leaflet-bower",
+            "target": "0.6.3-bower"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/leaflet-bower",
+          "pkgMeta": {
+            "name": "leaflet-maps-bower",
+            "description": "Bower consumable Leaflet maps",
+            "version": "0.6.3-bower",
+            "keywords": [
+              "library"
+            ],
+            "main": [
+              "dist/leaflet.js",
+              "dist/leaflet.css"
+            ],
+            "homepage": "https://github.com/pennyfx/Leaflet",
+            "_release": "0.6.3-bower",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.6.3-bower",
+              "commit": "ca951d81062beda4d7f165301aee1999f6d9acc6"
+            },
+            "_source": "git://github.com/pennyfx/Leaflet.git",
+            "_target": "0.6.3-bower",
+            "_originalSource": "leaflet-bower"
+          },
+          "dependencies": {},
+          "nrDependants": 1,
+          "versions": [
+            "0.6.4",
+            "0.6.4-bower",
+            "0.6.3",
+            "0.6.3-bower",
+            "0.6.2",
+            "0.6.1",
+            "0.5.1",
+            "0.4.5",
+            "0.4.4",
+            "0.4.3",
+            "0.4.2",
+            "0.4.1",
+            "0.3.1",
+            "0.2.1"
+          ],
+          "update": {
+            "target": "0.6.3-bower",
+            "latest": "0.6.4"
+          },
+          "dependenciesArray": []
+        },
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.4",
+        "0.2.3",
+        "0.2.2",
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.4",
+        "latest": "0.2.4"
+      },
+      "dependenciesArray": [
+        "leaflet-bower",
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-leaflet-map"
+  },
+  {
+    "x-tag-pseudo-outer": {
+      "endpoint": {
+        "name": "x-tag-pseudo-outer",
+        "source": "x-tag-pseudo-outer",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-pseudo-outer",
+      "pkgMeta": {
+        "name": "Outer Pseudo",
+        "description": "Adds a pseudo to enable detection of when an event occurs outside of the listening element.",
+        "version": "0.1.5",
+        "keywords": [
+          "web-components",
+          "pseudo",
+          "x-tag"
+        ],
+        "main": [
+          "src/main.js"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/pseudo-outer",
+        "_release": "0.1.5",
+        "_resolution": {
+          "type": "version",
+          "tag": "v0.1.5",
+          "commit": "ff34f7a83d684fb615f54314168f1a961490c111"
+        },
+        "_source": "git://github.com/x-tag/pseudo-outer.git",
+        "_target": "*",
+        "_originalSource": "x-tag-pseudo-outer"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.1.5",
+        "0.1.4",
+        "0.1.3",
+        "0.1.2",
+        "0.1.1"
+      ],
+      "update": {
+        "target": "0.1.5",
+        "latest": "0.1.5"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-pseudo-outer"
+  },
+  {
+    "x-tag-transitions": {
+      "endpoint": {
+        "name": "x-tag-transitions",
+        "source": "x-tag-transitions",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-transitions",
+      "pkgMeta": {
+        "name": "x-tag-transitions",
+        "description": "Easy-peasy transitioning for X-Tag components ",
+        "version": "0.1.3",
+        "keywords": [
+          "web-components",
+          "x-tag"
+        ],
+        "main": [
+          "src/main.js"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/transitions",
+        "_release": "0.1.3",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.1.3",
+          "commit": "85d39028072bdb075d9e1569576d195b0064209f"
+        },
+        "_source": "git://github.com/x-tag/transitions.git",
+        "_target": "*",
+        "_originalSource": "x-tag-transitions"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.1.3",
+        "0.1.2",
+        "0.1.1"
+      ],
+      "update": {
+        "target": "0.1.3",
+        "latest": "0.1.3"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-transitions"
+  },
+  {
+    "x-tag-modal": {
+      "endpoint": {
+        "name": "x-tag-modal",
+        "source": "x-tag-modal",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-modal",
+      "pkgMeta": {
+        "name": "Modal",
+        "description": "The modal element can be used to show notices or secondary content above the z-level of the page.",
+        "version": "0.2.4",
+        "keywords": [
+          "element",
+          "web-components",
+          "x-tag"
+        ],
+        "main": [
+          "src/modal.js",
+          "src/modal.css",
+          "src/modal.styl"
+        ],
+        "dependencies": {
+          "x-tag-core": "*",
+          "x-tag-transitions": "*",
+          "x-tag-pseudo-outer": "*",
+          "brick-common": "*"
+        },
+        "homepage": "https://github.com/x-tag/modal",
+        "_release": "0.2.4",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.4",
+          "commit": "564f8d432388dd2291a24cfc62beba3847afd31b"
+        },
+        "_source": "git://github.com/x-tag/modal.git",
+        "_target": "*",
+        "_originalSource": "x-tag-modal"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        },
+        "x-tag-pseudo-outer": {
+          "endpoint": {
+            "name": "x-tag-pseudo-outer",
+            "source": "x-tag-pseudo-outer",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-pseudo-outer",
+          "pkgMeta": {
+            "name": "Outer Pseudo",
+            "description": "Adds a pseudo to enable detection of when an event occurs outside of the listening element.",
+            "version": "0.1.5",
+            "keywords": [
+              "web-components",
+              "pseudo",
+              "x-tag"
+            ],
+            "main": [
+              "src/main.js"
+            ],
+            "dependencies": {
+              "x-tag-core": "*"
+            },
+            "homepage": "https://github.com/x-tag/pseudo-outer",
+            "_release": "0.1.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "v0.1.5",
+              "commit": "ff34f7a83d684fb615f54314168f1a961490c111"
+            },
+            "_source": "git://github.com/x-tag/pseudo-outer.git",
+            "_target": "*",
+            "_originalSource": "x-tag-pseudo-outer"
+          },
+          "dependencies": {
+            "x-tag-core": {
+              "endpoint": {
+                "name": "x-tag-core",
+                "source": "x-tag-core",
+                "target": "*"
+              },
+              "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+              "pkgMeta": {
+                "name": "x-tag-core",
+                "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+                "version": "0.9.5",
+                "keywords": [
+                  "web-components",
+                  "core",
+                  "library",
+                  "x-tag"
+                ],
+                "main": [
+                  "lib/web-components-polyfills.js",
+                  "src/core.js"
+                ],
+                "homepage": "https://github.com/x-tag/core",
+                "_release": "0.9.5",
+                "_resolution": {
+                  "type": "version",
+                  "tag": "0.9.5",
+                  "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+                },
+                "_source": "git://github.com/x-tag/core.git",
+                "_target": "*",
+                "_originalSource": "x-tag-core"
+              },
+              "dependencies": {},
+              "nrDependants": 11
+            }
+          },
+          "nrDependants": 1,
+          "versions": [
+            "0.1.5",
+            "0.1.4",
+            "0.1.3",
+            "0.1.2",
+            "0.1.1"
+          ],
+          "update": {
+            "target": "0.1.5",
+            "latest": "0.1.5"
+          },
+          "dependenciesArray": [
+            "x-tag-core"
+          ]
+        },
+        "x-tag-transitions": {
+          "endpoint": {
+            "name": "x-tag-transitions",
+            "source": "x-tag-transitions",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-transitions",
+          "pkgMeta": {
+            "name": "x-tag-transitions",
+            "description": "Easy-peasy transitioning for X-Tag components ",
+            "version": "0.1.3",
+            "keywords": [
+              "web-components",
+              "x-tag"
+            ],
+            "main": [
+              "src/main.js"
+            ],
+            "dependencies": {
+              "x-tag-core": "*"
+            },
+            "homepage": "https://github.com/x-tag/transitions",
+            "_release": "0.1.3",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.1.3",
+              "commit": "85d39028072bdb075d9e1569576d195b0064209f"
+            },
+            "_source": "git://github.com/x-tag/transitions.git",
+            "_target": "*",
+            "_originalSource": "x-tag-transitions"
+          },
+          "dependencies": {
+            "x-tag-core": {
+              "endpoint": {
+                "name": "x-tag-core",
+                "source": "x-tag-core",
+                "target": "*"
+              },
+              "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+              "pkgMeta": {
+                "name": "x-tag-core",
+                "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+                "version": "0.9.5",
+                "keywords": [
+                  "web-components",
+                  "core",
+                  "library",
+                  "x-tag"
+                ],
+                "main": [
+                  "lib/web-components-polyfills.js",
+                  "src/core.js"
+                ],
+                "homepage": "https://github.com/x-tag/core",
+                "_release": "0.9.5",
+                "_resolution": {
+                  "type": "version",
+                  "tag": "0.9.5",
+                  "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+                },
+                "_source": "git://github.com/x-tag/core.git",
+                "_target": "*",
+                "_originalSource": "x-tag-core"
+              },
+              "dependencies": {},
+              "nrDependants": 11
+            }
+          },
+          "nrDependants": 1,
+          "versions": [
+            "0.1.3",
+            "0.1.2",
+            "0.1.1"
+          ],
+          "update": {
+            "target": "0.1.3",
+            "latest": "0.1.3"
+          },
+          "dependenciesArray": [
+            "x-tag-core"
+          ]
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.4",
+        "0.2.3",
+        "0.2.2",
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.4",
+        "latest": "0.2.4"
+      },
+      "dependenciesArray": [
+        "x-tag-core",
+        "x-tag-pseudo-outer",
+        "x-tag-transitions"
+      ]
+    },
+    "key": "x-tag-modal"
+  },
+  {
+    "x-tag-mixin-request": {
+      "endpoint": {
+        "name": "x-tag-mixin-request",
+        "source": "x-tag-mixin-request",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-mixin-request",
+      "pkgMeta": {
+        "name": "mixin-request",
+        "description": "XHR made easy.",
+        "version": "0.2.1",
+        "keywords": [
+          "web-components",
+          "mixin",
+          "request",
+          "x-tag"
+        ],
+        "main": [
+          "src/request.js"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/pennyfx/mixin-request",
+        "_release": "0.2.1",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.1",
+          "commit": "cb7bfe89a1cd947637be1eb9b2b409ae04e8e884"
+        },
+        "_source": "git://github.com/pennyfx/mixin-request.git",
+        "_target": "*",
+        "_originalSource": "x-tag-mixin-request"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.1",
+        "latest": "0.2.1"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-mixin-request"
+  },
+  {
+    "x-tag-panel": {
+      "endpoint": {
+        "name": "x-tag-panel",
+        "source": "x-tag-panel",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-panel",
+      "pkgMeta": {
+        "name": "Panel",
+        "description": "A panel is a block element that has the ability to load data asynchronously when a src attribute is set (same-origin policy restricted).",
+        "version": "0.2.1",
+        "keywords": [
+          "panel",
+          "xhr",
+          "structural",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/panel.js",
+          "src/panel.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*",
+          "x-tag-mixin-request": "*"
+        },
+        "homepage": "https://github.com/x-tag/panel",
+        "_release": "0.2.1",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.1",
+          "commit": "35745b262c9c03175845fbfc458130f6927c5831"
+        },
+        "_source": "git://github.com/x-tag/panel.git",
+        "_target": "*",
+        "_originalSource": "x-tag-panel"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        },
+        "x-tag-mixin-request": {
+          "endpoint": {
+            "name": "x-tag-mixin-request",
+            "source": "x-tag-mixin-request",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-mixin-request",
+          "pkgMeta": {
+            "name": "mixin-request",
+            "description": "XHR made easy.",
+            "version": "0.2.1",
+            "keywords": [
+              "web-components",
+              "mixin",
+              "request",
+              "x-tag"
+            ],
+            "main": [
+              "src/request.js"
+            ],
+            "dependencies": {
+              "x-tag-core": "*"
+            },
+            "homepage": "https://github.com/pennyfx/mixin-request",
+            "_release": "0.2.1",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.2.1",
+              "commit": "cb7bfe89a1cd947637be1eb9b2b409ae04e8e884"
+            },
+            "_source": "git://github.com/pennyfx/mixin-request.git",
+            "_target": "*",
+            "_originalSource": "x-tag-mixin-request"
+          },
+          "dependencies": {
+            "x-tag-core": {
+              "endpoint": {
+                "name": "x-tag-core",
+                "source": "x-tag-core",
+                "target": "*"
+              },
+              "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+              "pkgMeta": {
+                "name": "x-tag-core",
+                "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+                "version": "0.9.5",
+                "keywords": [
+                  "web-components",
+                  "core",
+                  "library",
+                  "x-tag"
+                ],
+                "main": [
+                  "lib/web-components-polyfills.js",
+                  "src/core.js"
+                ],
+                "homepage": "https://github.com/x-tag/core",
+                "_release": "0.9.5",
+                "_resolution": {
+                  "type": "version",
+                  "tag": "0.9.5",
+                  "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+                },
+                "_source": "git://github.com/x-tag/core.git",
+                "_target": "*",
+                "_originalSource": "x-tag-core"
+              },
+              "dependencies": {},
+              "nrDependants": 11
+            }
+          },
+          "nrDependants": 1,
+          "versions": [
+            "0.2.1",
+            "0.2.0"
+          ],
+          "update": {
+            "target": "0.2.1",
+            "latest": "0.2.1"
+          },
+          "dependenciesArray": [
+            "x-tag-core"
+          ]
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.1",
+        "latest": "0.2.1"
+      },
+      "dependenciesArray": [
+        "x-tag-core",
+        "x-tag-mixin-request"
+      ]
+    },
+    "key": "x-tag-panel"
+  },
+  {
+    "x-tag-slidebox": {
+      "endpoint": {
+        "name": "x-tag-slidebox",
+        "source": "x-tag-slidebox",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-slidebox",
+      "pkgMeta": {
+        "name": "x-tag-slidebox",
+        "description": "Slides panels of content",
+        "version": "0.2.7",
+        "keywords": [
+          "web-components",
+          "slidebox",
+          "structural",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/slidebox.js",
+          "src/slidebox.css",
+          "src/slidebox.styl"
+        ],
+        "dependencies": {
+          "x-tag-core": "*",
+          "brick-common": "*"
+        },
+        "homepage": "https://github.com/x-tag/slidebox",
+        "_release": "0.2.7",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.7",
+          "commit": "0834ec415750e7f7f49d3e304f7a58586b1e75f6"
+        },
+        "_source": "git://github.com/x-tag/slidebox.git",
+        "_target": "*",
+        "_originalSource": "x-tag-slidebox"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 11
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.7",
+        "0.2.6",
+        "0.2.5",
+        "0.2.4",
+        "0.2.3",
+        "0.2.2",
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.7",
+        "latest": "0.2.7"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-slidebox"
+  }
+]

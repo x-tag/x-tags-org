@@ -1521,6 +1521,7 @@ if (document.readyState === 'complete' || scope.flags.eager) {
 
   var win = window,
     doc = document,
+    container = doc.createElement('div'),
     noop = function(){},
     trueop = function(){ return true; },
     regexPseudoSplit = /([\w-]+(?:\([^\)]+\))?)/g,
@@ -1714,7 +1715,7 @@ if (document.readyState === 'complete' || scope.flags.eager) {
   }
 
   var skipProps = {};
-  for (var z in document.createEvent('CustomEvent')) skipProps[z] = 1;
+  for (var z in doc.createEvent('CustomEvent')) skipProps[z] = 1;
   function inheritEvent(event, base){
     var desc = Object.getOwnPropertyDescriptor(event, 'target');
     for (var z in base) {
@@ -1872,9 +1873,24 @@ if (document.readyState === 'complete' || scope.flags.eager) {
           return output;
         }
       };
-
-      if (tag.lifecycle.inserted) tag.prototype.attachedCallback = { value: tag.lifecycle.inserted, enumerable: true };
-      if (tag.lifecycle.removed) tag.prototype.detachedCallback = { value: tag.lifecycle.removed, enumerable: true };
+			
+      var inserted = tag.lifecycle.inserted,
+          removed = tag.lifecycle.removed;
+      if (inserted || removed) {
+        tag.prototype.attachedCallback = { value: function(){
+          if (removed) this.xtag.__parentNode__ = this.parentNode;
+          if (inserted) return inserted.apply(this, arguments);
+        }, enumerable: true };
+      }
+      if (removed) {
+        tag.prototype.detachedCallback = { value: function(){
+          var args = toArray(arguments);
+          args.unshift(this.xtag.__parentNode__);
+          var output = removed.apply(this, args);
+          delete this.xtag.__parentNode__;
+          return output;
+        }, enumerable: true };
+      }
       if (tag.lifecycle.attributeChanged) tag.prototype.attributeChangedCallback = { value: tag.lifecycle.attributeChanged, enumerable: true };
 
       var setAttribute = tag.prototype.setAttribute || HTMLElement.prototype.setAttribute;
@@ -2167,10 +2183,18 @@ if (document.readyState === 'complete' || scope.flags.eager) {
     queryChildren: function (element, selector) {
       var id = element.id,
         guid = element.id = id || 'x_' + xtag.uid(),
-        attr = '#' + guid + ' > ';
+        attr = '#' + guid + ' > ',
+        noParent = false;
+      if (!element.parentNode){
+        noParent = true;
+        container.appendChild(element);
+      }
       selector = attr + (selector + '').replace(',', ',' + attr, 'g');
       var result = element.parentNode.querySelectorAll(selector);
       if (!id) element.removeAttribute('id');
+      if (noParent){
+        container.removeChild(element);
+      }
       return toArray(result);
     },
 
@@ -2544,6 +2568,7 @@ for (z in UIEventProto){
   });
 
 })();
+
 /**
  * Prism: Lightweight, robust, elegant syntax highlighting
  * MIT license http://www.opensource.org/licenses/mit-license.php/
@@ -2581,11 +2606,11 @@ xtag.register('x-code-prism', {
 
   function reveal(e){
     var flipBox = e.currentTarget;
-    if (this.parentNode == flipBox){
-      if (this.parentNode.firstElementChild == this){
+    if (this.parentNode == flipBox) {
+      if (this.parentNode.firstElementChild == this) {
         flipBox.flipped = false;
       }
-      else if(this.parentNode.lastElementChild == this){
+      else if (this.parentNode.lastElementChild == this) {
         flipBox.flipped = true;
       }
     }
@@ -2593,26 +2618,26 @@ xtag.register('x-code-prism', {
 
   xtag.register('x-flipbox', {
     lifecycle: {
-      created: function() {
+      created: function () {
           // instantiate sides without initial flip animation
-          if(this.firstElementChild){
-            xtag.skipTransition(this.firstElementChild,function(){});
+          if (this.firstElementChild) {
+            xtag.skipTransition(this.firstElementChild, function () {});
           }
-          if(this.lastElementChild){
-            xtag.skipTransition(this.lastElementChild,function(){});
+          if (this.lastElementChild) {
+            xtag.skipTransition(this.lastElementChild, function () {});
           }
-          if(!this.hasAttribute("direction")){
+          if (!this.hasAttribute("direction")) {
             this.xtag._direction = "right";
           }
       }
     },
-    events:{
+    events: {
       // only listen to one side of flipbox to prevent double firing of flipend
       'transitionend:delegate(x-flipbox > *:first-child)': function(e) {
           // because we can't use the descendent selector of > at the front of
           // our delegation, make sure this is the correct top-level element
           var flipBox = e.currentTarget;
-          if (this.parentNode == flipBox){
+          if (this.parentNode == flipBox) {
             xtag.fireEvent(flipBox, "flipend");
           }
       },
@@ -2621,18 +2646,17 @@ xtag.register('x-code-prism', {
     accessors: {
       direction: {
         attribute: {},
-        get: function(){
+        get: function () {
           return this.xtag._direction;
         },
-        set: function(value) {
+        set: function (value) {
           // set animation direction attribute and skip any transition
           var self = this;
-          xtag.skip(elem, before, after);
-          xtag.skipTransition(this.firstElementChild, function() {
+          xtag.skipTransition(this.firstElementChild, function () {
             self.setAttribute('_anim-direction', value);
-            return function(){};
+            return function () {};
           });
-          xtag.skipTransition(this.lastElementChild, function() {
+          xtag.skipTransition(this.lastElementChild, function () {
             self.setAttribute('_anim-direction', value);
           });
           this.xtag._direction = value;
@@ -2643,13 +2667,13 @@ xtag.register('x-code-prism', {
       }
     },
     methods: {
-      toggle: function() {
+      toggle: function () {
         this.flipped = !this.flipped;
       },
-      "showFront": function(){
+      "showFront": function () {
         this.flipped = false;
       },
-      "showBack": function(){
+      "showBack": function () {
         this.flipped = true;
       }
     }
@@ -2785,12 +2809,12 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
 
 })();
 
-(function(){  
-  
+(function(){
+
   var events = {},
       elements = {},
       observers = {};
-  
+
   function outerNodes(element, event){
     var type = event.type,
         el = elements[type] || (elements[type] = []),
@@ -2806,7 +2830,7 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
     }
     return el;
   }
-  
+
   xtag.pseudos.outer = {
     action: function(pseudo, e){
       if (this == e.target || this.contains && this.contains(e.target)) return null;
@@ -2829,9 +2853,10 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
         });
       }
     }
-  }
+  };
 
 })();
+
 (function(){
 
   var matchNum = /[1-9]/,
@@ -2934,17 +2959,17 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
     meta.content = 'width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;';
     document.head.appendChild(meta);
   }
-  
+
   function setTop(modal){
     modal.style.top = (window.pageYOffset + window.innerHeight * 0.5) + 'px';
   }
-  
+
   function insertOverlay(modal){
     var next = modal.nextElementSibling;
     if (next) modal.parentNode.insertBefore(modal.overlayElement, next);
     else modal.parentNode.appendChild(modal.overlayElement);
   }
-  
+
   window.addEventListener('keyup', function(event){
     if(event.keyCode == 27) xtag.query(document, 'x-modal[escape-hide]:not([hidden])').forEach(function(modal){
       modal.hide();
@@ -3000,9 +3025,17 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
         }
       }
     },
-    methods: { 
+    methods: {
       'show:transition(before)': function(){
-        this.removeAttribute('hidden');
+        var self = this;
+        // If click-hide is enabled, then the modal will instantly
+        // close if this toggle was called after a click.
+        // This allows that first click to bubble before showing the modal
+        xtag.requestFrame(function(){
+          xtag.requestFrame(function(){
+            self.removeAttribute('hidden');
+          });
+        });
       },
       'hide:transition(after)': function(){
         this.setAttribute('hidden', '');
@@ -3012,7 +3045,7 @@ this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._mo
       }
     }
   });
-  
+
 })();
 
 (function(){

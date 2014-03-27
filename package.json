@@ -10,13 +10,18 @@
     "async": "0.1.22",
     "nunjucks": "git://github.com/jlongster/nunjucks.git#049cf8",
     "github-flavored-markdown": "1.0.1",
-    "moment": "~1.7.2"
+    "moment": "~1.7.2",
+    "bower": "~1.3.1",
+    "promisesaplus": "~1.0.1",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "0.1.1",
     "grunt-contrib-concat": "~0.1.2",
     "grunt-contrib-uglify": "~0.1.1",
-    "grunt-smush-components": "~0.2.0"
+    "grunt-smush-components": "~0.2.0",
+    "grunt-contrib-stylus": "~0.13.2",
+    "grunt-contrib-cssmin": "~0.9.0"
   }
 }

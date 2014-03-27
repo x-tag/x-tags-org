@@ -340,7 +340,7 @@ a:hover {
     text-align: center;
   }
 
-    #download, #fork, #registry_elements {
+    #download, #fork {
       margin: 10px;
     }
 
@@ -566,70 +566,7 @@ a:hover {
     float: left;
   }
 
-#registry #search_box{
-  width: 100%;
-}
-
-  #registry #search_query{
-    margin-right: -86px;
-    width: inherit;
-    font-size: 14pt;
-    padding-left: 5px;
-    padding-bottom: 1px;
-  }
-
-  #registry #search_btn{
-    font-size: 14pt;
-    width: 85px;
-  }
-
-x-search-result{
-  display: block;
-  margin-bottom: 25px;
-}
-x-search-result .tag-header{
-  overflow: hidden;
-  margin: 10px 10px 5px 0px;
-  border-bottom: solid 3px #AAA;
-}
-x-search-result .tag-header h3{
-  float: left;
-  color: #666;
-}
-x-search-result .tag-categories{
-  float: right;
-  margin-top: 4px;
-  font-weight: bold;
-  color: #666;
-  font-size: 10pt;
-}
-x-search-result .tag-categories li{
-  float: right;
-  margin-left: 5px;
-}
-x-search-result .tag-header h3 > a{
-  text-decoration: none;
-  font-size: 110%;
-  background: #EEE;
-  padding: 2px 4px;
-  text-shadow: 0 1px 0 white;
-  font-weight: bold;
-  color:#222;
-  cursor: pointer;
-}
-x-search-result .tag-header h3 span{
-  font-size: 10pt;
-  color: #222;
-  font-style: italic;
-}
-x-search-result .tag-header h3 span > a{
-  color: #666;
-  text-decoration: none;
-  cursor: pointer;
-}
-x-search-result .tag-description{
-  margin-left:5px;
-}
+#
 
 #about {
 
@@ -643,6 +580,110 @@ x-search-result .tag-description{
     display: inline-block;
   }
 
+
+#download {
+
+}
+
+  #packages .component label {
+    display: block;
+    text-transform: capitalize;
+    cursor: pointer;
+    padding: 0.5em 0.5em 0.5em 0;
+  }
+
+  #packages .component {
+    margin: 5px 0 5px 0;
+    padding-left: 8px;
+  }
+    .component a {
+      color: #000;
+    }
+
+  #packages .component:hover {
+    background-color:  #ddd;
+    border-radius:  3px;
+  }
+
+  #packages label input{
+    float: right;
+    margin-top: 2px;
+  }
+
+   #packages dt{
+    text-transform: capitalize;
+   }
+
+  #packages .description{
+    font-size: 0.8em;
+    text-transform: none;
+    padding-right: 40px;
+  }
+
+  #packages .component-type{
+    margin: 6px 0;
+    font-size: 16pt;
+    padding: 2px 0 3px 2px;
+    text-transform: capitalize;
+    border-bottom: 4px solid #DDD;
+  }
+
+  #buildProgress{
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  #minified{
+    margin-top: 8px;
+  }
+
+  #zip {
+    padding: 7px;
+    float: right;
+  }
+
+  #dl-count {
+    margin: 0 2px;
+  }
+
+  .panel-footer {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #F5F5F5;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+  }
+
+    .btn-primary, .btn-success {
+      color: #FFF;
+      background-color: rgba(4, 76, 0, 0.5);
+      border-color: rgba(10, 85, 0, 0.5);
+      display: inline-block;
+      padding: 6px 12px;
+      margin-bottom: 0px;
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 1.42857;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      white-space: nowrap;
+      -moz-user-select: none;
+    }
+
+    .btn-success{
+      background-color: #6191CB;
+      border-color: #70a0d0;
+    }
+    .disabled {
+      display:  none;
+    }
+
+  .panel-heading label {
+    float: right;
+  }
 
 dd h4 {
   margin: 6px 0;
@@ -665,6 +706,9 @@ dd h4 code {
 
   #intro h2 {
     font-size: 120%;
+  }
+  #packages .description{
+    padding-right: 20px ;
   }
 
 }

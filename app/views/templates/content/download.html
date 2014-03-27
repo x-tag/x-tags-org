@@ -1,0 +1,399 @@
+<div class="limit">
+	<form id="byob" class="block">
+    <x-ribbon>Download</x-ribbon>
+    <dl id="packages" class="">
+      
+        
+          <dt text="libraries"></dt>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-core"
+                data-dependencies="">
+              <a href="http://github.com/x-tag/core.git" target="_blank">
+                core <small>[0.9.5]</small>
+              </a>
+              
+                <span class="description">- X-Tag core library for creating custom as defined by the w3c Web Components spec.</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="leaflet-bower"
+                data-dependencies="">
+              <a href="http://github.com/pennyfx/Leaflet.git" target="_blank">
+                leaflet-maps-bower <small>[0.6.3-bower]</small>
+              </a>
+              
+                <span class="description">- Bower consumable Leaflet maps</span>
+              
+              </label>
+            </dd>
+          
+        
+      
+        
+          <dt text="pseudos"></dt>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-pseudo-outer"
+                data-dependencies="x-tag-core">
+              <a href="http://github.com/x-tag/pseudo-outer.git" target="_blank">
+                Outer Pseudo <small>[0.1.5]</small>
+              </a>
+              
+                <span class="description">- Adds a pseudo to enable detection of when an event occurs outside of the listening element.</span>
+              
+              </label>
+            </dd>
+          
+        
+      
+        
+          <dt text="mixins"></dt>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-mixin-request"
+                data-dependencies="x-tag-core">
+              <a href="http://github.com/pennyfx/mixin-request.git" target="_blank">
+                mixin-request <small>[0.2.1]</small>
+              </a>
+              
+                <span class="description">- XHR made easy.</span>
+              
+              </label>
+            </dd>
+          
+        
+      
+        
+          <dt text="components"></dt>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-code-prism"
+                data-dependencies="x-tag-core">
+              <a href="http://github.com/x-tag/code-prism.git" target="_blank">
+                code-prism <small>[0.2.0]</small>
+              </a>
+              
+                <span class="description">- Code Syntax highlighting using PrismJS</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-flipbox"
+                data-dependencies="x-tag-core">
+              <a href="http://github.com/x-tag/flipbox.git" target="_blank">
+                Flipbox <small>[0.2.8]</small>
+              </a>
+              
+                <span class="description">- Flips between two content elements with a CSS Animation, similar to flipping a playing card.</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-growbox"
+                data-dependencies="x-tag-core">
+              <a href="http://github.com/x-tag/growbox.git" target="_blank">
+                growbox <small>[0.2.2]</small>
+              </a>
+              
+                <span class="description">- Dynamically grows according to inner content</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-leaflet-map"
+                data-dependencies="leaflet-bower x-tag-core">
+              <a href="http://github.com/x-tag/map.git" target="_blank">
+                Leaflet-Maps <small>[0.2.4]</small>
+              </a>
+              
+                <span class="description">- The map tag provides an simple declaritive way to include an interactive map element in your pages, all you need is a CloudMade API key!</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-modal"
+                data-dependencies="x-tag-core x-tag-pseudo-outer x-tag-transitions">
+              <a href="http://github.com/x-tag/modal.git" target="_blank">
+                Modal <small>[0.2.4]</small>
+              </a>
+              
+                <span class="description">- The modal element can be used to show notices or secondary content above the z-level of the page.</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-panel"
+                data-dependencies="x-tag-core x-tag-mixin-request">
+              <a href="http://github.com/x-tag/panel.git" target="_blank">
+                Panel <small>[0.2.1]</small>
+              </a>
+              
+                <span class="description">- A panel is a block element that has the ability to load data asynchronously when a src attribute is set (same-origin policy restricted).</span>
+              
+              </label>
+            </dd>
+          
+            <dd class="component">
+              <label>
+              <input type="checkbox" value="x-tag-slidebox"
+                data-dependencies="x-tag-core">
+              <a href="http://github.com/x-tag/slidebox.git" target="_blank">
+                slidebox <small>[0.2.7]</small>
+              </a>
+              
+                <span class="description">- Slides panels of content</span>
+              
+              </label>
+            </dd>
+          
+        
+      
+    </dl>
+    <div class="panel-footer c">
+      <input type="submit" id="buildBundle"
+             class="btn btn-primary" value="Build Bundle">
+
+      <span id="selectedLabel"><b id="dl-count"></b> components selected. Minified <input type="checkbox" id="dev-build" checked></span>
+
+      <progress id="buildProgress" value="0" max="0" hidden >Building Your zip...</progress>
+
+      <a id="zip" class="btn btn-success disabled">Download</a>
+
+    </div>
+
+  </form>
+</div>
+
+ <script src="/js/jszip.js"></script>
+  <script>
+  (function(){
+    var form = document.querySelector('#byob');
+    var submit = document.querySelector('#buildBundle');
+    var extraFilePaths = ['dist/readme.txt'];
+
+    var prog = 0;
+
+    var qs = window.location.search.substr(1);
+
+    var queryParams = (function() {
+      var qs = window.location.search.substr(1);
+      var ret = {};
+      var pairs = qs.split('&');
+
+      pairs.forEach(function(p) {
+        p = p.split('=');
+        ret[p[0]] = p[1];
+      });
+
+      return ret;
+
+    })();
+
+    var inputs = document.querySelectorAll('.component input');
+
+    var preSelected = queryParams.byob;
+    if (preSelected) {
+      preSelected = preSelected.split(',');
+      preSelected.forEach(function (c) {
+        var i = form.querySelector('[value="' + c + '"]');
+        if (i) {
+          i.checked = true;
+          selectDependencies(i);
+        }
+      });
+    }
+    updateCart();
+
+    function updateCart () {
+      var num = 0;
+      for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].checked) {
+          num++;
+        }
+      }
+      document.querySelector('#dl-count').innerHTML = num;
+    }
+
+    function selectDependencies(el) {
+      var deps = el.getAttribute('data-dependencies');
+      if (deps && el.checked) {
+        deps = deps.split(' ');
+        deps.forEach(function(d) {
+          var i = form.querySelector('[value="' + d + '"]');
+          if (i) {
+            i.checked = true;
+          }
+        });
+      }
+    }
+
+    var minifed = null;
+    function getFileName(file, ext){
+      return "dist/" + file + (minifed?'.min.':'.') + ext;
+    }
+
+    xtag.addEvent(form, 'change:delegate(#packages input)', function(e){
+      selectDependencies(e.target);
+      updateCart();
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      minifed = document.getElementById('dev-build').checked ? true : false;
+
+      var buildURL = '/* ' + location.protocol + '//' + location.host + location.pathname;
+
+      var selected = [];
+
+      for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].checked) {
+          if(inputs[i].dataset.dependencies){
+            inputs[i].dataset.dependencies.split(' ').forEach(function(dep){
+              if(selected.indexOf(dep)==-1){
+                selected.push(dep);
+              }
+            });
+          }
+          selected.push(inputs[i].value);
+        }
+      }
+
+      buildURL += '?byob=' + selected.join(',') + ' */ ';
+
+      progress.removeAttribute('hidden');
+      progress.max = selected.length * 2 + 1 + extraFilePaths.length;
+      prog = 0;
+      progress.value = 0;
+
+      getFiles(selected, 'css', function(css) {
+        getFiles(selected, 'js', function(js) {
+          getExtraFiles(function(extraFileInfo){
+            makeZip(buildURL + js, buildURL + css, extraFileInfo);
+          });
+        });
+      });
+    });
+
+    var zipLink = document.querySelector('#zip');
+    var progress = document.querySelector('#buildProgress');
+
+
+    function getFiles(c, type, cb){
+      var numReqs = c.length;
+      var numDone = 0;
+      var total = '';
+
+      function done() {
+        prog++;
+        progress.value = prog;
+        numDone++;
+        if (numDone === numReqs) {
+          cb(total);
+        } else {
+          get(c[numDone]);
+        }
+      }
+
+      function get(c) {
+        var req = new XMLHttpRequest();
+        req.onload = function(e) {
+          if (this.status != 200 && this.status != 304) {
+            if (console) console.warn('file not found:', getFileName(c, type));
+            done();
+          } else {
+            total += '\n' + req.response;
+            done();
+          }
+        };
+        req.open("get", getFileName(c, type));
+        req.send();
+      }
+
+      get(c[0]);
+    }
+
+    function getExtraFiles(cb){
+      var numReqs = extraFilePaths.length;
+      var numDone = 0;
+      var fileInfo = [];
+
+      function done() {
+        prog++;
+        progress.value = prog;
+        numDone++;
+        if (numDone === numReqs) {
+          cb(fileInfo);
+        } else {
+          get(extraFilePaths[numDone]);
+        }
+      }
+
+      function get(filePath) {
+        var req = new XMLHttpRequest();
+        req.onload = function(e) {
+          fileInfo.push({
+            name: filePath.replace(/^dist\//, ""),
+            content: req.response
+          });
+          done();
+        };
+        req.open("get", filePath);
+        req.responseType = "arraybuffer";
+        req.send();
+      }
+
+      // for now, only include extra files for browsers that allow XHR2
+      // TODO: make this XHR1-friendly
+      if(JSZip.support.arraybuffer){
+        get(extraFilePaths[0]);
+      }
+      else{
+        prog += extraFilePaths.length;
+        progress.value = prog;
+        cb([]);
+      }
+    }
+
+    function makeZip(js, css, extraFileInfo) {
+      var zip = new JSZip();
+
+      zip.file('xtags.byob'+(minifed?'.min.':'.')+'js', js);
+      zip.file('xtags.byob'+(minifed?'.min.':'.')+'css', css);
+
+      for(var i=0; i < extraFileInfo.length; i++){
+        var fileData = extraFileInfo[i];
+        // load as binary data
+        zip.file(fileData.name, fileData.content);
+      }
+
+      prog++;
+      progress.value = prog;
+      progress.setAttribute('hidden','');
+      zipLink.classList.remove('disabled');
+
+      var blob = zip.generate({type:"blob"});
+      zipLink.setAttribute('download', 'xtags-byob.zip');
+      zipLink.style.display = 'inline-block';
+      zipLink.setAttribute('href', window.URL.createObjectURL(blob));
+    }
+  })();
+  </script>

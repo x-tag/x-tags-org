@@ -60,9 +60,9 @@ app.get('/blog/:permalink', function(req, res){
 
 });
 
-app.get('/registry', function(req, res){
+app.get('/download', function(req, res){
 
-  res.redirect('http://customelements.io/?q=x-tag');
+  render(req, res, 'download.html', { });
 
 });
 
