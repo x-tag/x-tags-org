@@ -32,13 +32,13 @@ npm install bower -g
 Install components
 
 ````bash
-bower install 
+bower install
 ````
 
 Combine js/css assets, see Gruntfile.js for details
 
 ````bash
-grunt build
+grunt
 ````
 
 Run the site locally
