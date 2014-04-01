@@ -40,6 +40,9 @@
       var index = Array.prototype.indexOf.call(this.parentNode.children, this);
       slidePage(index);
     },
+    'tap:delegate(#downloadpage)': function(e){
+      slidePage(4);
+    },
     'slideend:delegate(#content_slidebox)':function(){
       selectScrollable();
     }

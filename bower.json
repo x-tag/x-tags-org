@@ -9,6 +9,10 @@
     "x-tag-panel": "*",
     "x-tag-leaflet-map": "*",
     "x-tag-modal": "*",
-    "x-tag-flipbox": "*"
+    "x-tag-flipbox": "*",
+    "x-tag-layout": "*",
+    "x-tag-accordion": "*",
+    "x-tag-slidemenu": "*",
+    "x-tag-sparkline": "*"
   }
 }

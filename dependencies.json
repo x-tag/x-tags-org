@@ -33,7 +33,7 @@
         "_originalSource": "x-tag-core"
       },
       "dependencies": {},
-      "nrDependants": 11,
+      "nrDependants": 15,
       "versions": [
         "0.9.5",
         "0.9.4",
@@ -83,6 +83,141 @@
       "dependenciesArray": []
     },
     "key": "x-tag-core"
+  },
+  {
+    "x-tag-accordion": {
+      "endpoint": {
+        "name": "x-tag-accordion",
+        "source": "x-tag-accordion",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-accordion",
+      "pkgMeta": {
+        "name": "accordion",
+        "description": "An accordion is a collection of panels containing content separated by toggler elements.",
+        "version": "0.2.1",
+        "keywords": [
+          "element",
+          "custom",
+          "accordion",
+          "x-tag"
+        ],
+        "main": [
+          "src/accordion.js",
+          "src/accordion.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/accordion",
+        "_release": "0.2.1",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.1",
+          "commit": "fc72bc51aa4b4e94688b21838a27283d4c9122ca"
+        },
+        "_source": "git://github.com/x-tag/accordion.git",
+        "_target": "*",
+        "_originalSource": "x-tag-accordion"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 15,
+          "versions": [
+            "0.9.5",
+            "0.9.4",
+            "0.9.3",
+            "0.9.2",
+            "0.9.1",
+            "0.9.0",
+            "0.8.20",
+            "0.8.19",
+            "0.8.18",
+            "0.8.17",
+            "0.8.16",
+            "0.8.15",
+            "0.8.14",
+            "0.8.13",
+            "0.8.12",
+            "0.8.11",
+            "0.8.9",
+            "0.8.8",
+            "0.8.7",
+            "0.8.6",
+            "0.8.5",
+            "0.8.4",
+            "0.8.3",
+            "0.8.3-noimports",
+            "0.8.2",
+            "0.8.1",
+            "0.8.0",
+            "0.7.12",
+            "0.7.11",
+            "0.7.10",
+            "0.7.9",
+            "0.7.8",
+            "0.7.7",
+            "0.7.6",
+            "0.7.5",
+            "0.7.4",
+            "0.7.3",
+            "0.7.2",
+            "0.7.1",
+            "0.7.0"
+          ],
+          "update": {
+            "target": "0.9.5",
+            "latest": "0.9.5"
+          },
+          "dependenciesArray": []
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.1",
+        "latest": "0.2.1"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-accordion"
   },
   {
     "x-tag-code-prism": {
@@ -155,54 +290,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11,
-          "versions": [
-            "0.9.5",
-            "0.9.4",
-            "0.9.3",
-            "0.9.2",
-            "0.9.1",
-            "0.9.0",
-            "0.8.20",
-            "0.8.19",
-            "0.8.18",
-            "0.8.17",
-            "0.8.16",
-            "0.8.15",
-            "0.8.14",
-            "0.8.13",
-            "0.8.12",
-            "0.8.11",
-            "0.8.9",
-            "0.8.8",
-            "0.8.7",
-            "0.8.6",
-            "0.8.5",
-            "0.8.4",
-            "0.8.3",
-            "0.8.3-noimports",
-            "0.8.2",
-            "0.8.1",
-            "0.8.0",
-            "0.7.12",
-            "0.7.11",
-            "0.7.10",
-            "0.7.9",
-            "0.7.8",
-            "0.7.7",
-            "0.7.6",
-            "0.7.5",
-            "0.7.4",
-            "0.7.3",
-            "0.7.2",
-            "0.7.1",
-            "0.7.0"
-          ],
-          "update": {
-            "target": "0.9.5",
-            "latest": "0.9.5"
-          },
-          "dependenciesArray": []
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -253,7 +341,7 @@
         "_originalSource": "brick-common"
       },
       "dependencies": {},
-      "nrDependants": 3,
+      "nrDependants": 4,
       "versions": [
         "0.1.2",
         "0.1.1",
@@ -338,7 +426,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -434,7 +522,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -452,6 +540,103 @@
       ]
     },
     "key": "x-tag-growbox"
+  },
+  {
+    "x-tag-layout": {
+      "endpoint": {
+        "name": "x-tag-layout",
+        "source": "x-tag-layout",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-layout",
+      "pkgMeta": {
+        "name": "x-tag-layout",
+        "description": "A simple layout element that automatically stretches to fill the parent, with optional toggleable header and footer elements.",
+        "version": "0.1.9",
+        "keywords": [
+          "web-components",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/layout.js",
+          "src/layout.css",
+          "src/layout.styl"
+        ],
+        "dependencies": {
+          "x-tag-core": "*",
+          "brick-common": "*"
+        },
+        "homepage": "https://github.com/x-tag/layout",
+        "_release": "0.1.9",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.1.9",
+          "commit": "84c676c88f13c2cedca46a1e19ffce13a4c5034a"
+        },
+        "_source": "git://github.com/x-tag/layout.git",
+        "_target": "*",
+        "_originalSource": "x-tag-layout"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 15
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.1.9",
+        "0.1.8",
+        "0.1.7",
+        "0.1.6",
+        "0.1.5",
+        "0.1.4",
+        "0.1.3",
+        "0.1.2",
+        "0.1.1",
+        "0.1.0"
+      ],
+      "update": {
+        "target": "0.1.9",
+        "latest": "0.1.9"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-layout"
   },
   {
     "leaflet-bower": {
@@ -633,7 +818,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -723,7 +908,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -811,7 +996,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -903,7 +1088,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         },
         "x-tag-pseudo-outer": {
           "endpoint": {
@@ -972,7 +1157,7 @@
                 "_originalSource": "x-tag-core"
               },
               "dependencies": {},
-              "nrDependants": 11
+              "nrDependants": 15
             }
           },
           "nrDependants": 1,
@@ -1057,7 +1242,7 @@
                 "_originalSource": "x-tag-core"
               },
               "dependencies": {},
-              "nrDependants": 11
+              "nrDependants": 15
             }
           },
           "nrDependants": 1,
@@ -1164,7 +1349,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -1254,7 +1439,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         },
         "x-tag-mixin-request": {
           "endpoint": {
@@ -1324,7 +1509,7 @@
                 "_originalSource": "x-tag-core"
               },
               "dependencies": {},
-              "nrDependants": 11
+              "nrDependants": 15
             }
           },
           "nrDependants": 1,
@@ -1430,7 +1615,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 11
+          "nrDependants": 15
         }
       },
       "nrDependants": 1,
@@ -1453,5 +1638,180 @@
       ]
     },
     "key": "x-tag-slidebox"
+  },
+  {
+    "x-tag-slidemenu": {
+      "endpoint": {
+        "name": "x-tag-slidemenu",
+        "source": "x-tag-slidemenu",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-slidemenu",
+      "pkgMeta": {
+        "name": "Slidemenu",
+        "description": "Multi-level slide menu with transitions.",
+        "version": "0.1.2",
+        "keywords": [
+          "web-components",
+          "element",
+          "x-tag"
+        ],
+        "main": [
+          "src/main.js",
+          "src/main.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/slidemenu",
+        "_release": "0.1.2",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.1.2",
+          "commit": "39f4a16468024b143b6744d6eec112e02498a51a"
+        },
+        "_source": "git://github.com/x-tag/slidemenu.git",
+        "_target": "*",
+        "_originalSource": "x-tag-slidemenu"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 15
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.1.2",
+        "0.1.1"
+      ],
+      "update": {
+        "target": "0.1.2",
+        "latest": "0.1.2"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-slidemenu"
+  },
+  {
+    "x-tag-sparkline": {
+      "endpoint": {
+        "name": "x-tag-sparkline",
+        "source": "x-tag-sparkline",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-sparkline",
+      "pkgMeta": {
+        "name": "Sparkline",
+        "description": "Displays a tiny graph of points",
+        "version": "0.1.2",
+        "keywords": [
+          "element",
+          "web-components",
+          "x-tag"
+        ],
+        "main": [
+          "src/main.js",
+          "src/main.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/sparkline",
+        "_release": "0.1.2",
+        "_resolution": {
+          "type": "version",
+          "tag": "v0.1.2",
+          "commit": "4050ca13c9047416186ee22c0ad945a110bcf955"
+        },
+        "_source": "git://github.com/x-tag/sparkline.git",
+        "_target": "*",
+        "_originalSource": "x-tag-sparkline"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 15
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.1.2",
+        "0.1.1",
+        "0.1.0"
+      ],
+      "update": {
+        "target": "0.1.2",
+        "latest": "0.1.2"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-sparkline"
   }
 ]
