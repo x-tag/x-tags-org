@@ -850,8 +850,8 @@
       "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-mediaquery",
       "pkgMeta": {
         "name": "MediaQuery",
-        "description": "An element that allows you to target markup blocks based on query matching, execute media query action x-tags that perform specific tasks (moving an element in the DOM, deleting elements if found, etc), more easily react to changes in query states using auto-generated event listeners",
-        "version": "0.2.2",
+        "description": "MediaQuery is a convenience element that allows you to define common form factor media queries, that when active, will apply a class to certain elements for easy targeting.",
+        "version": "0.2.3",
         "keywords": [
           "element",
           "web-components",
@@ -865,11 +865,11 @@
           "x-tag-core": "*"
         },
         "homepage": "https://github.com/x-tag/mediaquery",
-        "_release": "0.2.2",
+        "_release": "0.2.3",
         "_resolution": {
           "type": "version",
-          "tag": "0.2.2",
-          "commit": "66830a2c1bd13b79e6f67a5b522edff2b08bda82"
+          "tag": "0.2.3",
+          "commit": "df97b2bd3ae6776aa57765d4de04d59581821501"
         },
         "_source": "git://github.com/x-tag/mediaquery.git",
         "_target": "*",
@@ -914,13 +914,14 @@
       },
       "nrDependants": 1,
       "versions": [
+        "0.2.3",
         "0.2.2",
         "0.2.1",
         "0.2.0"
       ],
       "update": {
-        "target": "0.2.2",
-        "latest": "0.2.2"
+        "target": "0.2.3",
+        "latest": "0.2.3"
       },
       "dependenciesArray": [
         "x-tag-core"

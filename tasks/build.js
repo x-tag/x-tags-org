@@ -69,7 +69,7 @@ module.exports = function(grunt){
         'components': components
       };
 
-    tools.staticPage(path.join('build', 'templates', 'download.html'),
+    tools.staticPage('download.html',
       path.join('app','views','templates','content','download.html'),
         { packageTypes: finalComponents });
   });
