@@ -33,7 +33,7 @@
         "_originalSource": "x-tag-core"
       },
       "dependencies": {},
-      "nrDependants": 15,
+      "nrDependants": 16,
       "versions": [
         "0.9.5",
         "0.9.4",
@@ -154,7 +154,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15,
+          "nrDependants": 16,
           "versions": [
             "0.9.5",
             "0.9.4",
@@ -290,7 +290,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -426,7 +426,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -522,7 +522,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -612,7 +612,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -818,7 +818,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -839,6 +839,94 @@
       ]
     },
     "key": "x-tag-leaflet-map"
+  },
+  {
+    "x-tag-mediaquery": {
+      "endpoint": {
+        "name": "x-tag-mediaquery",
+        "source": "x-tag-mediaquery",
+        "target": "*"
+      },
+      "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-mediaquery",
+      "pkgMeta": {
+        "name": "MediaQuery",
+        "description": "An element that allows you to target markup blocks based on query matching, execute media query action x-tags that perform specific tasks (moving an element in the DOM, deleting elements if found, etc), more easily react to changes in query states using auto-generated event listeners",
+        "version": "0.2.2",
+        "keywords": [
+          "element",
+          "web-components",
+          "x-tag"
+        ],
+        "main": [
+          "src/mediaquery.js",
+          "src/mediaquery.css"
+        ],
+        "dependencies": {
+          "x-tag-core": "*"
+        },
+        "homepage": "https://github.com/x-tag/mediaquery",
+        "_release": "0.2.2",
+        "_resolution": {
+          "type": "version",
+          "tag": "0.2.2",
+          "commit": "66830a2c1bd13b79e6f67a5b522edff2b08bda82"
+        },
+        "_source": "git://github.com/x-tag/mediaquery.git",
+        "_target": "*",
+        "_originalSource": "x-tag-mediaquery"
+      },
+      "dependencies": {
+        "x-tag-core": {
+          "endpoint": {
+            "name": "x-tag-core",
+            "source": "x-tag-core",
+            "target": "*"
+          },
+          "canonicalDir": "/Users/arronjschaar/programming/x-tag/sites/x-tags-org/bower_components/x-tag-core",
+          "pkgMeta": {
+            "name": "x-tag-core",
+            "description": "X-Tag core library for creating custom as defined by the w3c Web Components spec.",
+            "version": "0.9.5",
+            "keywords": [
+              "web-components",
+              "core",
+              "library",
+              "x-tag"
+            ],
+            "main": [
+              "lib/web-components-polyfills.js",
+              "src/core.js"
+            ],
+            "homepage": "https://github.com/x-tag/core",
+            "_release": "0.9.5",
+            "_resolution": {
+              "type": "version",
+              "tag": "0.9.5",
+              "commit": "964d4d508f528e8fdcaf86e23dc1c63f0f04b8b1"
+            },
+            "_source": "git://github.com/x-tag/core.git",
+            "_target": "*",
+            "_originalSource": "x-tag-core"
+          },
+          "dependencies": {},
+          "nrDependants": 16
+        }
+      },
+      "nrDependants": 1,
+      "versions": [
+        "0.2.2",
+        "0.2.1",
+        "0.2.0"
+      ],
+      "update": {
+        "target": "0.2.2",
+        "latest": "0.2.2"
+      },
+      "dependenciesArray": [
+        "x-tag-core"
+      ]
+    },
+    "key": "x-tag-mediaquery"
   },
   {
     "x-tag-pseudo-outer": {
@@ -908,7 +996,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -996,7 +1084,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -1026,7 +1114,7 @@
       "pkgMeta": {
         "name": "Modal",
         "description": "The modal element can be used to show notices or secondary content above the z-level of the page.",
-        "version": "0.2.4",
+        "version": "0.2.5",
         "keywords": [
           "element",
           "web-components",
@@ -1044,11 +1132,11 @@
           "brick-common": "*"
         },
         "homepage": "https://github.com/x-tag/modal",
-        "_release": "0.2.4",
+        "_release": "0.2.5",
         "_resolution": {
           "type": "version",
-          "tag": "0.2.4",
-          "commit": "564f8d432388dd2291a24cfc62beba3847afd31b"
+          "tag": "0.2.5",
+          "commit": "d4e9f7e1e9f64b6a6782ec196b485cc7ab9fca5c"
         },
         "_source": "git://github.com/x-tag/modal.git",
         "_target": "*",
@@ -1088,7 +1176,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         },
         "x-tag-pseudo-outer": {
           "endpoint": {
@@ -1157,7 +1245,7 @@
                 "_originalSource": "x-tag-core"
               },
               "dependencies": {},
-              "nrDependants": 15
+              "nrDependants": 16
             }
           },
           "nrDependants": 1,
@@ -1242,7 +1330,7 @@
                 "_originalSource": "x-tag-core"
               },
               "dependencies": {},
-              "nrDependants": 15
+              "nrDependants": 16
             }
           },
           "nrDependants": 1,
@@ -1262,6 +1350,7 @@
       },
       "nrDependants": 1,
       "versions": [
+        "0.2.5",
         "0.2.4",
         "0.2.3",
         "0.2.2",
@@ -1269,8 +1358,8 @@
         "0.2.0"
       ],
       "update": {
-        "target": "0.2.4",
-        "latest": "0.2.4"
+        "target": "0.2.5",
+        "latest": "0.2.5"
       },
       "dependenciesArray": [
         "x-tag-core",
@@ -1349,7 +1438,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -1439,7 +1528,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         },
         "x-tag-mixin-request": {
           "endpoint": {
@@ -1509,7 +1598,7 @@
                 "_originalSource": "x-tag-core"
               },
               "dependencies": {},
-              "nrDependants": 15
+              "nrDependants": 16
             }
           },
           "nrDependants": 1,
@@ -1615,7 +1704,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -1708,7 +1797,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,
@@ -1795,7 +1884,7 @@
             "_originalSource": "x-tag-core"
           },
           "dependencies": {},
-          "nrDependants": 15
+          "nrDependants": 16
         }
       },
       "nrDependants": 1,

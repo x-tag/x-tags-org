@@ -13,6 +13,7 @@
     "x-tag-layout": "*",
     "x-tag-accordion": "*",
     "x-tag-slidemenu": "*",
-    "x-tag-sparkline": "*"
+    "x-tag-sparkline": "*",
+    "x-tag-mediaquery": "*"
   }
 }
