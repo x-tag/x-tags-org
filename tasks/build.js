@@ -62,12 +62,27 @@ module.exports = function(grunt){
       return packageType(item,['pseudo']);
     });
 
+    var polyfill = dependencies.filter(function(item){
+      return !packageType(item,['pseudo','lib','library','component','element','mixin']) || packageType(item,['polyfill']);
+    });
+
     var finalComponents = {
-        'libraries': libraries,
+        'components': components,
         'pseudos': pseudos,
         'mixins': mixins,
-        'components': components
+        'libraries': libraries,
+        'polyfills': polyfill
       };
+
+      Object.keys(finalComponents).forEach(function(key){
+        finalComponents[key] = finalComponents[key].sort(function(a,b){
+          a = a[a.key].endpoint.name.replace('x-tag-','');
+          b = b[b.key].endpoint.name.replace('x-tag-','');
+          if(a > b) return 1;
+          if(a < b) return -1;
+          return 0;
+        });
+      });
 
     tools.staticPage('download.html',
       path.join('app','views','templates','content','download.html'),
@@ -98,7 +113,7 @@ function packageType(pkg, types){
     kw = pkg[key].pkgMeta.keywords || [],
     found = false;
   types.forEach(function(t){
-    if(kw.indexOf(t)>-1){
+    if(kw.map(function(word){return word.toLowerCase();}).indexOf(t)>-1){
       found = true;
     }
   });
@@ -152,13 +167,16 @@ function buildGruntConfiguration(grunt, source, callback){
 
       grunt.log.debug('dependency ' + k);
 
-      var cssFile = item[k].pkgMeta.main.filter(function(f){
+      var main = Array.isArray(item[k].pkgMeta.main)?
+        item[k].pkgMeta.main : [item[k].pkgMeta.main];
+
+      var cssFile = main.filter(function(f){
         if(f.indexOf('.css')>-1){
           return true;
         }
       });
 
-      var jsFile = item[k].pkgMeta.main.filter(function(f){
+      var jsFile = main.filter(function(f){
         if(f.indexOf('.js')>-1){
           return true;
         }

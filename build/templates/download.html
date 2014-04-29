@@ -95,6 +95,7 @@
           var i = form.querySelector('[value="' + d + '"]');
           if (i) {
             i.checked = true;
+            selectDependencies(i);
           }
         });
       }
@@ -110,6 +111,7 @@
       updateCart();
     });
 
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -119,18 +121,42 @@
 
       var selected = [];
 
-      for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].checked) {
-          if(inputs[i].dataset.dependencies){
-            inputs[i].dataset.dependencies.split(' ').forEach(function(dep){
-              if(selected.indexOf(dep)==-1){
-                selected.push(dep);
-              }
-            });
+      var crawlDependencies = function(dependencies, parent){
+        dependencies.forEach(function(dep){
+          var input = document.querySelector('input[value="' + dep + '"]');
+          var item = input ? input.value : dep;
+
+          console.log('debug',item);
+
+          if (input && input.dataset && input.dataset.dependencies){
+            crawlDependencies(input.dataset.dependencies.split(' '), input.value);
           }
-          selected.push(inputs[i].value);
-        }
+
+          var existsAt = selected.indexOf(item),
+            parentAt = selected.indexOf(parent);
+
+          if (parentAt >= 0 && existsAt === -1){  //insert before
+            selected.splice(parentAt,0, item);
+          }
+          else if (parentAt >= 0 && existsAt > parentAt){  // shuffle higher
+            selected.splice(parentAt, 0, item);
+            selected.splice(existsAt+1,1);
+          }
+          else if (existsAt === -1){  // doesn't exist yet and no parent
+            selected.push(item);
+          }
+
+        });
       }
+
+      xtag.query(document, '.component input').forEach(function(input){
+        if (input.checked){
+          crawlDependencies(input.dataset.dependencies.split(' '), input.value);
+          if (selected.indexOf(input.value) == -1){
+            selected.push(input.value);
+          }
+        }
+      });
 
       buildURL += '?byob=' + selected.join(',') + ' */ ';
 
@@ -231,8 +257,8 @@
     function makeZip(js, css, extraFileInfo) {
       var zip = new JSZip();
 
-      zip.file('xtags.byob'+(minifed?'.min.':'.')+'js', js);
-      zip.file('xtags.byob'+(minifed?'.min.':'.')+'css', css);
+      zip.file('x-tag-components'+(minifed?'.min.':'.')+'js', js);
+      zip.file('x-tag-components'+(minifed?'.min.':'.')+'css', css);
 
       for(var i=0; i < extraFileInfo.length; i++){
         var fileData = extraFileInfo[i];
@@ -246,7 +272,7 @@
       zipLink.classList.remove('disabled');
 
       var blob = zip.generate({type:"blob"});
-      zipLink.setAttribute('download', 'xtags-byob.zip');
+      zipLink.setAttribute('download', 'x-tag-bundle.zip');
       zipLink.style.display = 'inline-block';
       zipLink.setAttribute('href', window.URL.createObjectURL(blob));
     }
