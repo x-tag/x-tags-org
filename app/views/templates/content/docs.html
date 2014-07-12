@@ -388,10 +388,10 @@ xtag.register('x-bar', {
         <dd>
           <a name="helpers-add-event"></a>
           <h4><a href="#helpers-add-event"><code>addEvent</code></a><span>element, eventType, function</span></h4>
-          <p>Adds a DOM event listener to an element.  It also allows for event psuedo chains.</p>
+          <p>Adds a DOM event listener to an element. It also allows for event pseudo chains. Returns an event object that is used for removal of the event listener.</p>
 
 <x-code-prism language="javascript">
-  xtag.addEvent(element, 'click:delegate(button)', function(e){
+  var event = xtag.addEvent(element, 'click:delegate(button)', function(e){
     // "this" is the button element
   });
 </x-code-prism>
@@ -400,10 +400,10 @@ xtag.register('x-bar', {
         <dd>
             <a name="helpers-add-events"></a>
           <h4><a href="#helpers-add-events"><code>addEvents</code></a><span>element, object</span></h4>
-          <p>Adds multiple DOM event listeners to an element.</p>
+          <p>Adds multiple DOM event listeners to an element. Returns a collection of event objects that is used for removal of the event listeners.</p>
 
 <x-code-prism language="javascript">
-  xtag.addEvents(element, {
+  var events = xtag.addEvents(element, {
     'click:delegate(button.save)': function(){
 
     },
@@ -411,6 +411,32 @@ xtag.register('x-bar', {
 
     }
   });
+</x-code-prism>
+        </dd>
+
+        <dd>
+          <a name="helpers-remove-revent"></a>
+          <h4><a href="#helpers-remove-revent"><code>removeEvent</code></a><span>element, eventType, event</span></h4>
+          <p>Removes a DOM event listener from an element. Passing the event type is optional. </p>
+<x-code-prism language="javascript">
+  // Obtaining the event object
+  var event = xtag.addEvent(element, 'click', function (e) { … });
+
+  // Removing the event listener
+  xtag.removeEvent(element, 'click', event);
+</x-code-prism>
+        </dd>
+
+        <dd>
+          <a name="helpers-remove-revents"></a>
+          <h4><a href="#helpers-remove-revents"><code>removeEvents</code></a><span>element, events</span></h4>
+          <p>Removes multiple DOM event listener from an element.</p>
+<x-code-prism language="javascript">
+  // Obtaining the events object
+  var events = xtag.addEvents(element, { … });
+
+  // Removing the event listeners
+  xtag.removeEvents(element, events);
 </x-code-prism>
         </dd>
       </dl>
