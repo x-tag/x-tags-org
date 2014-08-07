@@ -78,9 +78,12 @@ app.get('/about', function(req, res){
 
 });
 
-var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || process.env.VCAP_APP_PORT || 3000;
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 console.log("x-tags.org listening on port:", port)
-app.listen(port);
+app.listen(port, ip, function(){
+  console.log("x-tags.org listening at:", ip, ":" ,port);
+});
 
 
 
@@ -119,4 +122,3 @@ console.log(broken.render(data));
 var works = new nunjucks.Template("{% if url == '/about' %} selected {% endif %}");
 console.log(works.render(data));
 */
-

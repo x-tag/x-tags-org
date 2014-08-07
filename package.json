@@ -1,8 +1,8 @@
 {
   "name": "x-tags-org",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "engines": {
-    "node": "0.8.14"
+    "node": "0.10"
   },
   "dependencies": {
     "settings": "0.1.0",
@@ -23,5 +23,7 @@
     "grunt-smush-components": "0.2.1",
     "grunt-contrib-stylus": "~0.13.2",
     "grunt-contrib-cssmin": "~0.9.0"
-  }
+  },
+  "main": "app.js",
+  "private": true
 }
