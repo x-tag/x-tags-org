@@ -41,7 +41,7 @@ module.exports = function(grunt){
   grunt.registerTask('downloadpage', 'Generate download page' , function(){
     var done = this.async();
 
-    var dependencies = require('dependencies.json').filter(function(item){
+    var dependencies = require('../dependencies.json').filter(function(item){
       var key = Object.keys(item)[0];
       return key != 'brick-common';
     });
